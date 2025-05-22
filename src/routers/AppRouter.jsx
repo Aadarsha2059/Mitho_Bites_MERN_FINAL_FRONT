@@ -9,7 +9,7 @@ export default function AppRouter() {
         <BrowserRouter>
             <Routes>
                 <Route element={<MainLayout />}>
-                    <Route path="/" element={<Homepage />}></Route>
+                    <Route path="/" element={<Homepage/>}></Route>
                 </Route>
 
                     <Route path="/" element={<Homepage />}></Route>
@@ -24,4 +24,5 @@ export default function AppRouter() {
 //in login page
 // make 2 link
 // go back- routes to homepage
-//register 
+//register routes to registe
+//

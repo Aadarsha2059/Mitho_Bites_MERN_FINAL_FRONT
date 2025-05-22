@@ -1,0 +1,67 @@
+/* Header Container */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  background-color: rgba(246, 188, 152, 0.9); /* Slightly opaque white */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Logo Styling */
+.logo {
+  height: 50px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ff5722;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff5722;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Sticky Header Effect */
+.sticky {
+  background-color: rgba(255, 255, 255, 1); /* Solid white */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+/* Hero Section Adjustment */
+.hero {
+  padding-top: 100px; /* Adjusted for header height */
+}

@@ -1,0 +1,43 @@
+.footer {
+  background-color: rgba(246, 188, 152, 0.9); /* Semi-transparent background */
+  color: #0b0000;
+  padding: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  bottom: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: nowrap; /* Prevents icons from stacking vertically */
+}
+
+.footer-left, .footer-center {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: bold; /* Bold text */
+}
+
+.footer-right {
+  flex: 1;
+  text-align: right;
+}
+
+.footer-right a {
+  color: #070606;
+  margin-left: 15px;
+  font-size: 1.8rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.footer-right a:hover {
+  color: #ff5722;
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
