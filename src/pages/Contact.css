@@ -1,0 +1,117 @@
+/* Contact.css */
+.contact-container {
+  background: linear-gradient(to bottom right, #fff7ed, #ffe4e6);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.contact-card {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 850px;
+  width: 100%;
+  text-align: center;
+  border: 2px solid #fdba74;
+}
+
+.contact-title {
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+  color: #dc2626;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .contact-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.contact-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fcd34d;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info {
+  flex: 2;
+  text-align: left;
+}
+
+.developer-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.2rem;
+}
+
+.developer-role {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  font-size: 1.05rem;
+  color: #374151;
+  margin: 0.5rem 0;
+}
+
+.icon {
+  margin-right: 0.75rem;
+  color: #f59e0b;
+}
+
+.social-icons {
+  margin-top: 1rem;
+}
+
+.social-icon {
+  font-size: 1.8rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+}
+
+.instagram {
+  color: #e1306c;
+}
+
+.twitter {
+  color: #1da1f2;
+}
+
+.footer-quote {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #6b7280;
+  font-size: 1rem;
+}

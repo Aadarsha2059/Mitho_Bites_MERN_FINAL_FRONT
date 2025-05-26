@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from '../assets/images/logo/logo.png';
 import background from '../assets/images/categories/category2.png';
@@ -9,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +21,11 @@ const Login = () => {
     setIsSubmitting(true);
     console.log('Username:', username);
     console.log('Password:', password);
-    
+    // Add login API logic here
+  };
+
+  const handleSignUpRedirect = () => {
+    navigate('/signup');
   };
 
   return (
@@ -60,7 +65,10 @@ const Login = () => {
             </button>
           </form>
           <p className="signup-prompt">
-            Don't have an account? <a href="/signup" className="signup-link">Sign Up</a>
+            Don't have an account?{' '}
+            <span onClick={handleSignUpRedirect} className="signup-link" style={{ cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}>
+              Sign Up
+            </span>
           </p>
         </div>
       </div>
