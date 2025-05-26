@@ -8,18 +8,16 @@ export default function Header() {
   return (
     <header className="header">
       <div className="logo-container">
-        <img src={logo} alt="Mitho Bites Logo" className="logo" />
+        <Link to="/">
+          <img src={logo} alt="Mitho Bites Logo" className="logo" />
+        </Link>
       </div>
       <nav className="nav-links">
-        <Link to="/menu">Menu</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
+        <Link to="/menu" className="nav-link">Menu</Link>
+        <Link to="/login" className="nav-link login-link">Login</Link>
+        <Link to="/about" className="nav-link">About</Link>
+        <Link to="/contact" className="nav-link">Contact</Link>
       </nav>
     </header>
   );
 }
-
-
-
-

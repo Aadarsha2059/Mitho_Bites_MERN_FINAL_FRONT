@@ -1,4 +1,4 @@
-// src/pages/Login.jsx
+
 import React, { useState } from 'react';
 import './Login.css';
 import logo from '../assets/images/logo/logo.png';
@@ -20,7 +20,7 @@ const Login = () => {
     setIsSubmitting(true);
     console.log('Username:', username);
     console.log('Password:', password);
-    // Add actual login logic here
+    
   };
 
   return (
@@ -36,7 +36,7 @@ const Login = () => {
                 type="text"
                 id="username"
                 name="username"
-                placeholder="Email or Phone Number"
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
