@@ -18,6 +18,7 @@ function SignUpPage() {
       <div className="signup-box">
         <h2 className="signup-heading">Create Your Account</h2>
         <form className="signup-form">
+          <input type="text" placeholder="Fullname" required />
           <input type="text" placeholder="Username" required />
           <input type="password" placeholder="Password" required />
           <input type="password" placeholder="Confirm Password" required />
