@@ -1,10 +1,22 @@
 import React from 'react';
-import { FaUtensils, FaMapMarkerAlt, FaReact, FaNodeJs, FaDatabase, FaLaptopCode, FaUserTie } from 'react-icons/fa';
-import './About.css'; // Import the CSS file
+import {
+  FaUtensils,
+  FaMapMarkerAlt,
+  FaReact,
+  FaNodeJs,
+  FaDatabase,
+  FaLaptopCode,
+  FaUserTie
+} from 'react-icons/fa';
+import './About.css';
+import background from '../assets/images/softwarica.png';
 
 export default function About() {
   return (
-    <div className="about-container">
+    <div
+      className="about-container"
+      style={{ backgroundImage: `url(${background})` }}
+    >
       <div className="about-box">
         <h1 className="about-title">🍽️ About Mitho_Bites</h1>
 
