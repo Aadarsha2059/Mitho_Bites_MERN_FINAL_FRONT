@@ -19,9 +19,14 @@ const Login = () => {
     }
     setError('');
     setIsSubmitting(true);
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Add login API logic here
+
+    // Simulate a login API call
+    setTimeout(() => {
+      console.log('Username:', username);
+      console.log('Password:', password);
+      setIsSubmitting(false);
+      navigate('/dashboard'); // Navigate to Dashboard after successful login
+    }, 1000);
   };
 
   const handleSignUpRedirect = () => {
@@ -66,7 +71,15 @@ const Login = () => {
           </form>
           <p className="signup-prompt">
             Don't have an account?{' '}
-            <span onClick={handleSignUpRedirect} className="signup-link" style={{ cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}>
+            <span
+              onClick={handleSignUpRedirect}
+              className="signup-link"
+              style={{
+                cursor: 'pointer',
+                color: '#007bff',
+                textDecoration: 'underline'
+              }}
+            >
               Sign Up
             </span>
           </p>

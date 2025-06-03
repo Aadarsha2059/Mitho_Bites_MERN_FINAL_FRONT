@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from './Header'
+import Header from './HomepageHeader'
 import { Outlet } from 'react-router-dom'
 import Footer from './Footer'
 
@@ -13,4 +13,3 @@ export default function MainLayout() {
   )
 }
 
-//outlet dynamic child/children placeholder...

@@ -1,33 +1,32 @@
-/* Header Container */
-.header {
+/* Homepage Header Only */
+.homepage-header {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
   padding: 20px 40px;
-  background-color: rgba(246, 188, 152, 0.9); /* Slightly opaque white */
+  background-color: rgba(246, 188, 152, 0.95);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Logo Styling */
-.logo {
+.homepage-logo {
   height: 50px;
   width: auto;
   transition: transform 0.3s ease;
 }
 
-/* Navigation Links */
-.nav-links {
+.homepage-nav-links {
   display: flex;
   gap: 30px;
 }
 
-.nav-links a {
+.homepage-nav-link {
   text-decoration: none;
   color: #333;
   font-weight: 600;
@@ -36,7 +35,7 @@
   transition: color 0.3s ease;
 }
 
-.nav-links a::after {
+.homepage-nav-link::after {
   content: '';
   position: absolute;
   bottom: -5px;
@@ -47,21 +46,10 @@
   transition: width 0.3s ease;
 }
 
-.nav-links a:hover {
+.homepage-nav-link:hover {
   color: #ff5722;
 }
 
-.nav-links a:hover::after {
+.homepage-nav-link:hover::after {
   width: 100%;
-}
-
-/* Sticky Header Effect */
-.sticky {
-  background-color: rgba(255, 255, 255, 1); /* Solid white */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
-}
-
-/* Hero Section Adjustment */
-.hero {
-  padding-top: 100px; /* Adjusted for header height */
 }
