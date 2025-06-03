@@ -10,6 +10,7 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Dashboard from '../pages/Dashboard';
 import LoginTest from '../state_manage/LoginTest';
+import WhatsCooking from '../pages/Menu';
 
 export default function AppRouter() {
   return (
@@ -25,6 +26,7 @@ export default function AppRouter() {
         <Route path="/signup" element={<SignUpPage/>} />
          <Route path="/about" element={<About/>} />
          <Route path="/contact" element={<Contact/>} />
+          <Route path="/menu" element={<WhatsCooking/>} />
          <Route path="/login-test" element={<LoginTest/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>

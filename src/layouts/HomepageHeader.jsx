@@ -13,7 +13,7 @@ export default function HomepageHeader() {
         </Link>
       </div>
       <nav className="homepage-nav-links">
-        <Link to="/menu" className="homepage-nav-link">Menu</Link>
+        <Link to="/menu" className="homepage-nav-link">What's Cooking?</Link>
         <Link to="/login" className="homepage-nav-link login-link">Login</Link>
         <Link to="/about" className="homepage-nav-link">About</Link>
         <Link to="/contact" className="homepage-nav-link">Contact</Link>
