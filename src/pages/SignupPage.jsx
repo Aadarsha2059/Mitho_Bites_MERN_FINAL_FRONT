@@ -1,10 +1,22 @@
-import React from 'react';
+// src/pages/SignUpPage.tsx
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
-import momoBg from '../assets/momo.png'; // Import the image
+import momoBg from '../assets/momo.png';
+import RegisterForm from '../components/auth/RegisterForm';
 
 function SignUpPage() {
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    fullname: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    address: '',
+  });
 
   const handleBackToLogin = () => {
     navigate('/login');
@@ -17,15 +29,10 @@ function SignUpPage() {
     >
       <div className="signup-box">
         <h2 className="signup-heading">Create Your Account</h2>
-        <form className="signup-form">
-          <input type="text" placeholder="Fullname" required />
-          <input type="text" placeholder="Username" required />
-          <input type="password" placeholder="Password" required />
-          <input type="password" placeholder="Confirm Password" required />
-          <input type="text" placeholder="Phone" required />
-          <input type="text" placeholder="Address" required />
-          <button type="submit" className="signup-button">Sign Up</button>
-        </form>
+
+        {/* Render the form */}
+        <RegisterForm formData={formData} setFormData={setFormData} />
+
         <div className="login-redirect">
           <span>Already have an account?</span>
           <button 
