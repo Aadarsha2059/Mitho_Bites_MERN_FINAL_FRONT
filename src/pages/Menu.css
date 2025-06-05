@@ -1,29 +1,31 @@
-/* FULL-SCREEN FIXED BACKGROUND */
+/* GLOBAL BACKGROUND FIX */
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   background: url('../assets/images/Nepal.png') no-repeat center center fixed;
   background-size: cover;
   overflow-y: auto;
+  color: #1f2937;
+  scroll-behavior: smooth;
 }
 
-/* CONTAINER STYLING - TRANSPARENT AND SCROLLABLE */
+/* CONTAINER WRAPPER */
 .whats-cooking-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 3rem auto;
-  padding: 3rem 3.5rem;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.6); /* more transparent */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(4px);
+  width: 95%;
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 3rem 4.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 28px;
+  box-shadow: 0 14px 48px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
   overflow-y: auto;
-  position: relative;
+  transition: all 0.4s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-/* Responsive Container Padding */
+/* RESPONSIVE CONTAINER */
 @media (max-width: 1024px) {
   .whats-cooking-container {
     padding: 2rem;
@@ -31,29 +33,29 @@ body {
   }
 }
 
-/* BACK TO HOME BUTTON - TOP RIGHT */
+/* BACK TO HOME BUTTON */
 .back-to-home {
   position: absolute;
   top: 1.5rem;
   right: 2rem;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  text-decoration: none;
   background: linear-gradient(135deg, #dc2626, #f87171);
-  padding: 10px 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s ease, background 0.3s ease;
-  z-index: 10;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  z-index: 1000;
 }
 
 .back-to-home:hover {
-  transform: scale(1.05);
-  background: linear-gradient(135deg, #b91c1c, #ef4444);
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(135deg, #991b1b, #f43f5e);
 }
 
 .back-to-home svg {
@@ -61,41 +63,56 @@ body {
 }
 
 .back-to-home:hover svg {
-  transform: translateX(-3px);
+  transform: translateX(-4px);
 }
 
 /* TITLES */
 .whats-cooking-title {
-  font-size: 3.2rem;
-  font-weight: 800;
-  color: #b91c1c;
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: #dc2626;
   margin-bottom: 0.3rem;
   text-align: center;
-  text-shadow: 2px 2px 4px #ffffff;
+  text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.9);
+  animation: fadeSlide 0.8s ease-out;
 }
 
 .whats-cooking-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   color: #374151;
-  margin-bottom: 1rem;
+  margin-bottom: 1.8rem;
   text-align: center;
   font-style: italic;
   text-shadow: 1px 1px #ffffff;
 }
 
+/* Title underline */
 .title-underline {
-  width: 5rem;
-  height: 4px;
+  width: 6rem;
+  height: 5px;
   margin: 0 auto 2.5rem;
   background: linear-gradient(90deg, #dc2626, #f87171);
   border-radius: 10px;
+  animation: slideIn 1s ease;
 }
 
-/* GRID LAYOUT */
+/* Animation keyframes */
+@keyframes slideIn {
+  0% { width: 0; opacity: 0; }
+  100% { width: 6rem; opacity: 1; }
+}
+
+@keyframes fadeSlide {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* DISH GRID */
 .dishes-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 640px) {
@@ -110,42 +127,78 @@ body {
   }
 }
 
-/* CARD STYLING */
+/* CARD STYLE */
 .dish-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem 1rem 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(to bottom right, #ffffff, #fefefe);
+  border-radius: 22px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+  padding: 2rem 1.5rem 2.5rem;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   text-align: center;
   cursor: pointer;
+  border: 1px solid rgba(229, 231, 235, 0.4);
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
 }
 
 .dish-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.2);
 }
 
+.dish-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 60%);
+  animation: shine 3s infinite linear;
+  z-index: 0;
+}
+
+@keyframes shine {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* IMAGE */
 .dish-image {
   width: 100%;
   max-width: 280px;
-  border-radius: 14px;
-  margin-bottom: 1.2rem;
-  object-fit: cover;
+  height: auto;
   aspect-ratio: 4 / 3;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
+.dish-card:hover .dish-image {
+  transform: scale(1.03);
+}
+
+/* TEXTS */
 .dish-name {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 800;
   color: #991b1b;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
+  text-shadow: 1px 1px #fef2f2;
+  position: relative;
+  z-index: 1;
 }
 
 .dish-description {
   font-size: 1rem;
   color: #4b5563;
-  line-height: 1.6;
+  line-height: 1.8;
   padding: 0 1rem;
+  position: relative;
+  z-index: 1;
 }

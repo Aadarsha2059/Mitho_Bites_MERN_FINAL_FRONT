@@ -1,36 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { useRegisterUser } from "../../hooks/useRegisterUser";
 
 export default function RegisterForm() {
-  const [fullname, setFullname] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [message, setMessage] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
 
-  useEffect(() => {
-    setMessage('Please provide information');
-  }, []);
+  const { register } = useRegisterUser();
 
-  useEffect(() => {
-    if (fullname.toLowerCase().includes('aadarsha')) {
-      setMessage('Welcome aadarsha');
-    }
-  }, [fullname]);
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!fullname || !username || !password || !confirmPassword || !phone || !address) {
-      setMessage('Provide all information');
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (!validateEmail(username)) {
+      toast.error("Invalid email format");
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
-    setMessage('Signed up successfully');
+    const formData = { fullname, username, password, phone, address };
+    const result = await register(formData);
+
+    if (result) {
+      toast.success("Registration successful");
+    } else {
+      toast.error("Registration failed");
+    }
   };
 
   return (
@@ -45,7 +54,6 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          autoComplete="name"
         />
         <label htmlFor="fullname" className="floating-label">Full Name</label>
       </div>
@@ -60,9 +68,8 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          autoComplete="username"
         />
-        <label htmlFor="username" className="floating-label">Username</label>
+        <label htmlFor="username" className="floating-label">Email</label>
       </div>
 
       <div className="form-group">
@@ -75,7 +82,6 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          autoComplete="new-password"
         />
         <label htmlFor="password" className="floating-label">Password</label>
       </div>
@@ -90,7 +96,6 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          autoComplete="new-password"
         />
         <label htmlFor="confirmPassword" className="floating-label">Confirm Password</label>
       </div>
@@ -105,8 +110,6 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          pattern="[0-9+()-\s]*"
-          autoComplete="tel"
         />
         <label htmlFor="phone" className="floating-label">Phone</label>
       </div>
@@ -121,14 +124,11 @@ export default function RegisterForm() {
           placeholder=" "
           className="floating-input"
           required
-          autoComplete="street-address"
         />
         <label htmlFor="address" className="floating-label">Address</label>
       </div>
 
       <button className="signup-button" onClick={handleSubmit}>Submit</button>
-
-      {message && <p className="form-message">{message}</p>}
     </div>
   );
 }
