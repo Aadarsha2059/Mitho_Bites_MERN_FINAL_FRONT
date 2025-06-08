@@ -23,7 +23,7 @@ export default function AppRouter() {
 
         {/* Standalone pages */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUpPage/>} />
+        <Route path="/register" element={<SignUpPage/>} />
          <Route path="/about" element={<About/>} />
          <Route path="/contact" element={<Contact/>} />
           <Route path="/menu" element={<WhatsCooking/>} />
