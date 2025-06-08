@@ -20,11 +20,11 @@ export default function RegisterForm() {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      await register(values);  // register is mutateAsync function, awaits mutation
+      await register(values);  
       toast.success("Registration successful");
       resetForm();
     } catch (error) {
-      // This will catch errors from your mutation
+      
       toast.error("Registration failed");
       console.error(error);
     } finally {
