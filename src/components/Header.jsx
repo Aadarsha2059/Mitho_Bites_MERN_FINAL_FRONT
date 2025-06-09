@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { AuthContext } from '../auth/authProvider';// Ensure correct capitalization
+import { AuthContext } from '../auth/authProvider';
 import './Header.css';
 
 const Header = () => {
@@ -11,7 +11,7 @@ const Header = () => {
       <div className="container">
         <h1>🙏 Namaste &nbsp; | &nbsp; Mitho_Bites 2025</h1>
         <nav className="nav-links space-x-4">
-          <NavLink to="/">Home</NavLink>
+         
           {!user && (
             <>
               <NavLink to="/login">Login</NavLink>
@@ -20,8 +20,8 @@ const Header = () => {
           )}
           {user && (
             <>
-              <span className="welcome-text">Welcome, {user.email}</span>
-              <NavLink to="/" onClick={logout}>Logout</NavLink>
+              <span className="welcome-text">Welcome, {user.username}</span>
+              
             </>
           )}
         </nav>

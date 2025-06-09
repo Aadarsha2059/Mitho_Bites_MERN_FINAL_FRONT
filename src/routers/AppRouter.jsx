@@ -11,6 +11,8 @@ import Contact from '../pages/Contact';
 import Dashboard from '../pages/Dashboard';
 import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
+import GuestRouter from './GuestRouter';
+import NormalUserRoute from './NormalUserRoute';
 
 export default function AppRouter() {
   return (
@@ -19,6 +21,10 @@ export default function AppRouter() {
         {/* Routes using layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Homepage />} />
+        </Route>
+        <Route element={<GuestRouter/>}>
+
+        
         </Route>
 
         {/* Standalone pages */}
