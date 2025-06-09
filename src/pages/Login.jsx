@@ -15,7 +15,7 @@ const Login = () => {
   const handleSignUpRedirect = () => {
     navigate('/register');
   };
-
+  console.log(user)
   if (user) {
     return (
       <div className="login-page" style={{ backgroundImage: `url(${background})` }}>

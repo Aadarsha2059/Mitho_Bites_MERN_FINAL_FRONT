@@ -13,10 +13,11 @@ export const registerUserService=async (formData) =>{
 
 export const loginUserService=async(formData) => {
     try{
-        const response= await loginUserService(formData)
+        const response= await loginUserApi(formData)
         return response.data
     }catch(err){
-        throw err.response?.data || {message:"login failed"}
+        console.log(err)
+        throw err?.response?.data || {message:"login failed"}
     }
 }
 
