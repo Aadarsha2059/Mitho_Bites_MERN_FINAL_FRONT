@@ -13,6 +13,7 @@ import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
 import GuestRouter from './GuestRouter';
 import NormalUserRoute from './NormalUserRoute';
+import AdminPage from '../pages/AdminPage';
 
 export default function AppRouter() {
   return (
@@ -35,6 +36,7 @@ export default function AppRouter() {
           <Route path="/menu" element={<WhatsCooking/>} />
          <Route path="/login-test" element={<LoginTest/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/adminpage" element={<AdminPage/>} />
       </Routes>
     </BrowserRouter>
   );
