@@ -277,3 +277,89 @@
 .vertical-list::-webkit-scrollbar-track {
   background: transparent;
 }
+
+
+/* Add at the bottom of Dashboard.css or wherever you style the header */
+@keyframes rainbowGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 10px red,
+      0 0 20px orange,
+      0 0 30px yellow,
+      0 0 40px green,
+      0 0 50px blue,
+      0 0 60px indigo,
+      0 0 70px violet;
+    color: red;
+  }
+  16% {
+    text-shadow:
+      0 0 10px orange,
+      0 0 20px yellow,
+      0 0 30px green,
+      0 0 40px blue,
+      0 0 50px indigo,
+      0 0 60px violet,
+      0 0 70px red;
+    color: orange;
+  }
+  32% {
+    text-shadow:
+      0 0 10px yellow,
+      0 0 20px green,
+      0 0 30px blue,
+      0 0 40px indigo,
+      0 0 50px violet,
+      0 0 60px red,
+      0 0 70px orange;
+    color: yellow;
+  }
+  48% {
+    text-shadow:
+      0 0 10px green,
+      0 0 20px blue,
+      0 0 30px indigo,
+      0 0 40px violet,
+      0 0 50px red,
+      0 0 60px orange,
+      0 0 70px yellow;
+    color: green;
+  }
+  64% {
+    text-shadow:
+      0 0 10px blue,
+      0 0 20px indigo,
+      0 0 30px violet,
+      0 0 40px red,
+      0 0 50px orange,
+      0 0 60px yellow,
+      0 0 70px green;
+    color: blue;
+  }
+  80% {
+    text-shadow:
+      0 0 10px indigo,
+      0 0 20px violet,
+      0 0 30px red,
+      0 0 40px orange,
+      0 0 50px yellow,
+      0 0 60px green,
+      0 0 70px blue;
+    color: indigo;
+  }
+}
+.cart-icon {
+  position: fixed;
+  top: 60px;      /* just below a 60px tall header */
+  right: 1rem;
+  font-size: 2.5rem; /* bigger size */
+  cursor: pointer;
+  animation: rainbowGlow 5s linear infinite;
+  transition: transform 0.3s ease;
+  user-select: none;
+  /* Remove translateY since we're positioning by top */
+}
+
+.cart-icon:hover {
+  transform: scale(1.2);
+}

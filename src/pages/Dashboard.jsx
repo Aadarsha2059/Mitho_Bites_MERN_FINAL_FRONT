@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
@@ -6,17 +7,28 @@ import momo from "../assets/cat_3.png";
 import chowmein from "../assets/cat_4.png";
 import thakali from "../assets/cat_sri.png";
 
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const goToCart = () => {
+    navigate("/cart");
+  };
+
   return (
     <div className="dashboard-container">
       <Sidebar />
 
       <main className="main-content">
-        <Header />
+        <div className="dashboard-header-wrapper">
+          <Header />
+          <div className="cart-icon" onClick={goToCart}>
+            <FaShoppingCart />
+          </div>
+        </div>
 
         <div className="dashboard-scroll-area">
           {/* Search Bar replacing Banner */}
