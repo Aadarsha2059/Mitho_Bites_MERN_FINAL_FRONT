@@ -9,7 +9,7 @@ import Contact from '../pages/Contact';
 import Dashboard from '../pages/Dashboard';
 import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
-import AdminPage from '../pages/AdminPage';
+import AdminPage from '../pages/admin/AdminPage';
 import ProductManagement from '../pages/admin/ProductManagement'; // Make sure this file exists
 import MainLayout from '../layouts/MainLayout';
 import GuestRouter from './GuestRouter';

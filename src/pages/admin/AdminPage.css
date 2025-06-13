@@ -189,8 +189,8 @@
 
 /* Footer */
 .admin-footer {
-  background: linear-gradient(to right, #cab4e2, #2575fc);
-  color: rgb(34, 0, 255);
+  background: linear-gradient(to right, #e1d4ef, #a0bbee);
+  color: rgb(0, 0, 0);
   text-align: center;
   padding: 1rem;
   font-size: 0.95rem;
@@ -204,7 +204,7 @@
 }
 
 .admin-footer .social-icons a {
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 1.5rem;
   transition: transform 0.3s;
 }
@@ -230,4 +230,90 @@
   .product-form {
     padding: 1.5rem;
   }
+}
+
+/* ... existing styles remain unchanged ... */
+
+/* Top-right fetch products button inside admin-main */
+.top-right-fetch-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.top-right-fetch-button button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.top-right-fetch-button button:hover {
+  background-color: #218838;
+}
+
+.top-right-fetch-button button svg {
+  font-size: 1.1rem;
+}
+
+
+
+.admin-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.admin-dialog-content {
+  background-color: #fff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.admin-dialog-close {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #444;
+  cursor: pointer;
+}
+
+.dialog-button {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  margin: 10px 0;
+  background-color: #9df18c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dialog-button:hover {
+  background-color: #cc5200;
 }
