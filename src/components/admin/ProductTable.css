@@ -1,0 +1,112 @@
+/* Ensure styles are scoped to this component only */
+.product-table-container {
+  background-color: #9dbaf2;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #111827;
+}
+
+/* Centered and bold heading */
+.product-table-container h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+/* Controls section */
+.product-table-container .controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.product-table-container label {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.product-table-container select,
+.product-table-container input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #111827;
+  background-color: white;
+}
+
+.product-table-container select:focus,
+.product-table-container input[type="text"]:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Table styles */
+.product-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  font-weight: bold;
+}
+
+.product-table-container th {
+  background-color: #1f2937;
+  color: white;
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.product-table-container td {
+  padding: 14px 18px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.product-table-container tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Pagination controls */
+.product-table-container .mt-4.flex.items-center.justify-between {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.product-table-container button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-table-container button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.product-table-container button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
