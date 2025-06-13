@@ -1,0 +1,99 @@
+.user-table-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    color: #333;
+    background: #cff0f2;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    border-radius: 8px;
+}
+
+/* Controls (Show, Search) */
+.user-table-container .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-table-container label {
+    font-weight: 600;
+}
+
+.user-table-container select,
+.user-table-container input {
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline-offset: 2px;
+}
+
+.user-table-container select:focus,
+.user-table-container input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+/* Table styles */
+.user-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.user-table-container thead {
+    background-color: #f3f4f6;
+}
+
+.user-table-container th,
+.user-table-container td {
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.user-table-container tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.user-table-container tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.user-table-container tbody tr:hover {
+    background-color: #e0e7ff;
+    cursor: pointer;
+}
+
+/* Pagination */
+.user-table-container .pagination {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-table-container .pagination button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.user-table-container .pagination button:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+}
+
+.user-table-container .pagination span {
+    font-weight: 600;
+    font-size: 1rem;
+}

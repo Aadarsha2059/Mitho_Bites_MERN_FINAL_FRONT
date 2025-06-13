@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AdminPage.css';
 import {
   FaFacebook,
@@ -13,6 +14,7 @@ import {
 import adminFood from '../../assets/admin/adminfood.png';
 
 const AdminPage = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('addProduct');
   const [categories, setCategories] = useState([]);
   const [sellers, setSellers] = useState([]);
@@ -56,7 +58,11 @@ const AdminPage = () => {
   };
 
   const handleFetchProducts = () => {
-    alert('Fetching products... (logic goes here)');
+    navigate('/admin/product');
+  };
+
+  const handleFetchUsers = () => {
+    navigate('/admin/users');
   };
 
   return (
@@ -87,7 +93,7 @@ const AdminPage = () => {
           <div className="admin-dialog-content">
             <button className="admin-dialog-close" onClick={() => setShowUserDialog(false)}>×</button>
             <h3>User Management</h3>
-            <button className="dialog-button">Fetch Users</button>
+            <button className="dialog-button" onClick={handleFetchUsers}>Fetch Users</button>
             <button className="dialog-button">Handle Users</button>
           </div>
         </div>
@@ -102,7 +108,7 @@ const AdminPage = () => {
             Add Food Product
           </button>
           <button
-            className={activeTab === 'addRestaurant' ? 'active' : ''}
+            className={activeTab === 'addRestaurant' ? 'active' : ''} 
             onClick={() => {
               setActiveTab('addRestaurant');
               setShowRestaurantDialog(true);
@@ -112,7 +118,7 @@ const AdminPage = () => {
             Add Restaurant
           </button>
           <button
-            className={activeTab === 'manageAccounts' ? 'active' : ''}
+            className={activeTab === 'manageAccounts' ? 'active' : ''} 
             onClick={() => {
               setActiveTab('manageAccounts');
               setShowUserDialog(true);

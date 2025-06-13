@@ -15,6 +15,7 @@ import MainLayout from '../layouts/MainLayout';
 import GuestRouter from './GuestRouter';
 import NormalUserRoute from './NormalUserRoute';
 import CartDialog from '../components/cart/CartDialog';
+import UserManagement from '../pages/admin/UserManagement';
 
 export default function AppRouter() {
   return (
@@ -43,6 +44,7 @@ export default function AppRouter() {
         {/* Nested Admin Routes */}
         <Route path="/admin/*">
           <Route path="product" element={<ProductManagement />} />
+          <Route path="users" element={<UserManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>
