@@ -8,6 +8,7 @@ export const useCreateUser = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: createOneUserService,
+
         onSuccess: () => {
             toast.success("user created")
             queryClient

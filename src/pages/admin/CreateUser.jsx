@@ -38,6 +38,7 @@ export default function CreateUser() {
     },
     validationSchema,
     onSubmit: (values) => {
+      console.log(values)
       mutate(values, {
         onSuccess: () => formik.resetForm(),
       });
@@ -145,7 +146,7 @@ export default function CreateUser() {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="submit-btn" disabled={isPending}>
+        <button type="submit" className="submit-btn">
           {isPending ? 'Creating...' : 'Create User'}
         </button>
       </form>
