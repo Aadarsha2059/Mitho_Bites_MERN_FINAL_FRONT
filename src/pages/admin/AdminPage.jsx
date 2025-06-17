@@ -10,6 +10,7 @@ import {
   FaCog,
   FaSignOutAlt,
   FaListAlt,
+  FaListUl,
 } from 'react-icons/fa';
 import adminFood from '../../assets/admin/adminfood.png';
 
@@ -21,6 +22,8 @@ const AdminPage = () => {
   const [showDialog, setShowDialog] = useState(true);
   const [showRestaurantDialog, setShowRestaurantDialog] = useState(false);
   const [showUserDialog, setShowUserDialog] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const [showCategoryDialog, setShowCategoryDialog] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -65,6 +68,26 @@ const AdminPage = () => {
     navigate('/admin/users');
   };
 
+  const handleCreateUser = () => {
+    setShowUserDialog(false);
+    navigate('/admin/users/create');
+  };
+
+  const handleLogoutConfirm = () => {
+    setShowLogoutDialog(false);
+    navigate('/');
+  };
+
+  const handleAddCategory = () => {
+    setShowCategoryDialog(false);
+    navigate('/admin/category/create');
+  };
+
+  const handleGetCategories = () => {
+    setShowCategoryDialog(false);
+    navigate('/admin/category');
+  };
+
   return (
     <div className="admin-container" style={{ backgroundImage: `url(${adminFood})` }}>
       {showDialog && (
@@ -94,7 +117,31 @@ const AdminPage = () => {
             <button className="admin-dialog-close" onClick={() => setShowUserDialog(false)}>×</button>
             <h3>User Management</h3>
             <button className="dialog-button" onClick={handleFetchUsers}>Fetch Users</button>
-            <button className="dialog-button">Handle Users</button>
+            <button className="dialog-button" onClick={handleCreateUser}>Handle Users</button>
+          </div>
+        </div>
+      )}
+
+      {showLogoutDialog && (
+        <div className="admin-dialog">
+          <div className="admin-dialog-content">
+            <button className="admin-dialog-close" onClick={() => setShowLogoutDialog(false)}>×</button>
+            <h3>😢 Are you sure you want to logout?</h3>
+            <div style={{ marginTop: '15px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <button className="dialog-button" onClick={handleLogoutConfirm}>Yes</button>
+              <button className="dialog-button" onClick={() => setShowLogoutDialog(false)}>No</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCategoryDialog && (
+        <div className="admin-dialog">
+          <div className="admin-dialog-content">
+            <button className="admin-dialog-close" onClick={() => setShowCategoryDialog(false)}>×</button>
+            <h3>Category Management</h3>
+            <button className="dialog-button" onClick={handleAddCategory}>Add Categories</button>
+            <button className="dialog-button" onClick={handleGetCategories}>Get Categories</button>
           </div>
         </div>
       )}
@@ -108,7 +155,7 @@ const AdminPage = () => {
             Add Food Product
           </button>
           <button
-            className={activeTab === 'addRestaurant' ? 'active' : ''} 
+            className={activeTab === 'addRestaurant' ? 'active' : ''}
             onClick={() => {
               setActiveTab('addRestaurant');
               setShowRestaurantDialog(true);
@@ -118,7 +165,17 @@ const AdminPage = () => {
             Add Restaurant
           </button>
           <button
-            className={activeTab === 'manageAccounts' ? 'active' : ''} 
+            className={activeTab === 'categories' ? 'active' : ''}
+            onClick={() => {
+              setActiveTab('categories');
+              setShowCategoryDialog(true);
+            }}
+          >
+            <FaListUl style={{ marginRight: '8px' }} />
+            Categories
+          </button>
+          <button
+            className={activeTab === 'manageAccounts' ? 'active' : ''}
             onClick={() => {
               setActiveTab('manageAccounts');
               setShowUserDialog(true);
@@ -131,7 +188,10 @@ const AdminPage = () => {
             <FaCog style={{ marginRight: '8px' }} />
             Settings
           </button>
-          <button onClick={() => setActiveTab('logout')}>
+          <button onClick={() => {
+            setActiveTab('logout');
+            setShowLogoutDialog(true);
+          }}>
             <FaSignOutAlt style={{ marginRight: '8px' }} />
             Logout
           </button>
@@ -178,7 +238,7 @@ const AdminPage = () => {
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
         </div>
-        <div>Designed & Implemented by Aadarsha Babu Dhakal</div>
+        <div>Designed &amp; Implemented by Aadarsha Babu Dhakal</div>
       </footer>
     </div>
   );

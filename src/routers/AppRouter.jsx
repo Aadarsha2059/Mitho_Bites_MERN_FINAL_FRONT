@@ -10,12 +10,15 @@ import Dashboard from '../pages/Dashboard';
 import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
 import AdminPage from '../pages/admin/AdminPage';
-import ProductManagement from '../pages/admin/ProductManagement'; // Make sure this file exists
+import ProductManagement from '../pages/admin/ProductManagement'; 
 import MainLayout from '../layouts/MainLayout';
 import GuestRouter from './GuestRouter';
 import NormalUserRoute from './NormalUserRoute';
 import CartDialog from '../components/cart/CartDialog';
 import UserManagement from '../pages/admin/UserManagement';
+import CreateCategory from '../pages/admin/CreateCategory';
+import CategoryManagement from '../pages/admin/CategoryManagement';
+import CreateUser from '../pages/admin/CreateUser';
 
 export default function AppRouter() {
   return (
@@ -23,7 +26,7 @@ export default function AppRouter() {
       <Routes>
         {/* Main Layout Route */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/homepage" element={<Homepage />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<WhatsCooking />} />
@@ -45,6 +48,9 @@ export default function AppRouter() {
         <Route path="/admin/*">
           <Route path="product" element={<ProductManagement />} />
           <Route path="users" element={<UserManagement />} />
+          <Route path="category/create" element={<CreateCategory />} />
+          <Route path="users/create" element={<CreateUser />} />
+          <Route path="category" element={<CategoryManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>

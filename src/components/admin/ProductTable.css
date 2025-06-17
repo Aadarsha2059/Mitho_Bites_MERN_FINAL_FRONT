@@ -1,49 +1,74 @@
 /* Ensure styles are scoped to this component only */
 .product-table-container {
-  background-color: #9dbaf2;
+  background-color: #eef2ff;
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #111827;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Centered and bold heading */
 .product-table-container h2 {
   text-align: center;
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #1f2937;
+  color: #1e3a8a;
 }
 
 /* Controls section */
 .product-table-container .controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
-.product-table-container label {
-  font-weight: bold;
-  font-size: 0.95rem;
+/* Show and Search group */
+.product-table-container .controls .control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+/* Labels */
+.product-table-container label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+/* Input & Select Styles */
 .product-table-container select,
 .product-table-container input[type="text"] {
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: #111827;
-  background-color: white;
+  padding: 10px 40px 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  background-color: #ffffff;
+  position: relative;
+  transition: border-color 0.3s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+/* Focus effect */
 .product-table-container select:focus,
 .product-table-container input[type="text"]:focus {
   border-color: #3b82f6;
   outline: none;
+}
+
+/* Add search icon using pseudo-element */
+.product-table-container input[type="text"] {
+  background-image: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/search.svg');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
 }
 
 /* Table styles */
@@ -51,31 +76,34 @@
   width: 100%;
   border-collapse: collapse;
   background-color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   border: 1px solid #e5e7eb;
-  font-weight: bold;
 }
 
+/* Table headers */
 .product-table-container th {
-  background-color: #1f2937;
-  color: white;
+  background-color: #1e3a8a;
+  color: #ffffff;
   text-align: left;
   padding: 14px 18px;
   font-size: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
+/* Table rows */
 .product-table-container td {
   padding: 14px 18px;
   border-top: 1px solid #e5e7eb;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 0.97rem;
+  font-weight: 500;
   color: #1f2937;
 }
 
 .product-table-container tbody tr:nth-child(even) {
-  background-color: #f9fafb;
+  background-color: #f8fafc;
 }
 
 /* Pagination controls */
@@ -85,28 +113,32 @@
   justify-content: space-between;
   align-items: center;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   color: #1f2937;
 }
 
+/* Buttons */
 .product-table-container button {
-  padding: 8px 16px;
+  padding: 10px 18px;
   margin: 0 5px;
   background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 0.95rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.product-table-container button:hover:not(:disabled) {
+  background-color: #2563eb;
+  transform: translateY(-1px);
 }
 
 .product-table-container button:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
-}
-
-.product-table-container button:hover:not(:disabled) {
-  background-color: #2563eb;
+  box-shadow: none;
 }

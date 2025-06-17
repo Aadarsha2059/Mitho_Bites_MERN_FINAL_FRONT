@@ -1,0 +1,82 @@
+.create-user-container {
+  max-width: 480px;
+  margin: 3rem auto;
+  padding: 2rem 2.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.create-user-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 1.8rem;
+  color: #2563eb; /* Blue-600 */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.create-user-form .form-group {
+  margin-bottom: 1.4rem;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: block;
+  color: #334155; /* Slate-700 */
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  border: 2px solid #cbd5e1; /* Slate-300 */
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1e293b; /* Slate-900 */
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline-offset: 2px;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #2563eb; /* Blue-600 */
+  outline: none;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+}
+
+.form-error {
+  margin-top: 0.25rem;
+  color: #dc2626; /* Red-600 */
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem 0;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+}
+
+.submit-btn:disabled {
+  background-color: #94a3b8; /* Slate-400 */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #1e40af; /* Blue-800 */
+}
