@@ -19,6 +19,7 @@ import UserManagement from '../pages/admin/UserManagement';
 import CreateCategory from '../pages/admin/CreateCategory';
 import CategoryManagement from '../pages/admin/CategoryManagement';
 import CreateUser from '../pages/admin/CreateUser';
+import AdminSettingsPage from '../pages/admin/AdminSettings';
 
 export default function AppRouter() {
   return (
@@ -43,6 +44,8 @@ export default function AppRouter() {
         <Route path="/login-test" element={<LoginTest />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/adminpage" element={<AdminPage />} />
+         <Route path="/adminsettings" element={<AdminSettingsPage />} />
+
 
         {/* Nested Admin Routes */}
         <Route path="/admin/*">

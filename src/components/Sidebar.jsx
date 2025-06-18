@@ -1,18 +1,52 @@
-import React from 'react';
-import './Sidebar.css';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import {
+  FaHome,
+  FaThList,
+  FaCompass,
+  FaShoppingCart,
+  FaSignOutAlt,
+} from "react-icons/fa";
+
+import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
-      <h2 className="sidebar-title">Food Dashboard</h2>
-      <ul className="sidebar-menu">
-        <li>Home</li>
-        <li>Menu-card</li>
-        <li>Explore Party Palaces</li>
-        <li>Settings & More</li>
-        <li>Logout</li>
-      </ul>
-    </div>
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <span className="logo-icon">🍴</span>
+        <span className="logo-text">Mitho Bites</span>
+      </div>
+
+      <nav className="sidebar-nav">
+        <NavLink to="/" className="sidebar-link">
+          <FaHome className="sidebar-icon" />
+          Home
+        </NavLink>
+
+        <NavLink to="/categories" className="sidebar-link">
+          <FaThList className="sidebar-icon" />
+          Categories
+        </NavLink>
+
+        <NavLink to="/restaurants" className="sidebar-link">
+          <FaCompass className="sidebar-icon" />
+          Explore Restaurants
+        </NavLink>
+
+        <NavLink to="/cart" className="sidebar-link">
+          <FaShoppingCart className="sidebar-icon" />
+          Cart
+        </NavLink>
+
+        <div className="sidebar-divider" />
+
+        <NavLink to="/logout" className="sidebar-link logout">
+          <FaSignOutAlt className="sidebar-icon" />
+          Logout
+        </NavLink>
+      </nav>
+    </aside>
   );
 };
 

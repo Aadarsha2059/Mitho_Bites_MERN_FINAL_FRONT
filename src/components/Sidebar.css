@@ -1,32 +1,89 @@
+/* Sidebar.css */
+
 .sidebar {
-  width: 220px;
-  background-color: #1e1e2f;
-  color: white;
-  padding: 2rem 1rem;
+  width: 260px;
   height: 100vh;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }
 
-.sidebar-title {
-  font-size: 1.5rem;
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  font-size: 1.7rem;
+  font-weight: bold;
+  gap: 0.5rem;
   margin-bottom: 2rem;
-  text-align: center;
+  color: #ffffff;
 }
 
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
+.logo-icon {
+  font-size: 2rem;
 }
 
-.sidebar-menu li {
-  padding: 1rem 0;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-  transition: background 0.2s;
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.sidebar-menu li:hover {
-  background-color: #2e2e42;
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #cccccc;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #2f2f50;
+  color: #ffffff;
+  transform: translateX(5px);
+}
+
+.sidebar-link.active {
+  background-color: #4b4b8f;
+  color: #ffffff;
+}
+
+.sidebar-icon {
+  margin-right: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background-color: #3e3e5c;
+  margin: 1.5rem 0;
+}
+
+.logout {
+  color: #ff6b6b;
+}
+
+.logout:hover {
+  background-color: #552222;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }

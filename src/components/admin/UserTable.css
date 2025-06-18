@@ -1,99 +1,128 @@
+/* Enhanced User Table CSS */
+
 .user-table-container {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    color: #333;
-    background: #cff0f2;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-    border-radius: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  color: #1f2937;
+  background: linear-gradient(to right, #e0f7fa, #fefefe);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  animation: fadeIn 0.6s ease;
 }
 
 /* Controls (Show, Search) */
 .user-table-container .controls {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .user-table-container label {
-    font-weight: 600;
+  font-weight: 600;
+  color: #374151;
 }
 
 .user-table-container select,
 .user-table-container input {
-    padding: 0.3rem 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline-offset: 2px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
 }
 
 .user-table-container select:focus,
 .user-table-container input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  outline: none;
 }
 
 /* Table styles */
 .user-table-container table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 }
 
 .user-table-container thead {
-    background-color: #f3f4f6;
+  background: linear-gradient(to right, #38bdf8, #06b6d4);
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .user-table-container th,
 .user-table-container td {
-    border: 1px solid #d1d5db;
-    padding: 0.5rem 0.75rem;
-    text-align: left;
-    font-size: 0.95rem;
-    vertical-align: middle;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.user-table-container tbody tr:nth-child(odd) {
-    background-color: #fff;
+.user-table-container tbody tr {
+  transition: background-color 0.3s ease;
 }
 
 .user-table-container tbody tr:nth-child(even) {
-    background-color: #f9fafb;
+  background-color: #f9fafb;
 }
 
 .user-table-container tbody tr:hover {
-    background-color: #e0e7ff;
-    cursor: pointer;
+  background-color: #dbeafe;
+  cursor: pointer;
 }
 
 /* Pagination */
 .user-table-container .pagination {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .user-table-container .pagination button {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.user-table-container .pagination button:hover:not(:disabled) {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  transform: translateY(-2px);
 }
 
 .user-table-container .pagination button:disabled {
-    background-color: #a5b4fc;
-    cursor: not-allowed;
+  background-color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .user-table-container .pagination span {
-    font-weight: 600;
-    font-size: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
