@@ -1,0 +1,94 @@
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+/* Modal container */
+.modal-content {
+  background-color: white;
+  padding: 2.5rem 3rem;
+  border-radius: 0.75rem;
+  width: 380px;  /* increased width */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Title */
+.modal-title {
+  font-size: 1.5rem; /* larger font */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+/* Description */
+.modal-description {
+  font-size: 1.125rem; /* bigger text */
+  margin-bottom: 1.5rem;
+  color: #222;
+  line-height: 1.4;
+}
+
+/* Emoji styling inside description */
+.modal-description span {
+  font-size: 1.5rem;  /* bigger emojis */
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+
+/* Buttons container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Cancel button */
+.modal-cancel {
+  padding: 0.75rem 1.25rem;
+  background-color: #22c55e; /* bright green */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.modal-cancel:hover {
+  background-color: #16a34a;
+}
+
+/* Delete button */
+.modal-delete {
+  padding: 0.75rem 1.25rem;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.modal-delete:hover {
+  background-color: #b91c1c;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

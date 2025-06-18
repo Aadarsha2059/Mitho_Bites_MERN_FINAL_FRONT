@@ -20,6 +20,8 @@ import CreateCategory from '../pages/admin/CreateCategory';
 import CategoryManagement from '../pages/admin/CategoryManagement';
 import CreateUser from '../pages/admin/CreateUser';
 import AdminSettingsPage from '../pages/admin/AdminSettings';
+import ViewCategory from '../pages/admin/ViewCategory';
+import UpdateCategory from '../pages/admin/UpdateCategory';
 
 export default function AppRouter() {
   return (
@@ -43,17 +45,21 @@ export default function AppRouter() {
         {/* Other Routes */}
         <Route path="/login-test" element={<LoginTest />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/adminpage" element={<AdminPage />} />
-         <Route path="/adminsettings" element={<AdminSettingsPage />} />
+        
+        
 
 
         {/* Nested Admin Routes */}
         <Route path="/admin/*">
+          <Route path="adminpage" element={<AdminPage />} />
           <Route path="product" element={<ProductManagement />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="category/create" element={<CreateCategory />} />
           <Route path="users/create" element={<CreateUser />} />
           <Route path="category" element={<CategoryManagement />} />
+          <Route path="category/:id" element={<ViewCategory />} />
+          <Route path="category/:id/edit" element={<UpdateCategory />} />
+          <Route path="adminsettings" element={<AdminSettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

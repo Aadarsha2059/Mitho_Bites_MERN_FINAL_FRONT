@@ -88,6 +88,11 @@ const AdminPage = () => {
     navigate('/admin/category');
   };
 
+  const handleSettingsNavigate = () => {
+    setActiveTab('settings');
+    navigate('/admin/adminsettings');
+  };
+
   return (
     <div className="admin-container" style={{ backgroundImage: `url(${adminFood})` }}>
       {showDialog && (
@@ -184,7 +189,10 @@ const AdminPage = () => {
             <FaUsersCog style={{ marginRight: '8px' }} />
             Manage Users
           </button>
-          <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
+          <button
+            className={activeTab === 'settings' ? 'active' : ''}
+            onClick={handleSettingsNavigate}
+          >
             <FaCog style={{ marginRight: '8px' }} />
             Settings
           </button>

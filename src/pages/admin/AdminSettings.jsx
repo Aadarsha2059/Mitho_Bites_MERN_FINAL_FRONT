@@ -1,6 +1,6 @@
-// AdminSettingsPage.jsx
 import React, { useState } from 'react';
 import './AdminSettingsPage.css';
+import { FaUser, FaPhone, FaLock, FaCheck } from 'react-icons/fa';
 
 const AdminSettingsPage = () => {
   const [formData, setFormData] = useState({
@@ -35,54 +35,66 @@ const AdminSettingsPage = () => {
         <form onSubmit={handleSubmit} className="settings-form">
           <div className="form-field">
             <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Enter username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-icon-wrapper">
+              <FaUser className="input-icon" />
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Enter username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           <div className="form-field">
             <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              id="phone"
-              placeholder="Enter phone number"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-icon-wrapper">
+              <FaPhone className="input-icon" />
+              <input
+                type="tel"
+                name="phone"
+                id="phone"
+                placeholder="Enter phone number"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           <div className="form-field">
             <label htmlFor="password">New Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Enter new password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-icon-wrapper">
+              <FaLock className="input-icon" />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter new password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           <div className="form-field">
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              placeholder="Confirm new password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-icon-wrapper">
+              <FaCheck className="input-icon" />
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirm new password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           <button type="submit" className="save-settings-button">Save Changes</button>

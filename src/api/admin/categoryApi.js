@@ -9,3 +9,20 @@ export const createOneCategoryApi= (data) =>
         }
     }
     )  //request using multer/file upload
+
+    
+export const getOneCategoryApi= (id) => 
+    axios.get("/admin/category/"+ id)
+
+export const updateOneCategoryApi= (id,data) =>
+    axios.put("/admin/category/" +id, data,{
+        headers:{
+            "Content-Type":"multipart/form-data"
+        }
+
+    }
+
+    )
+
+   export const deleteOneCategoryApi=(id) =>
+    axios.delete("/admin/category/"+ id)
