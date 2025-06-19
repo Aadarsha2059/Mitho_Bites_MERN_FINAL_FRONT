@@ -1,12 +1,12 @@
 .footer {
-  background-color: rgba(246, 188, 152, 0.9); /* Semi-transparent background */
+  background-color: rgba(246, 188, 152, 0.9);
   color: #0b0000;
   padding: 20px 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  bottom: 0;
+  z-index: 10;
 }
 
 .footer-content {
@@ -15,17 +15,23 @@
   align-items: center;
   max-width: 1100px;
   margin: 0 auto;
-  flex-wrap: nowrap; /* Prevents icons from stacking vertically */
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.footer-left, .footer-center {
-  flex: 1;
+.footer-left,
+.footer-center {
+  flex: 1 1 30%;
   font-size: 1rem;
-  font-weight: bold; /* Bold text */
+  font-weight: bold;
+}
+
+.footer-center {
+  text-align: center;
 }
 
 .footer-right {
-  flex: 1;
+  flex: 1 1 30%;
   text-align: right;
 }
 
@@ -39,5 +45,26 @@
 
 .footer-right a:hover {
   color: #ff5722;
-  transform: scale(1.1); /* Slight zoom effect on hover */
+  transform: scale(1.1);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    flex: 1 1 100%;
+    margin: 8px 0;
+    text-align: center;
+  }
+
+  .footer-right a {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }

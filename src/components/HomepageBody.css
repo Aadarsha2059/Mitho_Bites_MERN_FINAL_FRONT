@@ -1,0 +1,91 @@
+/* Root section - extended height for full hero */
+.hero-body-section {
+  position: relative;
+  min-height: 85vh; /* Takes up most of the screen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+/* Overlay to darken background for better text visibility */
+.hero-body-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Centered content */
+.hero-body-content {
+  text-align: center;
+  color: rgb(209, 156, 245);
+  max-width: 750px;
+  padding: 40px 20px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heading */
+.hero-body-content h1 {
+  font-size: 3.2rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  line-height: 1.3;
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Animated description text */
+.animated-text {
+  font-size: 1.5rem;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 14px 26px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  transition: opacity 1s ease-in-out;
+  line-height: 1.5;
+}
+/* Search container */
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Search input */
+.search-bar {
+  width: 100%;
+  padding: 14px 44px 14px 18px; /* Add right padding for icon space */
+  border-radius: 30px;
+  border: none;
+  font-size: 1.05rem;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  color: #333;
+}
+
+/* Search icon — absolutely positioned inside the input */
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
