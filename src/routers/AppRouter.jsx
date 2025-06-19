@@ -22,6 +22,7 @@ import CreateUser from '../pages/admin/CreateUser';
 import AdminSettingsPage from '../pages/admin/AdminSettings';
 import ViewCategory from '../pages/admin/ViewCategory';
 import UpdateCategory from '../pages/admin/UpdateCategory';
+import UpdateUser from '../pages/admin/UpdateUser';
 
 export default function AppRouter() {
   return (
@@ -59,6 +60,7 @@ export default function AppRouter() {
           <Route path="category" element={<CategoryManagement />} />
           <Route path="category/:id" element={<ViewCategory />} />
           <Route path="category/:id/edit" element={<UpdateCategory />} />
+          <Route path="users/:id/edit" element={<UpdateUser />} />
           <Route path="adminsettings" element={<AdminSettingsPage />} />
         </Route>
       </Routes>

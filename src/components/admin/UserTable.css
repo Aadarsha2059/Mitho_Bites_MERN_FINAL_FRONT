@@ -1,128 +1,61 @@
-/* Enhanced User Table CSS */
-
 .user-table-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  width: 100%;
-  max-width: 1200px;
-  margin: 2.5rem auto;
   padding: 2rem;
-  color: #1f2937;
-  background: linear-gradient(to right, #e0f7fa, #fefefe);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  animation: fadeIn 0.6s ease;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Controls (Show, Search) */
-.user-table-container .controls {
+.controls {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.user-table-container label {
-  font-weight: 600;
-  color: #374151;
-}
-
-.user-table-container select,
-.user-table-container input {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background-color: #ffffff;
-}
-
-.user-table-container select:focus,
-.user-table-container input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-  outline: none;
-}
-
-/* Table styles */
-.user-table-container table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-}
-
-.user-table-container thead {
-  background: linear-gradient(to right, #38bdf8, #06b6d4);
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.user-table-container th,
-.user-table-container td {
-  padding: 1rem 1.2rem;
-  text-align: left;
-  font-size: 0.95rem;
-  vertical-align: middle;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.user-table-container tbody tr {
-  transition: background-color 0.3s ease;
-}
-
-.user-table-container tbody tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-.user-table-container tbody tr:hover {
-  background-color: #dbeafe;
-  cursor: pointer;
-}
-
-/* Pagination */
-.user-table-container .pagination {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
-.user-table-container .pagination button {
-  background: linear-gradient(to right, #6366f1, #8b5cf6);
+.controls label {
+  font-weight: 500;
+}
+
+.controls input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #3498db;
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.user-table-container .pagination button:hover:not(:disabled) {
-  background: linear-gradient(to right, #4f46e5, #7c3aed);
-  transform: translateY(-2px);
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
 }
 
-.user-table-container .pagination button:disabled {
-  background-color: #d1d5db;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.user-table-container .pagination span {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #111827;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.delete-btn:hover,
+.edit-btn:hover {
+  opacity: 0.8;
 }

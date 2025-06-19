@@ -1,11 +1,18 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useCreateUser } from '../../hooks/admin/useAdminUseradd'; 
-import './CreateUser.css';
+import { useParams } from 'react-router-dom';
 
-export default function CreateUser() {
-  const { mutate, isPending } = useCreateUser();
+import {
+  useGetOneUser,
+  useUpdateOneUser,
+} from '../../hooks/admin/useAdminUser';
+import './UpdateUser.css';
+
+export default function UpdateUser() {
+  const { id } = useParams();
+  const { user, isLoading: isFetching } = useGetOneUser(id);
+  const { mutate, isPending } = useUpdateOneUser();
 
   const validationSchema = Yup.object({
     fullname: Yup.string()
@@ -29,27 +36,33 @@ export default function CreateUser() {
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      fullname: '',
-      username: '',
-      password: '',
-      phone: '',
-      address: '',
+      fullname: user?.fullname || '',
+      username: user?.username || '',
+      password: user?.password || '',
+      phone: user?.phone || '',
+      address: user?.address || '',
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values)
-      mutate(values, {
-        onSuccess: () => formik.resetForm(),
-      });
+      mutate(
+        { id, data: values },
+        {
+          onSuccess: () => formik.resetForm(),
+        }
+      );
     },
   });
 
-  return (
-    <div className="create-user-container">
-      <h2 className="create-user-title">Create New User | Mitho Bites</h2>
+  if (isFetching) {
+    return <div>Loading user data...</div>;
+  }
 
-      <form className="create-user-form" onSubmit={formik.handleSubmit}>
+  return (
+    <div className="update-user-container">
+      <h2 className="update-user-title">Update User | Mitho Bites</h2>
+      <form className="update-user-form" onSubmit={formik.handleSubmit}>
         {/* Full Name */}
         <div className="form-group">
           <label className="form-label">
@@ -58,7 +71,6 @@ export default function CreateUser() {
           <input
             type="text"
             name="fullname"
-            placeholder="e.g. John Doe"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -77,7 +89,6 @@ export default function CreateUser() {
           <input
             type="text"
             name="username"
-            placeholder="aadarsha"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -96,7 +107,6 @@ export default function CreateUser() {
           <input
             type="password"
             name="password"
-            placeholder="Enter password"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -115,7 +125,6 @@ export default function CreateUser() {
           <input
             type="text"
             name="phone"
-            placeholder="+977-98XXXXXXXX"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -133,21 +142,19 @@ export default function CreateUser() {
           </label>
           <textarea
             name="address"
-            placeholder="Enter full address"
             className="form-textarea"
+            rows={3}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.address}
-            rows={3}
           />
           {formik.touched.address && formik.errors.address && (
             <div className="form-error">{formik.errors.address}</div>
           )}
         </div>
 
-        {/* Submit Button */}
-        <button type="submit" className="submit-btn">
-          {isPending ? 'Creating...' : 'Create User'}
+        <button type="submit" className="submit-btn" disabled={isPending}>
+          {isPending ? 'Updating...' : 'Update User'}
         </button>
       </form>
     </div>
