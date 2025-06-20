@@ -6,7 +6,7 @@ import Login from '../pages/Login';
 import SignUpPage from '../pages/SignupPage';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../pages/client/Dashboard';
 import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
 import AdminPage from '../pages/admin/AdminPage';

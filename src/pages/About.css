@@ -116,3 +116,38 @@
 .db {
   color: #7c3aed;
 }
+
+.about-back-btn {
+  position: absolute;
+  top: 2.2rem;
+  left: 2.2rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 2em;
+  padding: 0.6em 1.3em 0.6em 1em;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #e53935;
+  box-shadow: 0 2px 12px #a18cd122;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.14s;
+  outline: none;
+}
+.about-back-btn:hover {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #fff;
+  transform: translateX(-2px) scale(1.04);
+}
+.about-back-icon {
+  font-size: 1.3em;
+  margin-right: 0.2em;
+  transition: color 0.18s;
+}
+.about-back-text {
+  font-size: 1.08em;
+  letter-spacing: 0.5px;
+}

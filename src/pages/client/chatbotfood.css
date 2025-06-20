@@ -1,0 +1,192 @@
+/* Floating Chatbot Root */
+.chatbot-food-root {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Toggle Button */
+.chatbot-food-toggle {
+  background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
+  box-shadow: 0 4px 16px #a18cd144;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.18s;
+  margin-bottom: 8px;
+}
+.chatbot-food-toggle:hover {
+  background: linear-gradient(90deg, #e53935 0%, #a18cd1 100%);
+  transform: scale(1.08);
+}
+
+/* Chat Window */
+.chatbot-food-window {
+  width: 420px;
+  max-width: 98vw;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #a18cd144;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  animation: chatbotFadeIn 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes chatbotFadeIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.chatbot-food-header {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #e53935;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #fbc2eb;
+}
+.chatbot-food-close {
+  background: none;
+  border: none;
+  color: #e53935;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color 0.18s;
+}
+.chatbot-food-close:hover {
+  color: #a18cd1;
+}
+
+/* Messages */
+.chatbot-food-messages {
+  flex: 1;
+  padding: 1.1rem 1rem 0.7rem 1rem;
+  background: #f9f6ff;
+  overflow-y: auto;
+  max-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.chatbot-food-msg {
+  max-width: 80%;
+  padding: 0.7em 1.1em;
+  border-radius: 1.1em;
+  font-size: 1.01rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px #a18cd122;
+  word-break: break-word;
+  animation: chatbotMsgIn 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes chatbotMsgIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.chatbot-food-msg-bot {
+  background: #fff;
+  color: #a18cd1;
+  align-self: flex-start;
+}
+.chatbot-food-msg-user {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #fff;
+  align-self: flex-end;
+}
+
+/* Input Row */
+.chatbot-food-input-row {
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 1rem 1rem 1rem;
+  background: #fff;
+  border-top: 1px solid #fbc2eb;
+  gap: 0.5rem;
+}
+.chatbot-food-input {
+  flex: 1;
+  border: 1.5px solid #a18cd1;
+  border-radius: 1.1em;
+  padding: 0.6em 1em;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.18s;
+}
+.chatbot-food-input:focus {
+  border: 1.5px solid #e53935;
+}
+.chatbot-food-send {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 1em;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.chatbot-food-send:hover {
+  background: linear-gradient(90deg, #e53935 0%, #a18cd1 100%);
+}
+
+/* Default Questions */
+.chatbot-food-default-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem 0.2rem 1rem;
+  background: #f9f6ff;
+  border-bottom: 1px solid #fbc2eb;
+  max-height: 110px;
+  overflow-y: auto;
+  margin-bottom: 0.2rem;
+}
+.chatbot-food-default-q {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 1.1em;
+  padding: 0.4em 1em;
+  font-size: 0.98rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2px;
+  transition: background 0.18s, transform 0.14s;
+  box-shadow: 0 2px 8px #a18cd122;
+  white-space: nowrap;
+}
+.chatbot-food-default-q:hover {
+  background: linear-gradient(90deg, #e53935 0%, #a18cd1 100%);
+  transform: scale(1.04);
+}
+
+@media (max-width: 600px) {
+  .chatbot-food-root {
+    right: 8px;
+    bottom: 8px;
+  }
+  .chatbot-food-window {
+    width: 98vw;
+    min-width: 0;
+    right: 0;
+    left: 0;
+    margin: 0 auto 8px auto;
+  }
+} 

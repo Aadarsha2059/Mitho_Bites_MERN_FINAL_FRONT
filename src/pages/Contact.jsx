@@ -1,11 +1,21 @@
 import React from 'react';
 import './Contact.css';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaInstagram, FaTwitter, FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import devImg from '../assets/images/aadarsha.png';
 
 export default function Contact() {
+  const navigate = useNavigate();
   return (
     <div className="contact-container">
+      <button
+        className="contact-back-btn"
+        onClick={() => navigate('/homepage')}
+        aria-label="Back to homepage"
+      >
+        <FaArrowLeft className="contact-back-icon" />
+        <span className="contact-back-text">Back</span>
+      </button>
       <div className="contact-card">
         <h1 className="contact-title">📞 Contact Us</h1>
 

@@ -6,17 +6,28 @@ import {
   FaNodeJs,
   FaDatabase,
   FaLaptopCode,
-  FaUserTie
+  FaUserTie,
+  FaArrowLeft
 } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './About.css';
 import background from '../assets/images/softwarica.png';
 
 export default function About() {
+  const navigate = useNavigate();
   return (
     <div
       className="about-container"
       style={{ backgroundImage: `url(${background})` }}
     >
+      <button
+        className="about-back-btn"
+        onClick={() => navigate('/homepage')}
+        aria-label="Back to homepage"
+      >
+        <FaArrowLeft className="about-back-icon" />
+        <span className="about-back-text">Back</span>
+      </button>
       <div className="about-box">
         <h1 className="about-title">🍽️ About Mitho_Bites</h1>
 
@@ -58,7 +69,7 @@ export default function About() {
         </div>
 
         <div className="about-footer">
-          <p className="about-quote">"Bringing Kathmandu’s flavor to your fingertips – one bite at a time."</p>
+          <p className="about-quote">"Bringing Kathmandu's flavor to your fingertips – one bite at a time."</p>
         </div>
       </div>
     </div>

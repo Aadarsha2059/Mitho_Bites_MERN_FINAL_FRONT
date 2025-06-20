@@ -1,50 +1,29 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import {
-  FaHome,
-  FaThList,
-  FaCompass,
-  FaShoppingCart,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import React, { useState } from 'react';
+import './Sidebar.css';
 
-import "./Sidebar.css";
+const Sidebar = ({ options = [], onNavigate }) => {
+  const [active, setActive] = useState(options[0]?.id || 'dashboard');
 
-const Sidebar = () => {
+  const handleClick = (id) => {
+    setActive(id);
+    if (onNavigate) onNavigate(id);
+  };
+
   return (
     <aside className="sidebar">
-      <div className="sidebar-header">
-        <span className="logo-icon">🍴</span>
-        <span className="logo-text">Mitho Bites</span>
-      </div>
-
+      <div className="sidebar-heading">Mitho Bites<br /><span className="sidebar-sub">Dashboard</span></div>
+      <div className="sidebar-logo">🍽️</div>
       <nav className="sidebar-nav">
-        <NavLink to="/" className="sidebar-link">
-          <FaHome className="sidebar-icon" />
-          Home
-        </NavLink>
-
-        <NavLink to="/categories" className="sidebar-link">
-          <FaThList className="sidebar-icon" />
-          Categories
-        </NavLink>
-
-        <NavLink to="/restaurants" className="sidebar-link">
-          <FaCompass className="sidebar-icon" />
-          Explore Restaurants
-        </NavLink>
-
-        <NavLink to="/cart" className="sidebar-link">
-          <FaShoppingCart className="sidebar-icon" />
-          Cart
-        </NavLink>
-
-        <div className="sidebar-divider" />
-
-        <NavLink to="/logout" className="sidebar-link logout">
-          <FaSignOutAlt className="sidebar-icon" />
-          Logout
-        </NavLink>
+        {options.map((opt) => (
+          <div
+            key={opt.id}
+            className={`sidebar-link${active === opt.id ? ' active' : ''}`}
+            onClick={() => handleClick(opt.id)}
+          >
+            <span className="sidebar-icon">{opt.icon}</span>
+            <span className="sidebar-label">{opt.label}</span>
+          </div>
+        ))}
       </nav>
     </aside>
   );

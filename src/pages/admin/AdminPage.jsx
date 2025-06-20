@@ -11,8 +11,14 @@ import {
   FaSignOutAlt,
   FaListAlt,
   FaListUl,
+  FaSearch,
 } from 'react-icons/fa';
 import adminFood from '../../assets/admin/adminfood.png';
+import momo from '../../assets/images/momo.png';
+import selRoti from '../../assets/images/sel_roti.png';
+import yomari from '../../assets/images/yomari.png';
+import featured1 from '../../assets/images/featured/featured1.png';
+import adminAvatar from '../../assets/admin/adminfood.png'; // Use as avatar for now
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -24,6 +30,7 @@ const AdminPage = () => {
   const [showUserDialog, setShowUserDialog] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -93,8 +100,26 @@ const AdminPage = () => {
     navigate('/admin/adminsettings');
   };
 
+  // Map each tab to a background image
+  const tabBackgrounds = {
+    addProduct: adminFood,
+    addRestaurant: momo,
+    categories: selRoti,
+    manageAccounts: yomari,
+    settings: featured1,
+    logout: adminFood,
+  };
+  const bgImage = tabBackgrounds[activeTab] || adminFood;
+
+  // Make search box functional: call handleFetchProducts with searchTerm
+  const handleSearch = (e) => {
+    e.preventDefault();
+    handleFetchProducts(searchTerm);
+  };
+
   return (
-    <div className="admin-container" style={{ backgroundImage: `url(${adminFood})` }}>
+    <div className="admin-container" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.55), rgba(255,245,240,0.55)), url(${bgImage})` }}>
+      <div className="admin-bg-overlay" />
       {showDialog && (
         <div className="admin-dialog">
           <div className="admin-dialog-content">
@@ -155,6 +180,13 @@ const AdminPage = () => {
 
       <div className="admin-body">
         <nav className="admin-sidebar">
+          <div className="admin-profile-card">
+            <img src={adminAvatar} alt="Admin Avatar" className="admin-profile-avatar" />
+            <div className="admin-profile-info">
+              <span className="admin-profile-name">Aadarsha Babu</span>
+              <span className="admin-profile-role">Administrator</span>
+            </div>
+          </div>
           <button className={activeTab === 'addProduct' ? 'active' : ''} onClick={() => setActiveTab('addProduct')}>
             <FaPlus style={{ marginRight: '8px' }} />
             Add Food Product
@@ -206,37 +238,44 @@ const AdminPage = () => {
         </nav>
 
         <main className="admin-main">
-          {activeTab === 'addProduct' && (
-            <>
-              <div className="top-right-fetch-button">
-                <button onClick={handleFetchProducts}>
-                  <FaListAlt style={{ marginRight: '6px' }} />
-                  Fetch Products
-                </button>
-              </div>
-              <form className="product-form" onSubmit={handleSubmit}>
-                <h2>Add Food Product</h2>
-                <label>Product Name:</label>
-                <input type="text" name="name" onChange={handleInputChange} required />
-                <label>Upload Image:</label>
-                <input type="file" name="filepath" accept="image/*" onChange={handleInputChange} required />
-                <label>Price (Rs):</label>
-                <input type="number" name="price" onChange={handleInputChange} required />
-                <label>Food Category:</label>
-                <select name="categoryId" onChange={handleInputChange} required>
-                  <option value="">Select Category</option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>{cat.name}</option>
-                  ))}
-                </select>
-                <label>Type (Veg/Non-Veg):</label>
-                <input type="text" name="type" onChange={handleInputChange} required />
-                <label>Restaurant Name:</label>
-                <input type="text" name="restaurant" onChange={handleInputChange} required />
-                <button type="submit">Add Product</button>
-              </form>
-            </>
-          )}
+          <form className="admin-search-bar-wrapper" onSubmit={handleSearch} style={{marginBottom: '0.5rem'}}>
+            <input
+              className="admin-search-input"
+              placeholder="Search admin dashboard..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            <button type="submit" style={{ background: 'none', border: 'none', padding: 0, position: 'absolute', right: '1.2rem', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }} aria-label="Search">
+              <FaSearch className="admin-search-icon" />
+            </button>
+          </form>
+          <div className="top-right-fetch-button">
+            <button onClick={handleFetchProducts}>
+              <FaListAlt style={{ marginRight: '8px' }} /> Fetch Products
+            </button>
+          </div>
+          <div className="section-title"><FaPlus /> Add Food Product</div>
+          <form className="product-form" onSubmit={handleSubmit}>
+            <h2>Add Food Product</h2>
+            <label>Product Name:</label>
+            <input type="text" name="name" onChange={handleInputChange} required />
+            <label>Upload Image:</label>
+            <input type="file" name="filepath" accept="image/*" onChange={handleInputChange} required />
+            <label>Price (Rs):</label>
+            <input type="number" name="price" onChange={handleInputChange} required />
+            <label>Food Category:</label>
+            <select name="categoryId" onChange={handleInputChange} required>
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>{cat.name}</option>
+              ))}
+            </select>
+            <label>Type (Veg/Non-Veg):</label>
+            <input type="text" name="type" onChange={handleInputChange} required />
+            <label>Restaurant Name:</label>
+            <input type="text" name="restaurant" onChange={handleInputChange} required />
+            <button type="submit">Add Product</button>
+          </form>
         </main>
       </div>
 

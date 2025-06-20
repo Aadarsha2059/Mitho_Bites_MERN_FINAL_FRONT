@@ -8,9 +8,18 @@ export default function Footer() {
       <div className="footer-content">
         <div className="footer-left">
           <p>&copy; 2025 Mitho Bites. All rights reserved.</p>
+          <div className="footer-links">
+            <a href="/privacy" className="footer-link">Privacy Policy</a>
+            <a href="/terms" className="footer-link">Terms of Service</a>
+            <a href="/careers" className="footer-link">Careers</a>
+          </div>
         </div>
         <div className="footer-center">
           <p>Designed and Implemented by: Aadarsha Babu Dhakal</p>
+          <form className="newsletter-form" onSubmit={e => e.preventDefault()}>
+            <input type="email" className="newsletter-input" placeholder="Subscribe to our newsletter" required />
+            <button type="submit" className="newsletter-btn">Subscribe</button>
+          </form>
         </div>
         <div className="footer-right">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">

@@ -1,30 +1,37 @@
-import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../auth/authProvider';
 import './Header.css';
 
-const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+const Header = ({ onSearch }) => {
+  const { user } = useContext(AuthContext) || {};
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    if (onSearch) onSearch(e.target.value);
+  };
 
   return (
-    <header className="header">
-      <div className="container">
-        <h1>🙏 Namaste &nbsp; | &nbsp; Mitho_Bites 2025</h1>
-        <nav className="nav-links space-x-4">
-         
-          {!user && (
-            <>
-              <NavLink to="/login">Login</NavLink>
-              <Link to="/register">Register</Link>
-            </>
-          )}
-          {user && (
-            <>
-              <span className="welcome-text">Welcome, {user.username}</span>
-              
-            </>
-          )}
-        </nav>
+    <header className="header dashboard-header">
+      <div className="dashboard-header-title">
+        <span className="namaste-icon" role="img" aria-label="namaste">🙏</span>
+        Mitho Bites <span className="dashboard-header-year">2025</span>
+      </div>
+      <div className="dashboard-header-search">
+        <input
+          type="text"
+          className="dashboard-search-input"
+          placeholder="Search foods, restaurants..."
+          value={search}
+          onChange={handleSearch}
+        />
+      </div>
+      <div className="dashboard-header-user">
+        {user && user.username ? (
+          <span className="welcome-text">Welcome, {user.username}</span>
+        ) : (
+          <span className="welcome-text">Welcome, Foodie!</span>
+        )}
       </div>
     </header>
   );

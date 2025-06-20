@@ -1,0 +1,60 @@
+.gk-facts-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2.2rem;
+  overflow-x: auto;
+  padding-bottom: 1.2rem;
+  scrollbar-width: thin;
+  scrollbar-color: #a18cd1 #fff;
+  scroll-behavior: smooth;
+}
+.gk-facts-row::-webkit-scrollbar {
+  height: 10px;
+}
+.gk-facts-row::-webkit-scrollbar-thumb {
+  background: #a18cd1;
+  border-radius: 8px;
+}
+.gk-fact-card {
+  min-width: 260px;
+  max-width: 320px;
+  background: linear-gradient(120deg, #fbc2eb 0%, #a18cd1 100%);
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 18px #a18cd122;
+  padding: 1.5rem 1rem 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.gk-fact-card:hover {
+  box-shadow: 0 12px 32px #a18cd144;
+  transform: translateY(-8px) scale(1.04);
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+}
+.gk-fact-icon {
+  font-size: 2.2rem;
+  color: #e53935;
+  background: #fff;
+  border-radius: 50%;
+  padding: 0.6rem;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px #a18cd122;
+}
+.gk-fact-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #a18cd1;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.gk-fact-desc {
+  font-size: 1.01rem;
+  color: #2d2346;
+  margin-bottom: 0.2rem;
+  text-align: center;
+  font-weight: 600;
+} 

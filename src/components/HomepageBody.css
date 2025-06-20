@@ -26,7 +26,7 @@
 /* Centered content */
 .hero-body-content {
   text-align: center;
-  color: rgb(209, 156, 245);
+  color: #fff;
   max-width: 750px;
   padding: 40px 20px;
   z-index: 2;
@@ -88,4 +88,272 @@
   color: #666;
   font-size: 1.2rem;
   pointer-events: none;
+}
+
+/* Animated background for the homepage */
+.homepage-animated-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #f9f6ff 0%, #fbeee6 100%);
+  animation: gradientShift 18s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Advanced Hero Section */
+.advanced-hero {
+  min-height: 90vh;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-image 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.hero-carousel-controls {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+}
+.carousel-btn {
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #ff5722;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.carousel-btn:hover {
+  background: #ff5722;
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.fade-in-down {
+  animation: fadeInDown 1s cubic-bezier(0.4,0,0.2,1);
+}
+.fade-in-up {
+  animation: fadeInUp 1s cubic-bezier(0.4,0,0.2,1);
+}
+.fade-in {
+  animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animated-text.fade-in-up {
+  animation: fadeInUp 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.animated-search {
+  animation: fadeInUp 1.2s 0.2s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.animated-text.fade-out-down {
+  animation: fadeOutDown 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(30px); }
+}
+
+/* Featured Dishes Section */
+.featured-section {
+  padding: 60px 0 40px 0;
+  background: linear-gradient(90deg, #fff 60%, #fbeee6 100%);
+}
+.section-title {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #ff5722;
+  margin-bottom: 2.2rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(255, 87, 34, 0.08);
+}
+.featured-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.featured-card-anim {
+  opacity: 0;
+  animation: fadeInUp 0.8s forwards;
+}
+
+/* Testimonials Section - Reworked for Slider */
+.testimonials-section {
+  padding: 60px 0 80px 0;
+  background: linear-gradient(120deg, #fbeee6 0%, #f9f6ff 100%);
+}
+
+.testimonial-slider {
+  max-width: 600px; /* Width of a single card */
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Elastic transition */
+}
+
+.testimonial-slide {
+  flex: 0 0 100%;
+  padding: 0 1rem; /* Space between cards if ever visible */
+  box-sizing: border-box;
+}
+
+.testimonial-card {
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 360px;
+  transition: box-shadow 0.3s;
+}
+
+.testimonial-card:hover {
+  box-shadow: 0 16px 48px rgba(255,87,34,0.13);
+}
+.testimonial-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ff5722;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 12px rgba(255,87,34,0.10);
+}
+.testimonial-content {
+  text-align: center;
+}
+.quote-icon {
+  color: #ff5722;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.testimonial-text {
+  font-size: 1.18rem;
+  color: #333;
+  margin-bottom: 1.1rem;
+  font-style: italic;
+  min-height: 60px;
+}
+.testimonial-rating {
+  margin-bottom: 0.7rem;
+}
+.star {
+  color: #ffb300;
+  font-size: 1.2rem;
+  margin: 0 2px;
+}
+.testimonial-name {
+  font-weight: 700;
+  color: #ff5722;
+  font-size: 1.1rem;
+}
+.testimonial-carousel-controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .featured-cards {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+  }
+  .testimonial-card {
+    padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .hero-body-content h1 {
+    font-size: 2rem;
+  }
+  .section-title {
+    font-size: 1.4rem;
+  }
+  .featured-section, .testimonials-section {
+    padding: 30px 0 20px 0;
+  }
+}
+
+.best-badge {
+  display: inline-block;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: linear-gradient(90deg, #ff9800, #ff5722);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.4em 1em;
+  border-radius: 1em;
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.15);
+  z-index: 2;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.featured-card-anim {
+  position: relative;
+}
+
+/* Food Categories Section distinct style */
+.featured-section:nth-of-type(3) {
+  background: linear-gradient(90deg, #f9f6ff 60%, #fbeee6 100%);
+}
+
+/* Best in the Town Section distinct style */
+.featured-section:nth-of-type(2) {
+  background: linear-gradient(90deg, #fffbe7 60%, #ffe0b2 100%);
+}
+
+/* Responsive badge */
+@media (max-width: 600px) {
+  .best-badge {
+    font-size: 0.8rem;
+    top: 10px;
+    right: 10px;
+    padding: 0.3em 0.7em;
+  }
 }

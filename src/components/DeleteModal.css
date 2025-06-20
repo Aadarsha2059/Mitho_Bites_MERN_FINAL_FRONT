@@ -92,3 +92,15 @@
     transform: scale(1);
   }
 }
+
+.modal-wide {
+  width: 700px !important;
+  max-width: 95vw;
+  padding: 2.5rem 2.5rem !important;
+}
+@media (max-width: 800px) {
+  .modal-wide {
+    width: 98vw !important;
+    padding: 1.2rem !important;
+  }
+}

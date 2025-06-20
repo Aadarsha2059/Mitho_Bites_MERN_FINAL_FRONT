@@ -70,3 +70,52 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* === GLOBAL CUSTOM SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #f9f6ff;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #a18cd122;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #e53935 0%, #a18cd1 100%);
+}
+::-webkit-scrollbar-corner {
+  background: #fff0f5;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a18cd1 #f9f6ff;
+}
+
+/* === MICROINTERACTIONS === */
+button, .micro-btn {
+  transition: box-shadow 0.18s, transform 0.14s, background 0.18s, color 0.18s;
+  will-change: transform, box-shadow;
+}
+button:active, .micro-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px #a18cd122;
+}
+.card, .micro-card {
+  transition: box-shadow 0.18s, transform 0.14s, background 0.18s;
+  will-change: transform, box-shadow;
+}
+.card:active, .micro-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 16px #e5393522;
+}
+input, textarea, select {
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 2px #a18cd1aa;
+  border-color: #a18cd1;
+}
