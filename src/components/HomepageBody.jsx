@@ -12,8 +12,10 @@ import bajekosekuwa from '../assets/bajekosekuwa.png';
 import featured1 from '../assets/images/featured/featured1.png';
 import featured2 from '../assets/images/featured/featured2.png';
 import featured3 from '../assets/images/featured/featured3.png';
-import testimonial1 from '../assets/images/testimonials/testimonial1.png';
-import testimonial2 from '../assets/images/testimonials/testimonial2.png';
+import testimonial1 from '../assets/aadarshaaaaaaaa.png';
+import testimonial2 from '../assets/images/customers/customer1.png';
+import testimonial3 from '../assets/images/customers/customer2.png';
+import testimonial4 from '../assets/admin.png';
 import customer1 from '../assets/images/customers/customer1.png';
 import customer2 from '../assets/images/customers/customer2.png';
 
@@ -93,27 +95,21 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: 'Sita Sharma',
+    name: 'Suraj Tamang',
     image: testimonial2,
     text: 'Absolutely love the momo and sel roti! Highly recommended for foodies.',
     rating: 5,
   },
   {
-    name: 'Ramesh K.',
-    image: customer1,
+    name: 'Rahul Khatri',
+    image: testimonial3,
     text: 'The best food delivery experience I have had in Kathmandu. Great variety and quality.',
     rating: 4,
   },
   {
-    name: 'Priya T.',
-    image: customer2,
+    name: 'Chirayu Baij',
+    image: testimonial4,
     text: 'Delicious food, beautiful presentation, and timely delivery. Will order again!',
-    rating: 5,
-  },
-  {
-    name: 'Bikash S.',
-    image: momo,
-    text: 'Momo here is unbeatable. The juiciest and most flavorful in town!',
     rating: 5,
   },
 ];

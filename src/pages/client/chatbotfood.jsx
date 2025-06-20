@@ -2,48 +2,37 @@ import React, { useState, useRef, useEffect } from 'react';
 import './chatbotfood.css';
 
 const DUMMY_QA = [
-  { q: 'What is Mitho Bites?', a: 'Mitho Bites is a modern food delivery platform bringing delicious food to your doorstep.' },
-  { q: 'How do I place an order?', a: 'Browse the menu, add items to your cart, and proceed to checkout!' },
-  { q: 'What payment methods are accepted?', a: 'We accept cards, e-wallets, and cash on delivery.' },
-  { q: 'How can I contact support?', a: 'You can use this chatbot or visit our Contact page for more help.' },
-  { q: 'Is there a delivery charge?', a: 'Delivery charges may apply based on your location and order value.' },
-  { q: 'How do I track my order?', a: 'Go to your dashboard and check the Orders section for real-time updates.' },
-  { q: 'Can I cancel my order?', a: 'Orders can be cancelled before they are prepared. Visit Orders and select Cancel.' },
-  { q: 'How do I reset my password?', a: 'Click on Forgot Password on the login page and follow the instructions.' },
-  { q: 'Do you offer vegetarian options?', a: 'Yes! We have a wide range of vegetarian and vegan dishes.' },
-  { q: 'Are there any discounts or offers?', a: 'Check the Offers section on the homepage for the latest deals.' },
-  { q: 'How do I become a delivery partner?', a: 'Visit our Careers page or contact support for partnership details.' },
-  { q: 'Can I schedule an order?', a: 'Yes, you can choose a delivery time during checkout.' },
-  { q: 'What areas do you deliver to?', a: 'We deliver to most areas in the city. Enter your address to check availability.' },
-  { q: 'How do I add a new address?', a: 'Go to your profile and select Manage Addresses to add or edit locations.' },
-  { q: 'Is my payment information secure?', a: 'Absolutely! We use industry-standard encryption for all transactions.' },
-  { q: 'Can I order from multiple restaurants?', a: 'Currently, each order can be placed from one restaurant at a time.' },
-  { q: 'How do I leave a review?', a: 'After your order is delivered, you can rate and review from the Orders section.' },
-  { q: 'What if my food is late?', a: 'We apologize! Please check the order status or contact support for help.' },
-  { q: 'Do you have a mobile app?', a: 'Our mobile app is coming soon! For now, enjoy our responsive website.' },
-  { q: 'How do I apply a promo code?', a: 'Enter your promo code at checkout to get instant discounts.' },
-  { q: 'Can I reorder previous meals?', a: 'Yes! Go to Orders and click Reorder on your favorite meals.' },
-  { q: 'What cuisines are available?', a: 'We offer Nepali, Indian, Chinese, Continental, and more.' },
-  { q: 'How do I change my profile picture?', a: 'Go to your profile and click on the avatar to upload a new photo.' },
-  { q: 'What is the minimum order amount?', a: 'The minimum order amount varies by restaurant. Check the menu for details.' },
-  { q: 'How do I report a problem with my order?', a: 'Use the Help section in Orders or contact support directly.' },
-  { q: 'Can I tip the delivery person?', a: 'Yes, you can add a tip during checkout or after delivery.' },
-  { q: 'How do I get a refund?', a: 'Refunds are processed for eligible issues. Contact support with your order details.' },
-  { q: 'Do you offer group orders?', a: 'Group ordering is coming soon! Stay tuned for updates.' },
-  { q: 'How do I delete my account?', a: 'Contact support to request account deletion. We\'ll assist you promptly.' },
-  { q: 'Is there a loyalty program?', a: 'Yes! Earn points on every order and redeem them for rewards.' }
+  { q: 'How do I see the menu?', a: 'You can see all available food items by navigating to the "Categories" section from the sidebar on the main dashboard.' },
+  { q: 'What are the food categories?', a: 'We offer "Veg", "Non-Veg", and "Others" categories. You can find them on the "Categories" page.' },
+  { q: 'How do I place an order?', a: 'First, add items to your cart by clicking on them. Then, open the cart, review your items, and proceed to payment.' },
+  { q: 'How can I view my cart?', a: 'Click the shopping basket icon at the top right of the dashboard to open your cart.' },
+  { q: 'What payment methods do you accept?', a: 'We accept online payments via eSewa and Khalti, as well as Cash on Delivery (COD).' },
+  { q: 'Can I see my past orders?', a: 'Yes, you can view your order history by clicking on the "Orders" section in the sidebar.' },
+  { q: 'How do I add an item to my cart?', a: 'From the product list within a category, simply click on the food item you wish to order, and it will be added to your cart.' },
+  { q: 'Are there different restaurants to choose from?', a: 'Yes, you can browse different restaurants by clicking on the "Restaurants" section in the sidebar.' },
+  { q: 'How do I sign up for an account?', a: 'You can create a new account by clicking the "Sign Up" button on the login page and filling out your details.' },
+  { q: 'What if I forget my password?', a: 'On the login page, you can click "Forgot Password" to reset it. (Note: This is a demo, so functionality is limited).' },
+  { q: 'How is the total price calculated?', a: 'The total price is the sum of the prices of all items and their quantities in your cart. You can see the total in your cart summary.' },
+  { q: 'Can I change the quantity of an item in the cart?', a: 'Yes, inside the cart dialog, you can update the quantity of each item before proceeding to payment.' },
+  { q: 'What happens after I place an order?', a: 'After confirming your payment, your order is placed and you will see a success message. You can track its status in the "Orders" section.' },
+  { q: 'Is there a way to go back to the previous screen?', a: 'Yes, most sections like "Categories" or "Restaurants" have a "Back" button to return to the previous view.' },
+  { q: 'Where can I find more options?', a: 'The "More" section in the sidebar contains links to special menus or partner restaurants like KhanaKhajan and GKFood.' }
 ];
 
 function getBotReply(userMsg) {
-  const found = DUMMY_QA.find(qa => userMsg.toLowerCase().includes(qa.q.toLowerCase().split(' ')[0]));
-  if (found) return found.a;
+  const normalizedUserMsg = userMsg.toLowerCase().trim().replace(/[?.!]$/, '');
+  const found = DUMMY_QA.find(
+    (qa) => qa.q.toLowerCase().trim().replace(/[?.!]$/, '') === normalizedUserMsg
+  );
+  if (found) {
+    return found.a;
+  }
   return "Sorry, I'm a demo bot! Please contact support for more help.";
 }
 
 function getRandomExamples() {
-  // Pick 3-4 random questions for the hint
   const shuffled = [...DUMMY_QA].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 4).map(qa => qa.q.replace(/\?$/, '')); // Remove trailing ? for hint
+  return shuffled.slice(0, 4).map(qa => qa.q.replace(/\?$/, ''));
 }
 
 export default function ChatbotFood() {
@@ -52,6 +41,7 @@ export default function ChatbotFood() {
     { from: 'bot', text: 'Hi! 👋 I am your Mitho Bites assistant. Ask me anything about food, orders, or the app!' }
   ]);
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const [examples, setExamples] = useState(getRandomExamples());
 
@@ -59,19 +49,21 @@ export default function ChatbotFood() {
     if (open && chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, open]);
+  }, [messages, open, loading]);
 
   useEffect(() => {
     if (open) setExamples(getRandomExamples());
   }, [open]);
 
-  const handleSend = (customInput) => {
-    const userMsg = (customInput !== undefined ? customInput : input).trim();
+  const handleSend = () => {
+    const userMsg = input.trim();
     if (!userMsg) return;
     setMessages(msgs => [...msgs, { from: 'user', text: userMsg }]);
+    setLoading(true);
     setTimeout(() => {
       setMessages(msgs => [...msgs, { from: 'bot', text: getBotReply(userMsg) }]);
-    }, 700);
+      setLoading(false);
+    }, 4000);
     setInput('');
   };
 
@@ -87,21 +79,13 @@ export default function ChatbotFood() {
             <span role="img" aria-label="bot">🤖</span> Mitho Bites Chatbot
             <button className="chatbot-food-close" onClick={() => setOpen(false)}>&times;</button>
           </div>
-          <div className="chatbot-food-default-questions">
-            {DUMMY_QA.map((qa, i) => (
-              <button
-                key={i}
-                className="chatbot-food-default-q"
-                onClick={() => handleSend(qa.q)}
-              >
-                {qa.q}
-              </button>
-            ))}
-          </div>
           <div className="chatbot-food-messages">
             {messages.map((msg, i) => (
               <div key={i} className={`chatbot-food-msg chatbot-food-msg-${msg.from}`}>{msg.text}</div>
             ))}
+            {loading && (
+              <div className="chatbot-food-msg chatbot-food-msg-bot">Thinking...</div>
+            )}
             <div ref={chatEndRef} />
           </div>
           <div className="chatbot-food-input-row">
@@ -112,13 +96,23 @@ export default function ChatbotFood() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              disabled={loading}
             />
-            <button className="chatbot-food-send" onClick={() => handleSend()}>Send</button>
+            <button className="chatbot-food-send" onClick={handleSend} disabled={loading}>
+              {loading ? '...' : 'Send'}
+            </button>
           </div>
-          <div className="chatbot-food-hint">
-            <span>Try asking: </span>
-            {examples.map((ex, i) => (
-              <span key={i} className="chatbot-food-hint-q">{ex}{i < examples.length - 1 ? ', ' : ''}</span>
+          <div className="chatbot-food-default-questions">
+            <p>Or, click one of these common questions:</p>
+            {examples.map((qa, i) => (
+              <button
+                key={i}
+                className="chatbot-food-default-q"
+                onClick={() => setInput(qa)}
+                disabled={loading}
+              >
+                {qa}
+              </button>
             ))}
           </div>
         </div>
@@ -128,4 +122,4 @@ export default function ChatbotFood() {
       </button>
     </div>
   );
-} 
+}
