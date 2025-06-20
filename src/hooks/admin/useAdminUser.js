@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllUserService,getOneUserService,deleteOneUserService,updateOneUserService } from "../../services/admin/userService";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 
@@ -61,9 +62,9 @@ export const useGetOneUser=(id)=>{
         retry:false
         }
     )
-    const users=query.data?.data || {}
+    const user=query.data?.data || {}
     return {
-        ...query,users
+        ...query,user
     }
 }
 
@@ -74,7 +75,7 @@ export const useUpdateOneUser=()=>{
             mutationFn:({id,data})=>
                 updateOneUserService(id,data),
             onSuccess: () =>{
-                toast.onSuccess("User updated")
+                toast.success("User updated")
                 queryClient.invalidateQueries(["admin_user"])
             },
             onError: (err) =>{
@@ -92,7 +93,7 @@ export const useDeleteOneUser=() =>{
             mutationFn: deleteOneUserService,
             mutationKey:["admin_user_delete"],
             onSuccess: () =>{
-                toast.onSuccess("user deleted")
+                toast.success("user deleted")
                 queryClient.invalidateQueries(["admin_user"])
             },
             onError: (err)=>{

@@ -34,7 +34,7 @@ export default function UpdateUser() {
       .min(5, 'Address must be at least 5 characters')
       .required('Address is required'),
   });
-
+  console.log(user)
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {

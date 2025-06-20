@@ -10,11 +10,7 @@ export const getOneUserApi = (id) =>
 
 // Update one user by ID with form data
 export const updateOneUserApi = (id, data) => 
-  axios.put(`/admin/users/${id}`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  axios.put(`/admin/users/${id}`, data);
 
 // Delete one user by ID
 export const deleteOneUserApi = (id) => 
