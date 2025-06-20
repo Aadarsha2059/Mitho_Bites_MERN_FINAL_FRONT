@@ -14,7 +14,7 @@ import ProductManagement from '../pages/admin/ProductManagement';
 import MainLayout from '../layouts/MainLayout';
 import GuestRouter from './GuestRouter';
 import NormalUserRoute from './NormalUserRoute';
-import CartDialog from '../components/cart/CartDialog';
+import CartDialog from '../pages/client/cart/CartDialog';
 import UserManagement from '../pages/admin/UserManagement';
 import CreateCategory from '../pages/admin/CreateCategory';
 import CategoryManagement from '../pages/admin/CategoryManagement';
@@ -23,6 +23,7 @@ import AdminSettingsPage from '../pages/admin/AdminSettings';
 import ViewCategory from '../pages/admin/ViewCategory';
 import UpdateCategory from '../pages/admin/UpdateCategory';
 import UpdateUser from '../pages/admin/UpdateUser';
+import PaymentMethod from '../pages/client/PaymentMethod';
 
 export default function AppRouter() {
   return (
@@ -34,7 +35,7 @@ export default function AppRouter() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<WhatsCooking />} />
-          <Route path="/cart" element={<CartDialog/>} />
+          
         </Route>
 
         {/* Guest Routes (e.g., login/signup) */}
@@ -46,6 +47,9 @@ export default function AppRouter() {
         {/* Other Routes */}
         <Route path="/login-test" element={<LoginTest />} />
         <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/paymentmethod" element={<PaymentMethod />} />
+         <Route path="/cart" element={<CartDialog/>} />
+
         
         
 
