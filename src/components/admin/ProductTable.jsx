@@ -55,7 +55,9 @@ export default function ProductTable() {
             <th>Name</th>
             <th>Price</th>
             <th>Type</th>
+            <th>Category</th>
             <th>Restaurant</th>
+            <th>Location</th>
           </tr>
         </thead>
         <tbody>
@@ -63,9 +65,11 @@ export default function ProductTable() {
             products.map((row) => (
               <tr key={row._id}>
                 <td>{row.name}</td>
-                <td>{row.price}</td>
+                <td>NPR {row.price}</td>
                 <td>{row.type}</td>
-                <td>{row.restaurant}</td>
+                <td>{row.categoryId?.name || 'Unknown Category'}</td>
+                <td>{row.restaurantId?.name || 'Unknown Restaurant'}</td>
+                <td>{row.restaurantId?.location || 'Location not available'}</td>
               </tr>
             ))
           }

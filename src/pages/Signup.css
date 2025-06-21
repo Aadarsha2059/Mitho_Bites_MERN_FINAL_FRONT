@@ -1,7 +1,7 @@
 /* Form group wrapper for relative positioning and spacing */
 .form-group {
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   width: 100%;
 }
 
@@ -104,6 +104,27 @@
   box-shadow:
     0 10px 26px rgba(16, 185, 129, 0.6),
     0 0 10px 2px rgba(16, 185, 129, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.signup-button:hover::before {
+  left: 100%;
 }
 
 .signup-button:hover {
@@ -111,6 +132,18 @@
   box-shadow:
     0 14px 38px rgba(16, 185, 129, 0.75),
     0 0 18px 4px rgba(16, 185, 129, 0.7);
+  transform: translateY(-3px);
+}
+
+.signup-button:active {
+  transform: translateY(-1px);
+}
+
+.signup-button:disabled {
+  background: linear-gradient(135deg, #D3D3D3, #C0C0C0);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Redirect text & button */
@@ -139,6 +172,274 @@
 .login-button:hover {
   color: #fffde7;
   text-shadow: 0 2px 6px rgba(255, 255, 207, 0.9);
+}
+
+/* Modal version styles */
+.signup-form-modal {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.signup-form-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.signup-icon {
+  font-size: 52px;
+  margin-bottom: 18px;
+  animation: celebrate 2s infinite;
+}
+
+.signup-subtitle {
+  color: #8B4513;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.signup-form {
+  width: 100%;
+}
+
+.signup-form-modal .floating-input {
+  background-color: #f8f9fa;
+  border: 2px solid #FFE4B5;
+  color: #8B4513;
+  box-shadow: 0 2px 8px rgba(255, 228, 181, 0.2);
+}
+
+.signup-form-modal .floating-input:focus {
+  background-color: #fff;
+  border-color: #FF8C00;
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+}
+
+.signup-form-modal .floating-label {
+  color: #D2691E;
+}
+
+.signup-form-modal .floating-input:focus + .floating-label,
+.signup-form-modal .floating-input:not(:placeholder-shown) + .floating-label {
+  color: #FF8C00;
+  background-color: #fff;
+}
+
+.signup-form-modal .signup-button {
+  background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FFD700 100%);
+  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+  padding: 20px;
+  border-radius: 18px;
+  font-size: 19px;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.signup-form-modal .signup-button:hover {
+  background: linear-gradient(135deg, #FF7F00 0%, #FF8C00 50%, #FFA500 100%);
+  box-shadow: 0 12px 32px rgba(255, 140, 0, 0.6);
+}
+
+/* Input wrapper with icons */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #FFE4B5;
+  border-radius: 18px;
+  padding: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 228, 181, 0.2);
+}
+
+.input-wrapper:focus-within {
+  border-color: #FF8C00;
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  font-size: 22px;
+  color: #FF8C00;
+  background: linear-gradient(135deg, #FFF8DC, #FFE4B5);
+  border-radius: 14px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within .input-icon {
+  background: linear-gradient(135deg, #FFE4B5, #FFD700);
+  transform: scale(1.05);
+}
+
+/* Update floating input for icon wrapper */
+.input-wrapper .floating-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 18px 22px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #8B4513;
+  background: transparent;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: none;
+}
+
+.input-wrapper .floating-input::placeholder {
+  color: #D2691E;
+  opacity: 0.7;
+}
+
+/* Update floating label for icon wrapper */
+.input-wrapper .floating-label {
+  position: absolute;
+  left: 72px;
+  top: 18px;
+  color: #D2691E;
+  font-size: 17px;
+  font-weight: 500;
+  pointer-events: none;
+  user-select: none;
+  background-color: transparent;
+  padding: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper .floating-input:focus + .floating-label,
+.input-wrapper .floating-input:not(:placeholder-shown) + .floating-label {
+  top: -8px;
+  left: 66px;
+  font-size: 13px;
+  color: #FF8C00;
+  background-color: #fff;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.error-message {
+  color: #DC143C;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(220, 20, 60, 0.1);
+  border-radius: 10px;
+  border-left: 3px solid #DC143C;
+}
+
+/* Animations */
+@keyframes celebrate {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-form-modal {
+    max-width: 100%;
+  }
+  
+  .signup-icon {
+    font-size: 44px;
+  }
+  
+  .signup-subtitle {
+    font-size: 17px;
+  }
+  
+  .input-wrapper {
+    padding: 4px;
+  }
+  
+  .input-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .input-wrapper .floating-input {
+    padding: 16px 18px;
+    font-size: 16px;
+  }
+  
+  .input-wrapper .floating-label {
+    left: 66px;
+    top: 16px;
+  }
+  
+  .input-wrapper .floating-input:focus + .floating-label,
+  .input-wrapper .floating-input:not(:placeholder-shown) + .floating-label {
+    left: 60px;
+  }
+  
+  .signup-button {
+    padding: 18px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-icon {
+    font-size: 40px;
+  }
+  
+  .signup-subtitle {
+    font-size: 16px;
+  }
+  
+  .input-wrapper {
+    padding: 3px;
+  }
+  
+  .input-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+  
+  .input-wrapper .floating-input {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .input-wrapper .floating-label {
+    left: 62px;
+    top: 14px;
+  }
+  
+  .input-wrapper .floating-input:focus + .floating-label,
+  .input-wrapper .floating-input:not(:placeholder-shown) + .floating-label {
+    left: 56px;
+  }
+  
+  .signup-button {
+    padding: 16px;
+    font-size: 16px;
+  }
 }
 
 

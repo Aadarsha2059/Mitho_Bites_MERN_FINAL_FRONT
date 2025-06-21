@@ -1,5 +1,6 @@
 import { registerUserApi } from "../api/authApi";
 import { loginUserApi } from "../api/authApi";
+import { forgotPasswordApi, resetPasswordApi } from "../api/authApi";
 
 export const registerUserService=async (formData) =>{
     try{
@@ -20,5 +21,23 @@ export const loginUserService=async(formData) => {
         throw err?.response?.data || {message:"login failed"}
     }
 }
+
+export const forgotPasswordService = async (emailData) => {
+    try {
+        const response = await forgotPasswordApi(emailData);
+        return response.data;
+    } catch (err) {
+        throw err.response?.data || { message: "Failed to send reset email" };
+    }
+};
+
+export const resetPasswordService = async ({ token, password }) => {
+    try {
+        const response = await resetPasswordApi(token, { password });
+        return response.data;
+    } catch (err) {
+        throw err.response?.data || { message: "Failed to reset password" };
+    }
+};
 
 

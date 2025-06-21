@@ -7,6 +7,7 @@ import { useRegisterUser } from "../../hooks/useRegisterUserTan";
 const RegisterSchema = Yup.object().shape({
   fullname: Yup.string().required("Full name is required"),
   username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email format").required("Email is required"),
   password: Yup.string().required("Password is required"),
   confirmpassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -21,11 +22,10 @@ export default function RegisterForm() {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       await register(values);  
-      toast.success("Registration successful");
+      toast.success("Registration successful! Welcome to Mitho Bites! 🎉");
       resetForm();
     } catch (error) {
-      
-      toast.error("Registration failed");
+      toast.error("Registration failed. Please try again.");
       console.error(error);
     } finally {
       setSubmitting(false);
@@ -33,11 +33,19 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="signup-form">
+    <div className="signup-form-modal">
+      <div className="signup-form-header">
+        <div className="signup-icon">
+          <span role="img" aria-label="welcome">🎉</span>
+        </div>
+        <h3 className="signup-subtitle">Join the Mitho Bites family!</h3>
+      </div>
+
       <Formik
         initialValues={{
           fullname: "",
           username: "",
+          email: "",
           password: "",
           confirmpassword: "",
           phone: "",
@@ -47,17 +55,22 @@ export default function RegisterForm() {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form>
+          <Form className="signup-form">
             <div className="form-group">
-              <Field
-                type="text"
-                name="fullname"
-                placeholder=" "
-                className="floating-input"
-              />
-              <label htmlFor="fullname" className="floating-label">
-                Full Name
-              </label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="user">👤</span>
+                </div>
+                <Field
+                  type="text"
+                  name="fullname"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="fullname" className="floating-label">
+                  Full Name
+                </label>
+              </div>
               <ErrorMessage
                 name="fullname"
                 component="div"
@@ -66,15 +79,20 @@ export default function RegisterForm() {
             </div>
 
             <div className="form-group">
-              <Field
-                type="text"
-                name="username"
-                placeholder=" "
-                className="floating-input"
-              />
-              <label htmlFor="username" className="floating-label">
-                Username
-              </label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="username">🏷️</span>
+                </div>
+                <Field
+                  type="text"
+                  name="username"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="username" className="floating-label">
+                  Username
+                </label>
+              </div>
               <ErrorMessage
                 name="username"
                 component="div"
@@ -83,15 +101,42 @@ export default function RegisterForm() {
             </div>
 
             <div className="form-group">
-              <Field
-                type="password"
-                name="password"
-                placeholder=" "
-                className="floating-input"
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="email">📧</span>
+                </div>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="email" className="floating-label">
+                  Email
+                </label>
+              </div>
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="error-message"
               />
-              <label htmlFor="password" className="floating-label">
-                Password
-              </label>
+            </div>
+
+            <div className="form-group">
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="lock">🔒</span>
+                </div>
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="password" className="floating-label">
+                  Password
+                </label>
+              </div>
               <ErrorMessage
                 name="password"
                 component="div"
@@ -100,15 +145,20 @@ export default function RegisterForm() {
             </div>
 
             <div className="form-group">
-              <Field
-                type="password"
-                name="confirmpassword"
-                placeholder=" "
-                className="floating-input"
-              />
-              <label htmlFor="confirmpassword" className="floating-label">
-                Confirm Password
-              </label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="confirm">✅</span>
+                </div>
+                <Field
+                  type="password"
+                  name="confirmpassword"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="confirmpassword" className="floating-label">
+                  Confirm Password
+                </label>
+              </div>
               <ErrorMessage
                 name="confirmpassword"
                 component="div"
@@ -117,15 +167,20 @@ export default function RegisterForm() {
             </div>
 
             <div className="form-group">
-              <Field
-                type="tel"
-                name="phone"
-                placeholder=" "
-                className="floating-input"
-              />
-              <label htmlFor="phone" className="floating-label">
-                Phone
-              </label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="phone">📱</span>
+                </div>
+                <Field
+                  type="tel"
+                  name="phone"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="phone" className="floating-label">
+                  Phone
+                </label>
+              </div>
               <ErrorMessage
                 name="phone"
                 component="div"
@@ -134,15 +189,20 @@ export default function RegisterForm() {
             </div>
 
             <div className="form-group">
-              <Field
-                type="text"
-                name="address"
-                placeholder=" "
-                className="floating-input"
-              />
-              <label htmlFor="address" className="floating-label">
-                Address
-              </label>
+              <div className="input-wrapper">
+                <div className="input-icon">
+                  <span role="img" aria-label="location">📍</span>
+                </div>
+                <Field
+                  type="text"
+                  name="address"
+                  placeholder=" "
+                  className="floating-input"
+                />
+                <label htmlFor="address" className="floating-label">
+                  Address
+                </label>
+              </div>
               <ErrorMessage
                 name="address"
                 component="div"
@@ -155,7 +215,15 @@ export default function RegisterForm() {
               className="signup-button"
               disabled={isSubmitting || isLoading}
             >
-              {isSubmitting || isLoading ? "Submitting..." : "Submit"}
+              {isSubmitting || isLoading ? (
+                <>
+                  <span role="img" aria-label="loading">⏳</span> Creating Account...
+                </>
+              ) : (
+                <>
+                  <span role="img" aria-label="arrow">➡️</span> Create Account
+                </>
+              )}
             </button>
           </Form>
         )}

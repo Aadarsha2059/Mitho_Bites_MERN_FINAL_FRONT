@@ -78,11 +78,11 @@ const featuredDishes = [
 
 const foodCategories = [
   {
-    name: 'Veg',
+    name: 'Indian',
     image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80', // Fresh vegetables
   },
   {
-    name: 'Non-Veg',
+    name: 'Nepali',
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80', // Chicken roast
   },
 ];

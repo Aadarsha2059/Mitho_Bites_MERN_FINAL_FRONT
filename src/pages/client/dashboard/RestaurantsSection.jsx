@@ -1,32 +1,147 @@
 import React from "react";
+import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock } from "react-icons/fa";
+import { useAdminRestaurant } from "../../../hooks/admin/useAdminRestaurant";
+import { getBackendImageUrl } from "../../../utils/backend-image";
+import "../Dashboard.css";
+
+// Import restaurant images from assets/restaurant folder
+import rooftopNepal from "../../../assets/restaurant/rooftoppnepal.png";
+import saloneCafe from "../../../assets/restaurant/salone de cafe.png";
+import yourOwnRestro from "../../../assets/restaurant/your own restro.png";
+import nezzeRestro from "../../../assets/restaurant/nezze restro nepal.png";
+
+// Fallback images from main assets
 import res1 from "../../../assets/res_1.png";
 import res2 from "../../../assets/res_2.png";
 import res3 from "../../../assets/res_3.png";
-import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
-import "../Dashboard.css";
 
-const popularRestaurants = [
-  { id: 1, name: "Momo House", image: res1, location: "Kathmandu, Nepal", contact: "+977-9800000001" },
-  { id: 2, name: "Chowmein Express", image: res2, location: "Lalitpur, Nepal", contact: "+977-9800000002" },
-  { id: 3, name: "Thakali Kitchen", image: res3, location: "Bhaktapur, Nepal", contact: "+977-9800000003" },
-];
+// Map restaurant names to static images
+const getRestaurantImage = (restaurantName) => {
+  const name = restaurantName.toLowerCase();
+  
+  if (name.includes('rooftop') || name.includes('rooftoppnepal')) {
+    return rooftopNepal;
+  } else if (name.includes('salon') || name.includes('cafe') || name.includes('salone')) {
+    return saloneCafe;
+  } else if (name.includes('your own') || name.includes('your own restro')) {
+    return yourOwnRestro;
+  } else if (name.includes('nezze') || name.includes('restro nepal')) {
+    return nezzeRestro;
+  } else {
+    // Return a fallback image based on restaurant ID or name
+    const fallbackImages = [res1, res2, res3];
+    const index = restaurantName.length % fallbackImages.length;
+    return fallbackImages[index];
+  }
+};
 
-const RestaurantsSection = () => (
-  <section className="section">
-    <h2 className="section-title glow-text">Restaurants</h2>
-    <div className="categories-row">
-      {popularRestaurants.map((res) => (
-        <div className="category-card animated-card restaurant-card" key={res.id}>
-          <img src={res.image} alt={res.name} className="category-image" />
-          <h3 className="category-title">{res.name}</h3>
-          <div className="restaurant-meta">
-            <span className="restaurant-location"><FaMapMarkerAlt /> {res.location}</span>
-            <span className="restaurant-contact"><FaPhoneAlt /> {res.contact}</span>
-          </div>
+const RestaurantsSection = ({ onRestaurantClick }) => {
+  console.log('RestaurantsSection rendered');
+  
+  // Use the same hook as admin restaurant management
+  const { restaurants, isLoading, error } = useAdminRestaurant();
+  
+  console.log('Restaurants hook data:', { restaurants, isLoading, error });
+  
+  const handleRestaurantClick = (restaurant) => {
+    if (onRestaurantClick) {
+      onRestaurantClick(restaurant);
+    }
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="section">
+        <h2 className="section-title glow-text">Popular Restaurants</h2>
+        <div className="loading-container">
+          <div className="loader">Loading restaurants...</div>
         </div>
-      ))}
-    </div>
-  </section>
-);
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    console.error('Restaurants error:', error);
+    return (
+      <section className="section">
+        <h2 className="section-title glow-text">Popular Restaurants</h2>
+        <div className="error-container">
+          <p>Error loading restaurants. Please try again later.</p>
+          <p>Error: {error.message}</p>
+        </div>
+      </section>
+    );
+  }
+
+  console.log('Restaurants from backend:', restaurants);
+  console.log('Number of restaurants:', restaurants.length);
+
+  if (restaurants.length === 0) {
+    return (
+      <section className="section">
+        <h2 className="section-title glow-text">Popular Restaurants</h2>
+        <p className="section-subtitle">Discover amazing restaurants near you</p>
+        <div className="empty-state">
+          <p>No restaurants available at the moment.</p>
+          <p>Please add some restaurants from the admin panel.</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="section">
+      <h2 className="section-title glow-text">Popular Restaurants</h2>
+      <p className="section-subtitle">Discover amazing restaurants near you</p>
+      
+      <div className="categories-row">
+        {restaurants.map((restaurant) => {
+          console.log('Processing restaurant:', restaurant);
+          
+          return (
+            <div 
+              className="category-card animated-card restaurant-card" 
+              key={restaurant._id}
+              onClick={() => handleRestaurantClick(restaurant)}
+              style={{ cursor: "pointer" }}
+            >
+              <img 
+                src={getBackendImageUrl(restaurant.filepath)} 
+                alt={restaurant.name} 
+                className="category-image"
+                onError={(e) => {
+                  console.log('Restaurant image failed to load:', restaurant.name);
+                  e.target.src = '/placeholder-restaurant.jpg';
+                }}
+                onLoad={() => {
+                  console.log('Restaurant image loaded successfully:', restaurant.name);
+                }}
+              />
+              <h3 className="category-title">{restaurant.name}</h3>
+              <div className="restaurant-meta">
+                <span className="restaurant-location">
+                  <FaMapMarkerAlt /> {restaurant.location}
+                </span>
+                <span className="restaurant-contact">
+                  <FaPhoneAlt /> {restaurant.contact}
+                </span>
+              </div>
+              <div className="restaurant-status">
+                <span className="status-open">
+                  <FaClock /> Open Now
+                </span>
+                <span className="rating">
+                  <FaStar /> 4.5
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
 
 export default RestaurantsSection; 

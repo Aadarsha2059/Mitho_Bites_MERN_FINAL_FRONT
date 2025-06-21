@@ -11,9 +11,9 @@ import thakali from "../../../assets/cat_sri.png";
 import "../Dashboard.css";
 
 const muchLovedDishes = [
-  { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Non-Veg", restaurant: "Momo House" },
-  { id: 2, name: "Paneer Chowmein", image: loved2, price: 140, type: "Veg", restaurant: "Chowmein Express" },
-  { id: 3, name: "Sel Roti", image: loved3, price: 60, type: "Others", restaurant: "Nepali Snacks" },
+  { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Nepali", restaurant: "Momo House" },
+  { id: 2, name: "Paneer Chowmein", image: loved2, price: 140, type: "Indian", restaurant: "Chowmein Express" },
+  { id: 3, name: "Sel Roti", image: loved3, price: 60, type: "Nepali", restaurant: "Nepali Snacks" },
 ];
 
 const popularRestaurants = [
@@ -24,7 +24,7 @@ const popularRestaurants = [
 
 const recentOrders = [
   { id: 1, name: "Chicken Momo", image: momo, time: "2h ago", restaurant: "Momo House" },
-  { id: 2, name: "Veg Chowmein", image: chowmein, time: "1d ago", restaurant: "Chowmein Express" },
+  { id: 2, name: "Indian Chowmein", image: chowmein, time: "1d ago", restaurant: "Chowmein Express" },
   { id: 3, name: "Thakali Set", image: thakali, time: "3d ago", restaurant: "Thakali Kitchen" },
 ];
 

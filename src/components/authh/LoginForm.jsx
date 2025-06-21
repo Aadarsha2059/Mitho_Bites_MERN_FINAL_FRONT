@@ -136,21 +136,37 @@
 
 // components/authh/LoginForm.jsx
 import './LoginForm.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLoginUser } from '../../hooks/useLoginUser'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../auth/authProvider'
 
 export default function LoginForm() {
   const { mutate, data, error, isPending } = useLoginUser()
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
 
   useEffect(() => {
     if (data && !error) {
-      navigate('/dashboard')
+      console.log('Login successful! Data received:', data);
+      console.log('User data:', data.user);
+      console.log('Username:', data.user?.username);
+      
+      // Login the user with the response data
+      login(data.user, data.token)
+      
+      // Check if user is admin based on hardcoded credentials
+      if (data.user.username === 'admin_aadarsha') {
+        console.log('Admin user detected! Navigating to admin page...');
+        navigate('/admin/adminpage')
+      } else {
+        console.log('Regular user detected! Navigating to dashboard...');
+        navigate('/dashboard')
+      }
     }
-  }, [data, error, navigate])
+  }, [data, error, navigate, login])
 
   const validationSchema = Yup.object({
     username: Yup.string().required('Please fill username'),
@@ -169,48 +185,80 @@ export default function LoginForm() {
   })
 
   return (
-    <form onSubmit={formik.handleSubmit} className="login-form">
-      <div className="input-group">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.username}
-          placeholder="Enter your username"
-        />
-        {formik.touched.username && formik.errors.username && (
-          <p className="error-message">{formik.errors.username}</p>
-        )}
+    <div className="login-form-container">
+      <div className="login-form-header">
+        <div className="login-icon">
+          <span role="img" aria-label="login">🍽️</span>
+        </div>
+        <h3 className="login-subtitle">Welcome back! Let's get you signed in</h3>
       </div>
 
-      <div className="input-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
-          placeholder="Enter your password"
-        />
-        {formik.touched.password && formik.errors.password && (
-          <p className="error-message">{formik.errors.password}</p>
+      <form onSubmit={formik.handleSubmit} className="login-form">
+        <div className="input-group">
+          <div className="input-wrapper">
+            <div className="input-icon">
+              <span role="img" aria-label="user">👤</span>
+            </div>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              placeholder="Enter your username"
+              className="login-input"
+            />
+          </div>
+          {formik.touched.username && formik.errors.username && (
+            <p className="error-message">
+              <span role="img" aria-label="error">⚠️</span> {formik.errors.username}
+            </p>
+          )}
+        </div>
+
+        <div className="input-group">
+          <div className="input-wrapper">
+            <div className="input-icon">
+              <span role="img" aria-label="lock">🔒</span>
+            </div>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              placeholder="Enter your password"
+              className="login-input"
+            />
+          </div>
+          {formik.touched.password && formik.errors.password && (
+            <p className="error-message">
+              <span role="img" aria-label="error">⚠️</span> {formik.errors.password}
+            </p>
+          )}
+        </div>
+
+        <button type="submit" className="login-btn" disabled={isPending}>
+          {isPending ? (
+            <>
+              <span role="img" aria-label="loading">⏳</span> Signing in...
+            </>
+          ) : (
+            <>
+              <span role="img" aria-label="arrow">➡️</span> Sign In
+            </>
+          )}
+        </button>
+
+        {error && (
+          <div className="error-container">
+            <span role="img" aria-label="error">❌</span>
+            <p className="error-message">Login failed. Please check your credentials and try again.</p>
+          </div>
         )}
-      </div>
-
-      <button type="submit" className="login-btn" disabled={isPending}>
-        {isPending ? 'Logging in...' : 'Login'}
-      </button>
-
-      {error && (
-        <p className="error-message" style={{ textAlign: 'center' }}>
-          Login failed. Please try again.
-        </p>
-      )}
-    </form>
+      </form>
+    </div>
   )
 }

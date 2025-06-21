@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllProductService } from "../../services/admin/productService";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getAllProductService, createOneProductService } from "../../services/admin/productService";
+import { toast } from "react-toastify";
 import { useState } from "react";
 
 //get request -useQuery
@@ -48,4 +49,19 @@ export const useAdminProduct =() =>{
         search,
         setSearch
     }
+}
+
+export const useCreateProduct = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: createOneProductService,
+        onSuccess: () => {
+            toast.success("Product created successfully")
+            queryClient.invalidateQueries(["admin_product"])
+            queryClient.invalidateQueries(["food_products"]) // Also invalidate user-facing products
+        },
+        onError: (err) => {
+            toast.error(err.message || "Failed to create product")
+        }
+    })
 }

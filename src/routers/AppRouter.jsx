@@ -2,8 +2,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from '../pages/Homepage';
-import Login from '../pages/Login';
 import SignUpPage from '../pages/SignupPage';
+import Login from '../pages/Login';
+import ForgotPasswordPage from '../pages/ForgotPasswordPage';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
 import Dashboard from '../pages/client/Dashboard';
@@ -18,17 +20,28 @@ import CartDialog from '../pages/client/cart/CartDialog';
 import UserManagement from '../pages/admin/UserManagement';
 import CreateCategory from '../pages/admin/CreateCategory';
 import CategoryManagement from '../pages/admin/CategoryManagement';
+import CreateRestaurant from '../pages/admin/CreateRestaurant';
+import RestaurantManagement from '../pages/admin/RestaurantManagement';
 import CreateUser from '../pages/admin/CreateUser';
 import AdminSettingsPage from '../pages/admin/AdminSettings';
 import ViewCategory from '../pages/admin/ViewCategory';
 import UpdateCategory from '../pages/admin/UpdateCategory';
 import UpdateUser from '../pages/admin/UpdateUser';
 import PaymentMethod from '../pages/client/PaymentMethod';
+import AdminRoute from '../components/AdminRoute';
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <Routes>
+        {/* Root route */}
+        <Route path="/" element={<Homepage />} />
+        
         {/* Main Layout Route */}
         <Route element={<MainLayout />}>
           <Route path="/homepage" element={<Homepage />} />
@@ -38,10 +51,12 @@ export default function AppRouter() {
           
         </Route>
 
-        {/* Guest Routes (e.g., login/signup) */}
+        {/* Guest Routes (e.g., signup) */}
         <Route element={<GuestRouter />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUpPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         </Route>
 
         {/* Other Routes */}
@@ -50,23 +65,23 @@ export default function AppRouter() {
          <Route path="/paymentmethod" element={<PaymentMethod />} />
          <Route path="/cart" element={<CartDialog/>} />
 
-        
-        
-
-
-        {/* Nested Admin Routes */}
-        <Route path="/admin/*">
-          <Route path="adminpage" element={<AdminPage />} />
-          <Route path="product" element={<ProductManagement />} />
-          <Route path="users" element={<UserManagement />} />
-          <Route path="category/create" element={<CreateCategory />} />
-          <Route path="users/create" element={<CreateUser />} />
-          <Route path="category" element={<CategoryManagement />} />
-          <Route path="category/:id" element={<ViewCategory />} />
-          <Route path="category/:id/edit" element={<UpdateCategory />} />
-          <Route path="users/:id/edit" element={<UpdateUser />} />
-          <Route path="adminsettings" element={<AdminSettingsPage />} />
-        </Route>
+        {/* Protected Admin Routes */}
+        <Route path="/admin/*" element={<AdminRoute>{
+          <Routes>
+            <Route path="adminpage" element={<AdminPage />} />
+            <Route path="product" element={<ProductManagement />} />
+            <Route path="users" element={<UserManagement />} />
+            <Route path="category/create" element={<CreateCategory />} />
+            <Route path="users/create" element={<CreateUser />} />
+            <Route path="category" element={<CategoryManagement />} />
+            <Route path="category/:id" element={<ViewCategory />} />
+            <Route path="category/:id/edit" element={<UpdateCategory />} />
+            <Route path="users/:id/edit" element={<UpdateUser />} />
+            <Route path="adminsettings" element={<AdminSettingsPage />} />
+            <Route path="restaurant/create" element={<CreateRestaurant />} />
+            <Route path="restaurant" element={<RestaurantManagement />} />
+          </Routes>
+        }</AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );

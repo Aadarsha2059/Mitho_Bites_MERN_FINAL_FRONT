@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../CartContext';
+import { getBackendImageUrl } from '../../../utils/backend-image';
 import './Cart.css';
 
 const CartDialog = ({ onClose, onProceedPayment }) => {
@@ -15,7 +16,6 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
-      clearCart();
       if (onProceedPayment) onProceedPayment();
     }, 1000);
   };
@@ -41,34 +41,53 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
       <button className="modal-close-btn" onClick={onClose}>×</button>
       <div className="cart-items-container expanded-cart-items">
         <h2>Your Order ({cart.length} items)</h2>
-        {cart.map(item => (
-          <div key={item.id} className="cart-item">
-            <img src={item.image} alt={item.name} className="item-image" />
-            <div className="item-details">
-              <h3>{item.name}</h3>
-              <div className="item-meta">
-                <span className="category">{item.type}</span>
-                <span className="restaurant">{item.restaurant}</span>
+        {cart.map(item => {
+          // Handle both backend cart structure and local cart structure
+          const product = item.productId || item;
+          const productName = product.name || 'Unknown Product';
+          const productImage = product.filepath || product.image || '/placeholder-food.jpg';
+          const productPrice = item.price || product.price || 0;
+          const productQuantity = item.quantity || 1;
+          const productId = item._id || product._id;
+          
+          return (
+            <div key={productId} className="cart-item">
+              <img 
+                src={productImage ? getBackendImageUrl(productImage) : '/placeholder-food.jpg'} 
+                alt={productName} 
+                className="item-image"
+                onError={(e) => {
+                  e.target.src = '/placeholder-food.jpg';
+                }}
+              />
+              <div className="item-details">
+                <h3>{productName}</h3>
+                <div className="item-meta">
+                  <span className="category">📂 {product.categoryId?.name || 'Unknown Category'}</span>
+                  <span className="restaurant">🏪 {product.restaurantId?.name || 'Unknown Restaurant'}</span>
+                  <span className="location">📍 {product.restaurantId?.location || 'Location not available'}</span>
+                  <span className="type">{product.type || 'Unknown Type'}</span>
+                </div>
+              </div>
+              <div className="item-controls">
+                <div className="quantity-controls">
+                  <button onClick={() => handleQuantity(productId, productQuantity - 1)}>-</button>
+                  <span>{productQuantity}</span>
+                  <button onClick={() => handleQuantity(productId, productQuantity + 1)}>+</button>
+                </div>
+                <div className="price-remove">
+                  <span className="item-price">NRS {productPrice * productQuantity}</span>
+                  <button
+                    onClick={() => removeFromCart(productId)}
+                    className="remove-btn"
+                    aria-label={`Remove ${productName}`}
+                    title="Remove item"
+                  >🗑️</button>
+                </div>
               </div>
             </div>
-            <div className="item-controls">
-              <div className="quantity-controls">
-                <button onClick={() => handleQuantity(item.id, item.quantity - 1)}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => handleQuantity(item.id, item.quantity + 1)}>+</button>
-              </div>
-              <div className="price-remove">
-                <span className="item-price">NRS {item.price * item.quantity}</span>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="remove-btn"
-                  aria-label={`Remove ${item.name}`}
-                  title="Remove item"
-                >🗑️</button>
-              </div>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <aside className="order-summary-container expanded-order-summary">

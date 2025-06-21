@@ -75,7 +75,8 @@ body, html, #root {
   font-size: 0.85rem;
   color: #999;
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .category {
@@ -84,6 +85,38 @@ body, html, #root {
   padding: 3px 9px;
   border-radius: 5px;
   font-weight: 600;
+  display: inline-block;
+  width: fit-content;
+}
+
+.restaurant {
+  background: #E3F2FD;
+  color: #1976D2;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-weight: 600;
+  display: inline-block;
+  width: fit-content;
+}
+
+.location {
+  background: #F3E5F5;
+  color: #7B1FA2;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-weight: 600;
+  display: inline-block;
+  width: fit-content;
+}
+
+.type {
+  background: #E8F5E8;
+  color: #388E3C;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-weight: 600;
+  display: inline-block;
+  width: fit-content;
 }
 
 .rating, .time {

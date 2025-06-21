@@ -3,7 +3,7 @@ import './chatbotfood.css';
 
 const DUMMY_QA = [
   { q: 'How do I see the menu?', a: 'You can see all available food items by navigating to the "Categories" section from the sidebar on the main dashboard.' },
-  { q: 'What are the food categories?', a: 'We offer "Veg", "Non-Veg", and "Others" categories. You can find them on the "Categories" page.' },
+  { q: 'What are the food categories?', a: 'We offer "Indian" and "Nepali" cuisine categories. You can find them on the "Categories" page.' },
   { q: 'How do I place an order?', a: 'First, add items to your cart by clicking on them. Then, open the cart, review your items, and proceed to payment.' },
   { q: 'How can I view my cart?', a: 'Click the shopping basket icon at the top right of the dashboard to open your cart.' },
   { q: 'What payment methods do you accept?', a: 'We accept online payments via eSewa and Khalti, as well as Cash on Delivery (COD).' },

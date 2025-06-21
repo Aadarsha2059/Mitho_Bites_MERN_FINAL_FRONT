@@ -1,16 +1,50 @@
 import React from "react";
-import { useCart } from '../CartContext';
+import { useOrders, useCancelOrder } from '../../../hooks/useOrders';
 import { FaTimes, FaCheckCircle, FaClock, FaBan } from 'react-icons/fa';
 import "../Dashboard.css";
 
 const statusMap = {
   pending: { label: 'Pending', icon: <FaClock style={{ color: '#f59e42' }} /> },
-  received: { label: 'Received', icon: <FaCheckCircle style={{ color: '#4ade80' }} /> },
+  confirmed: { label: 'Confirmed', icon: <FaCheckCircle style={{ color: '#4ade80' }} /> },
+  preparing: { label: 'Preparing', icon: <FaClock style={{ color: '#3b82f6' }} /> },
+  out_for_delivery: { label: 'Out for Delivery', icon: <FaCheckCircle style={{ color: '#8b5cf6' }} /> },
+  delivered: { label: 'Delivered', icon: <FaCheckCircle style={{ color: '#4ade80' }} /> },
   cancelled: { label: 'Cancelled', icon: <FaBan style={{ color: '#ef4444' }} /> },
 };
 
 const OrdersSection = () => {
-  const { orders, cancelOrder, updateOrderStatus } = useCart();
+  const { data: ordersData, isLoading, error } = useOrders();
+  const cancelOrderMutation = useCancelOrder();
+  const orders = ordersData?.data || [];
+
+  // Debug logging
+  console.log('OrdersSection - ordersData:', ordersData);
+  console.log('OrdersSection - orders:', orders);
+  console.log('OrdersSection - isLoading:', isLoading);
+  console.log('OrdersSection - error:', error);
+
+  if (isLoading) {
+    return (
+      <section className="section">
+        <h2 className="section-title glow-text">Your Orders</h2>
+        <div className="loading-container">
+          <div className="loader">Loading orders...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="section">
+        <h2 className="section-title glow-text">Your Orders</h2>
+        <div className="error-container">
+          <p>Error loading orders. Please try again later.</p>
+          <p>Error: {error.message}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="section">
@@ -22,11 +56,11 @@ const OrdersSection = () => {
           </div>
         ) : (
           orders.map(order => (
-            <div className="category-card animated-card" key={order.id} style={{ minWidth: 0, width: '100%', maxWidth: 600 }}>
+            <div className="category-card animated-card" key={order._id} style={{ minWidth: 0, width: '100%', maxWidth: 600 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Order #{order.id}</span>
+                <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Order #{order._id.slice(-8)}</span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {statusMap[order.status]?.icon} <span style={{ marginLeft: 4 }}>{statusMap[order.status]?.label}</span>
+                  {statusMap[order.orderStatus]?.icon} <span style={{ marginLeft: 4 }}>{statusMap[order.orderStatus]?.label}</span>
                 </span>
               </div>
               <div style={{ fontSize: '0.98rem', marginBottom: 6 }}>
@@ -36,33 +70,43 @@ const OrdersSection = () => {
                 <b>Items:</b>
                 <ul style={{ margin: 0, paddingLeft: 18 }}>
                   {order.items.map((item, i) => (
-                    <li key={i}>{item.name} x{item.quantity} (NPR {item.price * item.quantity})</li>
+                    <li key={i}>
+                      <div style={{ marginBottom: '4px' }}>
+                        <strong>{item.productName}</strong> x{item.quantity} (NPR {item.price * item.quantity})
+                      </div>
+                      <div style={{ fontSize: '0.85rem', color: '#666', marginLeft: '16px' }}>
+                        📂 {item.categoryName} | 🏪 {item.restaurantName} | 📍 {item.restaurantLocation} | {item.foodType}
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </div>
               <div style={{ marginBottom: 8 }}>
-                <b>Total:</b> NPR {order.total}
+                <b>Total:</b> NPR {order.totalAmount}
               </div>
               <div style={{ marginBottom: 8 }}>
-                <b>Payment:</b> {order.paymentType === 'online' ? `${order.paymentService} (Online)` : 'Cash on Delivery'}
+                <b>Payment:</b> {order.paymentMethod === 'online' ? 'Online Payment' : 'Cash on Delivery'}
               </div>
+              <div style={{ marginBottom: 8 }}>
+                <b>Delivery Address:</b> {order.deliveryAddress?.street}, {order.deliveryAddress?.city}
+              </div>
+              {order.deliveryInstructions && (
+                <div style={{ marginBottom: 8 }}>
+                  <b>Instructions:</b> {order.deliveryInstructions}
+                </div>
+              )}
               <div style={{ display: 'flex', gap: 12 }}>
-                {order.status === 'pending' && (
+                {order.orderStatus === 'pending' && (
                   <button
                     className="micro-btn"
                     style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: 8, padding: '0.5em 1.2em', fontWeight: 600, cursor: 'pointer' }}
-                    onClick={() => cancelOrder(order.id)}
+                    onClick={() => {
+                      cancelOrderMutation.mutate(order._id);
+                    }}
+                    disabled={cancelOrderMutation.isPending}
                   >
-                    <FaTimes style={{ marginRight: 6 }} /> Cancel Order
-                  </button>
-                )}
-                {order.status === 'pending' && (
-                  <button
-                    className="micro-btn"
-                    style={{ background: '#4ade80', color: '#fff', border: 'none', borderRadius: 8, padding: '0.5em 1.2em', fontWeight: 600, cursor: 'pointer' }}
-                    onClick={() => updateOrderStatus(order.id, 'received')}
-                  >
-                    <FaCheckCircle style={{ marginRight: 6 }} /> Mark as Received
+                    <FaTimes style={{ marginRight: 6 }} /> 
+                    {cancelOrderMutation.isPending ? 'Cancelling...' : 'Cancel Order'}
                   </button>
                 )}
               </div>

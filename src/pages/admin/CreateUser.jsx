@@ -14,6 +14,9 @@ export default function CreateUser() {
     username: Yup.string()
       .min(3, 'Username must be at least 3 characters')
       .required('Username is required'),
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
@@ -32,6 +35,7 @@ export default function CreateUser() {
     initialValues: {
       fullname: '',
       username: '',
+      email: '',
       password: '',
       phone: '',
       address: '',
@@ -85,6 +89,25 @@ export default function CreateUser() {
           />
           {formik.touched.username && formik.errors.username && (
             <div className="form-error">{formik.errors.username}</div>
+          )}
+        </div>
+
+        {/* Email */}
+        <div className="form-group">
+          <label className="form-label">
+            Email <span style={{ color: 'red' }}>*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="user@example.com"
+            className="form-input"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="form-error">{formik.errors.email}</div>
           )}
         </div>
 

@@ -1,12 +1,15 @@
-// Updated Mitho Bites Payment Methods Component (Enhanced JSX Version)
+// Updated Mitho Bites Payment Methods Component (Simple & Accurate)
 import React, { useState } from 'react';
 import { useCart } from './CartContext';
 import { FaMoneyBillWave, FaCreditCard, FaMobileAlt } from 'react-icons/fa';
 import smileImg from '../../assets/favorites_btn_2.png';
+import { useCreateOrder } from '../../hooks/useOrders';
+import { toast } from 'react-toastify';
 import './PaymentMethod.css';
 
 function PaymentMethod({ onClose }) {
-  const { cart, clearCart, getCartTotal, placeOrder } = useCart();
+  const { cart, clearCart, getCartTotal } = useCart();
+  const createOrderMutation = useCreateOrder();
   const [paymentType, setPaymentType] = useState('online');
   const [onlineService, setOnlineService] = useState('esewa');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -14,30 +17,74 @@ function PaymentMethod({ onClose }) {
   const [showDialog, setShowDialog] = useState(false);
   const [showCallDialog, setShowCallDialog] = useState(false);
 
-  const handlePayment = function (e) {
+  // Calculate cart summary
+  const cartTotal = getCartTotal();
+  const totalItems = cart.reduce((sum, item) => {
+    const quantity = item.quantity || 1;
+    return sum + quantity;
+  }, 0);
+  const foodItems = cart.map(item => {
+    const product = item.productId || item;
+    const name = product.name || 'Unknown Product';
+    const quantity = item.quantity || 1;
+    return `${name} (${quantity}x)`;
+  }).join(', ');
+
+  const handlePayment = async function (e) {
     e.preventDefault();
+    
+    console.log('Cart data:', cart);
+    console.log('Cart length:', cart?.length);
+    console.log('Cart type:', typeof cart);
+    
+    // Check if cart has items
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+      toast.error('Your cart is empty. Please add items before placing an order.');
+      return;
+    }
+    
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setPaymentComplete(true);
-      setShowDialog(true);
-      placeOrder({
-        items: cart,
-        total: getCartTotal(),
-        paymentType,
-        paymentService: paymentType === 'online' ? onlineService : 'cash',
-      });
-      clearCart();
-      setTimeout(() => {
-        setShowDialog(false);
-        setShowCallDialog(true);
+    
+    try {
+      // Map payment type to backend enum
+      const paymentMethod = paymentType === 'online' ? 'online' : 'cash';
+      
+      // Prepare order data for backend - backend will use user's profile address
+      const orderData = {
+        deliveryInstructions: "",
+        paymentMethod
+      };
+
+      console.log('Sending order data:', orderData);
+
+      // Call backend API to create order
+      const response = await createOrderMutation.mutateAsync(orderData);
+      
+      console.log('Order response:', response);
+      
+      if (response.success) {
+        setIsProcessing(false);
+        setPaymentComplete(true);
+        setShowDialog(true);
+        clearCart(); // Clear local cart after successful order
+        
         setTimeout(() => {
-          setShowCallDialog(false);
-          setPaymentComplete(false);
-          if (onClose) onClose();
-        }, 5000);
-      }, 3000);
-    }, 2000);
+          setShowDialog(false);
+          setShowCallDialog(true);
+          setTimeout(() => {
+            setShowCallDialog(false);
+            setPaymentComplete(false);
+            if (onClose) onClose();
+          }, 5000);
+        }, 3000);
+        
+        toast.success('Order placed successfully!');
+      }
+    } catch (error) {
+      setIsProcessing(false);
+      console.error('Order creation error:', error);
+      toast.error(error.message || 'Failed to place order');
+    }
   };
 
   const closeDialog = () => setShowDialog(false);
@@ -113,18 +160,36 @@ function PaymentMethod({ onClose }) {
             )}
             <div className="payment-form-row">
               <div>
-                <label>Food Item</label>
-                <input type="text" placeholder="Mitho Chicken Mo:Mo" className="form-input" required />
+                <label>Food Items</label>
+                <input 
+                  type="text" 
+                  value={foodItems} 
+                  className="form-input" 
+                  readOnly 
+                  style={{ backgroundColor: '#f5f5f5' }}
+                />
               </div>
               <div>
-                <label>Quantity</label>
-                <input type="number" placeholder="2" className="form-input" required />
+                <label>Total Quantity</label>
+                <input 
+                  type="number" 
+                  value={totalItems} 
+                  className="form-input" 
+                  readOnly 
+                  style={{ backgroundColor: '#f5f5f5' }}
+                />
               </div>
             </div>
             <div className="payment-form-row">
               <div style={{ width: '100%' }}>
                 <label>Total Price (NPR)</label>
-                <input type="number" placeholder="900" className="form-input" required />
+                <input 
+                  type="number" 
+                  value={cartTotal} 
+                  className="form-input" 
+                  readOnly 
+                  style={{ backgroundColor: '#f5f5f5', fontWeight: 'bold' }}
+                />
               </div>
             </div>
             <button type="submit" disabled={isProcessing} className={`w-full btn-primary ${paymentType}`}>
@@ -145,10 +210,27 @@ function PaymentMethod({ onClose }) {
         <div className="payment-modal-right">
           <div className="payment-summary-card">
             <h2>Order Summary</h2>
-            <div className="summary-row"><span>Food Item</span><span>Mo:Mo</span></div>
-            <div className="summary-row"><span>Quantity</span><span>2</span></div>
-            <div className="summary-row"><span>Total</span><span>NPR 900</span></div>
-            <div className="summary-row"><span>Payment</span><span>{paymentType === 'online' ? onlineService : 'Cash'}</span></div>
+            {cart.map((item, index) => {
+              const product = item.productId || item;
+              const name = product.name || 'Unknown Product';
+              const price = item.price || product.price || 0;
+              const quantity = item.quantity || 1;
+              
+              return (
+                <div key={index} className="summary-row">
+                  <span>{name}</span>
+                  <span>{quantity}x NPR {price}</span>
+                </div>
+              );
+            })}
+            <div className="summary-row total">
+              <span>Total</span>
+              <span>NPR {cartTotal}</span>
+            </div>
+            <div className="summary-row">
+              <span>Payment</span>
+              <span>{paymentType === 'online' ? onlineService : 'Cash'}</span>
+            </div>
           </div>
         </div>
       </div>
