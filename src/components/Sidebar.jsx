@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
+import { FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ options = [], onNavigate }) => {
   const [active, setActive] = useState(options[0]?.id || 'dashboard');
+  const navigate = useNavigate();
 
   const handleClick = (id) => {
     setActive(id);
@@ -25,6 +28,9 @@ const Sidebar = ({ options = [], onNavigate }) => {
           </div>
         ))}
       </nav>
+      <button className="sidebar-logout-btn" onClick={() => navigate('/homepage')}>
+        <FaSignOutAlt style={{ marginRight: 8 }} /> Logout
+      </button>
     </aside>
   );
 };

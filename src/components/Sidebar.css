@@ -151,3 +151,23 @@
   letter-spacing: 2px;
   text-shadow: 0 2px 8px #fff6;
 }
+
+.sidebar-logout-btn {
+  width: 90%;
+  margin: 24px auto 12px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #b81736, #281537);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sidebar-logout-btn:hover {
+  background: linear-gradient(90deg, #281537, #b81736);
+}

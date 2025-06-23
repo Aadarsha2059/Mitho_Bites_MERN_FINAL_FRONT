@@ -12,22 +12,18 @@ const queryClient= new QueryClient()
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthContextProvider>
-       <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
         <CartProvider>
           <AppRouter />
         </CartProvider>
         <ToastContainer
-        position='top-center'
-        autoClose={2000}
-        hideProgressBar={false}
-        theme='dark'
-        transition={Slide} // Bouce, slide,zoom,flip
+          position='top-center'
+          autoClose={2000}
+          hideProgressBar={false}
+          theme='dark'
+          transition={Slide}
         />
-
-    </QueryClientProvider>
-
+      </QueryClientProvider>
     </AuthContextProvider>
-   
-  
   </StrictMode>,
 )

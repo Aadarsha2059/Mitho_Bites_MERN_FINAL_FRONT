@@ -3,7 +3,8 @@ import {
     getUserOrdersApi, 
     getOrderByIdApi, 
     cancelOrderApi, 
-    updatePaymentStatusApi 
+    updatePaymentStatusApi, 
+    markOrderReceivedApi 
 } from "../api/orderApi";
 
 export const createOrderService = async (data) => {
@@ -48,5 +49,14 @@ export const updatePaymentStatusService = async (id, data) => {
         return response.data;
     } catch (err) {
         throw err.response?.data || { message: "Failed to update payment status" };
+    }
+};
+
+export const markOrderReceivedService = async (id) => {
+    try {
+        const response = await markOrderReceivedApi(id);
+        return response.data;
+    } catch (err) {
+        throw err.response?.data || { message: "Failed to mark as received" };
     }
 }; 

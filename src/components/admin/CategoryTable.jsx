@@ -153,8 +153,6 @@ export default function CategoryTable() {
 
     return (
         <div className="category-table-container">
-            {/* <Welcome name="Aadarsha" />
-            <NameComponent name="Aadarshaa" username="aadarsha2059" /> */}
             <DeleteModal
                 isOpen={deleteId}
                 onClose={() => setDeleteId(null)}
@@ -163,93 +161,32 @@ export default function CategoryTable() {
                 description="Are you sure you want to delete?"
             />
             <h3 className="table-title">Category Table</h3>
-            
-            {/* Backend status indicator */}
-            <div style={{ 
-                background: backendStatus === 'connected' ? '#e8f5e8' : backendStatus === 'error' ? '#ffeaea' : '#fff3cd',
-                color: backendStatus === 'connected' ? '#2e7d32' : backendStatus === 'error' ? '#d32f2f' : '#856404',
-                padding: '8px 12px', 
-                margin: '10px 0', 
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: '500'
-            }}>
-                <strong>Backend Status:</strong> {backendStatus === 'connected' ? '✅ Connected' : backendStatus === 'error' ? '❌ Connection Failed' : '⏳ Checking...'}
+            <div className="category-grid">
+                {categories.map((row) => {
+                    const imageUrl = getBackendImageUrl(row.filepath);
+                    const hasImageError = imageErrors.has(row._id);
+                    return (
+                        <div className="category-card" key={row._id}>
+                            {hasImageError ? (
+                                <ImagePlaceholder name={row.name} />
+                            ) : (
+                                <TestImage
+                                    src={imageUrl}
+                                    alt={row.name}
+                                    onSuccess={() => handleImageLoad(row._id, row.name, imageUrl)}
+                                    onError={() => handleImageError(row._id, row.name, imageUrl)}
+                                />
+                            )}
+                            <div className="category-name">{row.name}</div>
+                            <div className="actions-cell">
+                                <Link to={`/admin/category/${row._id}`}><button className="btn view-btn">View</button></Link>
+                                <Link to={`/admin/category/${row._id}/edit`}><button className="btn edit-btn">Edit</button></Link>
+                                <button className="btn delete-btn" onClick={() => setDeleteId(row._id)}>Delete</button>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
-            
-            {/* Debug info - remove this in production */}
-            <div style={{ 
-                background: '#f0f0f0', 
-                padding: '10px', 
-                margin: '10px 0', 
-                borderRadius: '5px',
-                fontSize: '12px'
-            }}>
-                <strong>Debug Info:</strong> {categories?.length || 0} categories loaded
-                {categories?.map(cat => (
-                    <div key={cat._id}>
-                        {cat.name}: {cat.filepath || 'No filepath'}
-                    </div>
-                ))}
-            </div>
-            
-            <table className='category-table'>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        categories.map((row) => {
-                            const imageUrl = getBackendImageUrl(row.filepath);
-                            const hasImageError = imageErrors.has(row._id);
-                            const isImageLoaded = loadedImages.has(row._id);
-                            
-                            console.log(`Rendering category ${row.name}:`, {
-                                filepath: row.filepath,
-                                imageUrl: imageUrl,
-                                hasError: hasImageError,
-                                isLoaded: isImageLoaded
-                            });
-                            
-                            return (
-                                <tr key={row._id} className="category-row">
-                                    <td>{row.name}</td>
-                                    <td>
-                                        {hasImageError ? (
-                                            <ImagePlaceholder name={row.name} />
-                                        ) : (
-                                            <TestImage
-                                                src={imageUrl}
-                                                alt={row.name}
-                                                onSuccess={() => handleImageLoad(row._id, row.name, imageUrl)}
-                                                onError={() => handleImageError(row._id, row.name, imageUrl)}
-                                            />
-                                        )}
-                                    </td>
-                                    <td className="actions-cell">
-                                        <Link to={`/admin/category/${row._id}`}>
-                                            <button className="btn view-btn">View</button>
-                                        </Link>
-                                        <Link to={`/admin/category/${row._id}/edit`}>
-                                            <button className="btn edit-btn">Edit</button>
-                                        </Link>
-                                        <button
-                                            className="btn delete-btn"
-                                            onClick={() => setDeleteId(row._id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
         </div>
     )
 }

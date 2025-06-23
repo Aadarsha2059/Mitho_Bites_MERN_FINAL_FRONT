@@ -5,7 +5,6 @@ import './ProductList.css';
 const ProductList = ({ products, onAddToCart, onBack }) => {
   return (
     <div className="product-list-container">
-      <button className="back-btn" onClick={onBack}>← Back to Categories</button>
       <div className="product-list-grid">
         {products.length === 0 ? (
           <div className="no-products">No products found in this category.</div>

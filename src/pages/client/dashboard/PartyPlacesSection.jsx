@@ -64,12 +64,12 @@ const PartyPlacesSection = () => {
       
       <div className="party-places-grid">
         {partyPlaces.map((place) => (
-          <div className="party-place-card animated-card" key={place.id}>
+          <div className="category-card animated-card party-place-card" key={place.id}>
             <div className="party-place-image-container">
               <img 
                 src={place.image} 
                 alt={place.name} 
-                className="party-place-image"
+                className="category-image"
                 onError={(e) => {
                   console.log('Party place image failed to load, using fallback:', place.name);
                   e.target.src = res1; // Fallback to res1
@@ -79,10 +79,8 @@ const PartyPlacesSection = () => {
                 <FaBirthdayCake /> Best for Parties
               </div>
             </div>
-            
             <div className="party-place-content">
-              <h3 className="party-place-name">{place.name}</h3>
-              
+              <h3 className="category-title">{place.name}</h3>
               <div className="party-place-meta">
                 <span className="party-place-location">
                   <FaMapMarkerAlt /> {place.location}
@@ -91,9 +89,7 @@ const PartyPlacesSection = () => {
                   <FaUsers /> {place.seats}
                 </span>
               </div>
-              
               <p className="party-place-description">{place.description}</p>
-              
               <div className="party-place-footer">
                 <div className="party-place-rating">
                   <FaStar /> {place.rating}
@@ -102,7 +98,6 @@ const PartyPlacesSection = () => {
                   {place.price}
                 </div>
               </div>
-              
               <button className="party-place-btn">
                 Book Now
               </button>

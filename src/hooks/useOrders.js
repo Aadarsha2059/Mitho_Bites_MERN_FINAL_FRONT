@@ -3,7 +3,8 @@ import {
     getUserOrdersService, 
     getOrderByIdService, 
     createOrderService, 
-    cancelOrderService 
+    cancelOrderService, 
+    markOrderReceivedService 
 } from "../services/orderService";
 import { toast } from "react-toastify";
 
@@ -50,6 +51,21 @@ export const useCancelOrder = () => {
     onError: (error) => {
       console.error('Cancel order error:', error);
       toast.error(error.message || 'Failed to cancel order');
+    }
+  });
+};
+
+export const useMarkOrderReceived = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: markOrderReceivedService,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['orders']);
+      toast.success('Order marked as received!');
+    },
+    onError: (error) => {
+      console.error('Mark as received error:', error);
+      toast.error(error.message || 'Failed to mark as received');
     }
   });
 };

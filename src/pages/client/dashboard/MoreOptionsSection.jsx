@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaCog, FaBookOpen, FaGlobeAsia, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import KhanaKhajan from "../moreoptions/KhanaKhajan";
+import ProfilePage from "../moreoptions/ProfilePage";
 import GKFood from "../moreoptions/GKFood";
 import "../Dashboard.css";
 
@@ -18,6 +19,7 @@ const MoreOptionsSection = () => {
 
   if (open === 'khana') return <KhanaKhajan />;
   if (open === 'gk') return <GKFood />;
+  if (open === 'profile') return <ProfilePage onBack={() => setOpen(null)} />;
 
   return (
     <section className="section">
@@ -28,7 +30,7 @@ const MoreOptionsSection = () => {
             className="more-option-card animated-card"
             key={opt.id}
             onClick={() => {
-              if (opt.id === 'khana' || opt.id === 'gk') setOpen(opt.id);
+              if (opt.id === 'khana' || opt.id === 'gk' || opt.id === 'profile') setOpen(opt.id);
             }}
           >
             <span className="more-option-icon">{opt.icon}</span>

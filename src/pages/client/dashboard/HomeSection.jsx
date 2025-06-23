@@ -9,6 +9,8 @@ import momo from "../../../assets/cat_3.png";
 import chowmein from "../../../assets/cat_4.png";
 import thakali from "../../../assets/cat_sri.png";
 import "../Dashboard.css";
+import { useOrders } from '../../../hooks/useOrders';
+import { getBackendImageUrl } from '../../../utils/backend-image';
 
 const muchLovedDishes = [
   { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Nepali", restaurant: "Momo House" },
@@ -28,46 +30,68 @@ const recentOrders = [
   { id: 3, name: "Thakali Set", image: thakali, time: "3d ago", restaurant: "Thakali Kitchen" },
 ];
 
-const HomeSection = () => (
-  <>
-    <section className="section">
-      <h2 className="section-title glow-text">Much Loved Dishes</h2>
-      <div className="categories-row">
-        {muchLovedDishes.map((dish) => (
-          <div className="category-card animated-card" key={dish.id}>
-            <img src={dish.image} alt={dish.name} className="category-image" />
-            <h3 className="category-title">{dish.name}</h3>
-            <p className="category-subtitle">NPR {dish.price} | {dish.type} | {dish.restaurant}</p>
+const HomeSection = () => {
+  const { data, isLoading, error } = useOrders();
+  const orders = data?.data || [];
+
+  return (
+    <>
+      <section className="section">
+        <h2 className="section-title glow-text">Much Loved Dishes</h2>
+        <div className="categories-row">
+          {muchLovedDishes.map((dish) => (
+            <div className="category-card animated-card" key={dish.id}>
+              <img src={dish.image} alt={dish.name} className="category-image" />
+              <h3 className="category-title">{dish.name}</h3>
+              <p className="category-subtitle">NPR {dish.price} | {dish.type} | {dish.restaurant}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="section">
+        <h2 className="section-title glow-text">Popular Restaurants</h2>
+        <div className="categories-row">
+          {popularRestaurants.map((res) => (
+            <div className="category-card animated-card" key={res.id}>
+              <img src={res.image} alt={res.name} className="category-image" />
+              <h3 className="category-title">{res.name}</h3>
+              <p className="category-subtitle">{res.desc}</p>
+              <span className="category-subtitle">{res.rating}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="section">
+        <h2 className="section-title glow-text">Recently Ordered</h2>
+        {isLoading ? (
+          <div>Loading recent orders...</div>
+        ) : error ? (
+          <div>Error loading orders</div>
+        ) : (
+          <div className="categories-row">
+            {orders.length === 0 ? (
+              <div>No recent orders found.</div>
+            ) : (
+              orders.slice(0, 4).map((order) => (
+                <div className="category-card animated-card" key={order._id}>
+                  <img
+                    src={getBackendImageUrl(order.items?.[0]?.productId?.filepath)}
+                    alt={order.items?.[0]?.productId?.name || 'Product'}
+                    className="category-image"
+                  />
+                  <h3 className="category-title">{order.items?.[0]?.productId?.name || 'Product'}</h3>
+                  <p className="category-subtitle">
+                    {order.items?.[0]?.productId?.restaurantId?.name || 'Restaurant'} |
+                    {new Date(order.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
-        ))}
-      </div>
-    </section>
-    <section className="section">
-      <h2 className="section-title glow-text">Popular Restaurants</h2>
-      <div className="categories-row">
-        {popularRestaurants.map((res) => (
-          <div className="category-card animated-card" key={res.id}>
-            <img src={res.image} alt={res.name} className="category-image" />
-            <h3 className="category-title">{res.name}</h3>
-            <p className="category-subtitle">{res.desc}</p>
-            <span className="category-subtitle">{res.rating}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-    <section className="section">
-      <h2 className="section-title glow-text">Recently Ordered</h2>
-      <div className="categories-row">
-        {recentOrders.map((order) => (
-          <div className="category-card animated-card" key={order.id}>
-            <img src={order.image} alt={order.name} className="category-image" />
-            <h3 className="category-title">{order.name}</h3>
-            <p className="category-subtitle">{order.restaurant} | {order.time}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  </>
-);
+        )}
+      </section>
+    </>
+  );
+};
 
 export default HomeSection; 

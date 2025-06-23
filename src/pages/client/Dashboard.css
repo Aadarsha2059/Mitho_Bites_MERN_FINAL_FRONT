@@ -847,9 +847,9 @@
 
 .party-places-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  margin-top: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
 }
 
 .party-place-card {
@@ -1145,5 +1145,73 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+@media (max-width: 1200px) {
+  .restaurants-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+@media (max-width: 1200px) {
+  .orders-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .orders-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .orders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.categories-row.restaurants-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  overflow-x: unset;
+  padding-bottom: 0;
+}
+@media (max-width: 1200px) {
+  .categories-row.restaurants-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .categories-row.restaurants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .categories-row.restaurants-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAdminProduct } from '../../hooks/admin/useAdminProduct'
 import './ProductTable.css'
+import { getBackendImageUrl } from '../../utils/backend-image'
 
 export default function ProductTable() {
   const {
@@ -28,8 +29,7 @@ export default function ProductTable() {
 
   return (
     <div className="product-table-container">
-      <h2>Food Products Table</h2>
-
+      <h2>Food Products</h2>
       <div className="controls">
         <label>Show</label>
         <select
@@ -40,7 +40,6 @@ export default function ProductTable() {
           <option value={20}>20</option>
           <option value={30}>30</option>
         </select>
-
         <label>Search:</label>
         <input
           type="text"
@@ -48,34 +47,27 @@ export default function ProductTable() {
           value={search}
         />
       </div>
-
-      <table className='min-w-full table-auto'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Type</th>
-            <th>Category</th>
-            <th>Restaurant</th>
-            <th>Location</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            products.map((row) => (
-              <tr key={row._id}>
-                <td>{row.name}</td>
-                <td>NPR {row.price}</td>
-                <td>{row.type}</td>
-                <td>{row.categoryId?.name || 'Unknown Category'}</td>
-                <td>{row.restaurantId?.name || 'Unknown Restaurant'}</td>
-                <td>{row.restaurantId?.location || 'Location not available'}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-
+      <div className="product-grid">
+        {products.map((row) => (
+          <div className="product-card" key={row._id}>
+            <img
+              className="product-image"
+              src={getBackendImageUrl(row.filepath)}
+              alt={row.name}
+              onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/120?text=No+Image'; }}
+            />
+            <div className="product-info">
+              <h3 className="product-name">{row.name}</h3>
+              <p className="product-desc">NPR {row.price} | {row.type}</p>
+              <p className="product-meta">
+                <span>Category: {row.categoryId?.name || 'Unknown'}</span><br/>
+                <span>Restaurant: {row.restaurantId?.name || 'Unknown'}</span><br/>
+                <span>Location: {row.restaurantId?.location || 'N/A'}</span>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className='mt-4 flex items-center justify-between'>
         <button onClick={handlePrev} disabled={!canPreviousPage}>Back</button>
         <span>Page {pagination.page} of {pagination.totalPages}</span>

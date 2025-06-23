@@ -96,49 +96,41 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
       <h2 className="section-title glow-text">Popular Restaurants</h2>
       <p className="section-subtitle">Discover amazing restaurants near you</p>
       
-      <div className="categories-row">
-        {restaurants.map((restaurant) => {
-          console.log('Processing restaurant:', restaurant);
-          
-          return (
-            <div 
-              className="category-card animated-card restaurant-card" 
-              key={restaurant._id}
-              onClick={() => handleRestaurantClick(restaurant)}
-              style={{ cursor: "pointer" }}
-            >
-              <img 
-                src={getBackendImageUrl(restaurant.filepath)} 
-                alt={restaurant.name} 
-                className="category-image"
-                onError={(e) => {
-                  console.log('Restaurant image failed to load:', restaurant.name);
-                  e.target.src = '/placeholder-restaurant.jpg';
-                }}
-                onLoad={() => {
-                  console.log('Restaurant image loaded successfully:', restaurant.name);
-                }}
-              />
-              <h3 className="category-title">{restaurant.name}</h3>
-              <div className="restaurant-meta">
-                <span className="restaurant-location">
-                  <FaMapMarkerAlt /> {restaurant.location}
-                </span>
-                <span className="restaurant-contact">
-                  <FaPhoneAlt /> {restaurant.contact}
-                </span>
-              </div>
-              <div className="restaurant-status">
-                <span className="status-open">
-                  <FaClock /> Open Now
-                </span>
-                <span className="rating">
-                  <FaStar /> 4.5
-                </span>
-              </div>
+      <div className="categories-row restaurants-grid">
+        {restaurants.map((restaurant) => (
+          <div 
+            className="category-card animated-card restaurant-card" 
+            key={restaurant._id}
+            onClick={() => handleRestaurantClick(restaurant)}
+            style={{ cursor: "pointer" }}
+          >
+            <img 
+              src={getBackendImageUrl(restaurant.filepath)} 
+              alt={restaurant.name} 
+              className="category-image"
+              onError={(e) => {
+                e.target.src = '/placeholder-restaurant.jpg';
+              }}
+            />
+            <h3 className="category-title">{restaurant.name}</h3>
+            <div className="restaurant-meta">
+              <span className="restaurant-location">
+                <FaMapMarkerAlt /> {restaurant.location}
+              </span>
+              <span className="restaurant-contact">
+                <FaPhoneAlt /> {restaurant.contact}
+              </span>
             </div>
-          );
-        })}
+            <div className="restaurant-status">
+              <span className="status-open">
+                <FaClock /> Open Now
+              </span>
+              <span className="rating">
+                <FaStar /> 4.5
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

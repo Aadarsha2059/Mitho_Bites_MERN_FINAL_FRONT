@@ -24,6 +24,7 @@ import OrdersSection from "./dashboard/OrdersSection";
 import MoreOptionsSection from "./dashboard/MoreOptionsSection";
 import KhanaKhajan from "./moreoptions/KhanaKhajan";
 import GKFood from "./moreoptions/GKFood";
+import ProfilePage from "./moreoptions/ProfilePage";
 import { useFoodCategories } from "../../hooks/useFoodCategories";
 import { useFoodProducts } from "../../hooks/useFoodProducts";
 import { getBackendImageUrl } from "../../utils/backend-image";
@@ -183,7 +184,8 @@ const Dashboard = () => {
     <RestaurantsSection onRestaurantClick={handleRestaurantClick} />
   );
   else if (view === 'orders') SectionComponent = <OrdersSection />;
-  else if (view === 'more') SectionComponent = <MoreOptionsSection onBack={() => handleBack('dashboard')} />;
+  else if (view === 'more') SectionComponent = <MoreOptionsSection onProfile={() => setView('profile')} onBack={() => handleBack('dashboard')} />;
+  else if (view === 'profile') SectionComponent = <ProfilePage />;
   else if (view === 'khana') SectionComponent = (
     <div>
       <button className="back-btn big-back-btn" onClick={() => handleBack('more')}><FaArrowLeft /> Back to More</button>

@@ -29,6 +29,7 @@ import UpdateCategory from '../pages/admin/UpdateCategory';
 import UpdateUser from '../pages/admin/UpdateUser';
 import PaymentMethod from '../pages/client/PaymentMethod';
 import AdminRoute from '../components/AdminRoute';
+import ProfilePage from '../pages/client/moreoptions/ProfilePage';
 
 export default function AppRouter() {
   return (
@@ -64,6 +65,7 @@ export default function AppRouter() {
         <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/paymentmethod" element={<PaymentMethod />} />
          <Route path="/cart" element={<CartDialog/>} />
+         <Route path="/profilepage" element={<ProfilePage/>} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/*" element={<AdminRoute>{
