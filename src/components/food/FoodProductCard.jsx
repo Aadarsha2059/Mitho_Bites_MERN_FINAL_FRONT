@@ -1,6 +1,15 @@
 import React from 'react';
 import { FaStar, FaHeart, FaShoppingCart, FaEye } from 'react-icons/fa';
 import './FoodProductCard.css';
+import momoFallback from '../../assets/images/momo.png';
+import selRotiFallback from '../../assets/images/sel_roti.png';
+import yomariFallback from '../../assets/images/yomari.png';
+import featured1Fallback from '../../assets/images/featured/featured1.png';
+import featured2Fallback from '../../assets/images/featured/featured2.png';
+import featured3Fallback from '../../assets/images/featured/featured3.png';
+import dalBhatFallback from '../../assets/images/dal_bhat.png';
+import chatamariFallback from '../../assets/images/chatamari.png';
+import gundrukFallback from '../../assets/images/gundruk.png';
 
 const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite, isFavorite = false }) => {
     const {
@@ -66,15 +75,63 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
         return null;
     };
 
+    // Helper to get diverse fallback image based on product type/category
+    const getImageSrc = () => {
+        if (image && typeof image === 'string' && image.trim() !== '') {
+            return image;
+        }
+        
+        // Use diverse fallback images in specific order: veg momo, roti tarkari, sel roti, dal bhat, dal bhat
+        const fallbackImages = [
+            momoFallback,           // veg momo
+            featured1Fallback,      // roti tarkari
+            selRotiFallback,        // sel roti
+            dalBhatFallback,        // dal bhat
+            dalBhatFallback,        // dal bhat (second time)
+            yomariFallback,         // additional variety
+            featured2Fallback,      // additional variety
+            featured3Fallback,      // additional variety
+            chatamariFallback,      // additional variety
+            gundrukFallback         // additional variety
+        ];
+        
+        // Use product ID or name to consistently pick a fallback
+        const productId = _id || name || '';
+        const hash = productId.split('').reduce((a, b) => {
+            a = ((a << 5) - a) + b.charCodeAt(0);
+            return a & a;
+        }, 0);
+        const index = Math.abs(hash) % fallbackImages.length;
+        
+        return fallbackImages[index];
+    };
+
     return (
         <div className="food-product-card" tabIndex={0}>
             {/* Product Image */}
             <div className="product-image-container">
                 <img
-                    src={image}
+                    src={getImageSrc()}
                     alt={name}
                     className="product-image"
                     loading="lazy"
+                    style={{ border: '2px solid #fff', boxShadow: '0 4px 18px rgba(0,0,0,0.13)', borderRadius: '14px', background: '#f8f8f8' }}
+                    onError={e => { 
+                        e.target.onerror = null; 
+                        // Use a different fallback if the first one fails
+                        const fallbackImages = [
+                            selRotiFallback,
+                            yomariFallback,
+                            featured2Fallback,
+                            featured3Fallback,
+                            dalBhatFallback,
+                            chatamariFallback,
+                            gundrukFallback,
+                            momoFallback
+                        ];
+                        const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+                        e.target.src = fallbackImages[randomIndex];
+                    }}
                 />
                 
                 {/* Badges */}
@@ -149,16 +206,6 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
                             <span className="original-price">₹{product.originalPrice}</span>
                         )}
                     </div>
-                    
-                    <button
-                        onClick={handleAddToCart}
-                        className="add-to-cart-btn"
-                        disabled={!isAvailable}
-                        aria-label="Add to cart"
-                    >
-                        <FaShoppingCart />
-                        {isAvailable ? 'Add to Cart' : 'Unavailable'}
-                    </button>
                 </div>
             </div>
 
@@ -170,13 +217,6 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
                     <div className="quick-view-actions">
                         <button onClick={handleViewDetails} className="quick-view-btn">
                             View Details
-                        </button>
-                        <button 
-                            onClick={handleAddToCart} 
-                            className="quick-view-btn primary"
-                            disabled={!isAvailable}
-                        >
-                            Add to Cart
                         </button>
                     </div>
                 </div>

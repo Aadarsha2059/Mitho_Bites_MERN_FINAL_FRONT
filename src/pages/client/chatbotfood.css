@@ -21,34 +21,46 @@
 }
 
 .chatbot-food-toggle {
-  background: var(--user-message-bg);
-  color: var(--light-text-color);
-  width: 65px;
-  height: 65px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   border: none;
-  font-size: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: white;
+  font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatbot-food-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+}
+
+.chatbot-food-toggle:active {
+  transform: scale(0.95);
 }
 
 .chatbot-food-window {
-  width: 380px;
-  max-height: 80vh;
-  background-color: var(--background-color);
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 350px;
+  height: 500px;
+  background: white;
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
+  z-index: 1001;
   overflow: hidden;
   animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: bottom right;
@@ -219,14 +231,27 @@
   cursor: not-allowed;
 }
 
-@media (max-width: 480px) {
-  .chatbot-food-root {
-    right: 15px;
-    bottom: 15px;
+@media (max-width: 768px) {
+  .chatbot-food-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 20px;
   }
-
+  
   .chatbot-food-window {
-    width: calc(100vw - 30px);
-    max-height: 70vh;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    height: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatbot-food-window {
+    width: 95vw;
+    right: 2.5vw;
+    left: 2.5vw;
   }
 } 

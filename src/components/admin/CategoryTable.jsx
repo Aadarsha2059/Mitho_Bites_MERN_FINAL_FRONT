@@ -161,32 +161,43 @@ export default function CategoryTable() {
                 description="Are you sure you want to delete?"
             />
             <h3 className="table-title">Category Table</h3>
-            <div className="category-grid">
-                {categories.map((row) => {
-                    const imageUrl = getBackendImageUrl(row.filepath);
-                    const hasImageError = imageErrors.has(row._id);
-                    return (
-                        <div className="category-card" key={row._id}>
-                            {hasImageError ? (
-                                <ImagePlaceholder name={row.name} />
-                            ) : (
-                                <TestImage
-                                    src={imageUrl}
-                                    alt={row.name}
-                                    onSuccess={() => handleImageLoad(row._id, row.name, imageUrl)}
-                                    onError={() => handleImageError(row._id, row.name, imageUrl)}
-                                />
-                            )}
-                            <div className="category-name">{row.name}</div>
-                            <div className="actions-cell">
-                                <Link to={`/admin/category/${row._id}`}><button className="btn view-btn">View</button></Link>
-                                <Link to={`/admin/category/${row._id}/edit`}><button className="btn edit-btn">Edit</button></Link>
-                                <button className="btn delete-btn" onClick={() => setDeleteId(row._id)}>Delete</button>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
+            <table className="category-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {categories.map((row) => {
+                        const imageUrl = getBackendImageUrl(row.filepath);
+                        const hasImageError = imageErrors.has(row._id);
+                        return (
+                            <tr className="category-row" key={row._id}>
+                                <td>
+                                    {hasImageError ? (
+                                        <ImagePlaceholder name={row.name} />
+                                    ) : (
+                                        <TestImage
+                                            src={imageUrl}
+                                            alt={row.name}
+                                            onSuccess={() => handleImageLoad(row._id, row.name, imageUrl)}
+                                            onError={() => handleImageError(row._id, row.name, imageUrl)}
+                                        />
+                                    )}
+                                </td>
+                                <td>{row.name}</td>
+                                <td className="actions-cell">
+                                    <Link to={`/admin/category/${row._id}`}><button className="btn view-btn">View</button></Link>
+                                    <Link to={`/admin/category/${row._id}/edit`}><button className="btn edit-btn">Edit</button></Link>
+                                    <button className="btn delete-btn" onClick={() => setDeleteId(row._id)}>Delete</button>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     )
 }

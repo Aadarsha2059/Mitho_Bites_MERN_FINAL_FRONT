@@ -30,6 +30,10 @@ import UpdateUser from '../pages/admin/UpdateUser';
 import PaymentMethod from '../pages/client/PaymentMethod';
 import AdminRoute from '../components/AdminRoute';
 import ProfilePage from '../pages/client/moreoptions/ProfilePage';
+import BoomCongratulations from '../pages/client/BoomCongratulations';
+import UpdateProduct from '../pages/admin/UpdateProduct';
+import UpdateRestaurant from '../pages/admin/UpdateRestaurant';
+import ViewRestaurant from '../pages/admin/ViewRestaurant';
 
 export default function AppRouter() {
   return (
@@ -66,6 +70,7 @@ export default function AppRouter() {
          <Route path="/paymentmethod" element={<PaymentMethod />} />
          <Route path="/cart" element={<CartDialog/>} />
          <Route path="/profilepage" element={<ProfilePage/>} />
+         <Route path="/boom-congratulations" element={<BoomCongratulations open={true} />} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/*" element={<AdminRoute>{
@@ -82,6 +87,9 @@ export default function AppRouter() {
             <Route path="adminsettings" element={<AdminSettingsPage />} />
             <Route path="restaurant/create" element={<CreateRestaurant />} />
             <Route path="restaurant" element={<RestaurantManagement />} />
+            <Route path="product/:id/edit" element={<UpdateProduct />} />
+            <Route path="restaurant/:id/edit" element={<UpdateRestaurant />} />
+            <Route path="restaurant/:id" element={<ViewRestaurant />} />
           </Routes>
         }</AdminRoute>} />
       </Routes>

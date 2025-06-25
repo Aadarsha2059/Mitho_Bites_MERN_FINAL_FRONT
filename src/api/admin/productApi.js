@@ -9,3 +9,14 @@ export const createOneProductApi= (data) =>
         }
     })
 
+export const deleteOneProductApi = (id) => axios.delete(`/admin/product/${id}`)
+
+export const getOneProductApi = (id) => axios.get(`/admin/product/${id}`)
+
+export const updateOneProductApi = (id, data) =>
+    axios.put(`/admin/product/${id}`, data, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+

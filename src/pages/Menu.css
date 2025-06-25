@@ -14,7 +14,7 @@ body {
 .whats-cooking-container {
   width: 95%;
   max-width: 1300px;
-  margin: 4rem auto;
+  margin: 6rem auto 4rem;
   padding: 3rem 4.5rem;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 28px;
@@ -23,20 +23,21 @@ body {
   overflow-y: auto;
   transition: all 0.4s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.35);
+  position: relative;
 }
 
 /* RESPONSIVE CONTAINER */
 @media (max-width: 1024px) {
   .whats-cooking-container {
     padding: 2rem;
-    margin: 2rem;
+    margin: 5rem 2rem 2rem;
   }
 }
 
 /* BACK TO HOME BUTTON */
 .back-to-home {
-  position: absolute;
-  top: 1.5rem;
+  position: fixed;
+  top: 100px;
   right: 2rem;
   display: flex;
   align-items: center;
@@ -538,11 +539,11 @@ body {
 
 @media (max-width: 768px) {
     .menu-container {
-        padding: 16px;
+        padding: 1rem;
     }
     
     .menu-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     
     .menu-subtitle {
@@ -550,31 +551,36 @@ body {
     }
     
     .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .results-info {
         flex-direction: column;
-        gap: 12px;
-        text-align: center;
+        gap: 1rem;
     }
     
     .pagination {
         flex-direction: column;
-        gap: 12px;
+        gap: 1rem;
     }
     
     .cart-summary {
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 20px;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    /* Adjust back button for mobile */
+    .back-to-home {
+        top: 80px;
+        right: 1rem;
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
     .menu-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     .menu-subtitle {
@@ -583,18 +589,17 @@ body {
     
     .products-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
     }
     
     .back-to-home {
-        font-size: 14px;
+        top: 70px;
+        right: 0.5rem;
         padding: 6px 12px;
+        font-size: 0.8rem;
     }
     
     .cart-summary {
-        bottom: 16px;
-        right: 16px;
-        left: 16px;
-        justify-content: center;
+        bottom: 0.5rem;
+        right: 0.5rem;
     }
 }

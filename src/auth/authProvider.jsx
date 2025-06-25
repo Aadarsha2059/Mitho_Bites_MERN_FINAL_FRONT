@@ -33,7 +33,7 @@ const AuthContextProvider = ( {children} ) => {
     }, [])
     return (
         <AuthContext.Provider
-            value={ {user, login, loading, logout, isAuthenticated: user !== null} }
+            value={ {user, login, loading, logout, isAuthenticated: user !== null, isAdmin: user?.username === 'admin_aadarsha'} }
         >
             {children}
         </AuthContext.Provider>

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getAllProductService, createOneProductService } from "../../services/admin/productService";
+import { getAllProductService, createOneProductService, deleteOneProductService, getOneProductService, updateOneProductService } from "../../services/admin/productService";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -64,4 +64,46 @@ export const useCreateProduct = () => {
             toast.error(err.message || "Failed to create product")
         }
     })
+}
+
+export const useDeleteOneProduct = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteOneProductService,
+        onSuccess: () => {
+            queryClient.invalidateQueries(["admin_product"]);
+            queryClient.invalidateQueries(["food_products"]);
+            toast.success("Product deleted successfully");
+        },
+        onError: (err) => {
+            toast.error(err.message || "Failed to delete product");
+        }
+    });
+}
+
+export const useGetOneProduct = (id) => {
+    const query = useQuery({
+        queryKey: ["admin_product_detail", id],
+        queryFn: () => getOneProductService(id),
+        enabled: !!id,
+        retry: false
+    });
+    const product = query.data?.data || {};
+    return {
+        ...query, product
+    };
+}
+
+export const useUpdateOneProduct = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, data }) => updateOneProductService(id, data),
+        onSuccess: () => {
+            toast.success("Product updated");
+            queryClient.invalidateQueries(["admin_product"]);
+        },
+        onError: (err) => {
+            toast.error(err.message || "Failed to update product");
+        }
+    });
 }

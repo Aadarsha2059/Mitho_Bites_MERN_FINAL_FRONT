@@ -114,6 +114,30 @@ const testimonials = [
   },
 ];
 
+// Add a new section for categories and restaurants hint
+const exploreCategories = [
+  {
+    name: 'Nepali',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80',
+    description: 'Authentic Nepali cuisine, momo, sel roti, yomari, and more.'
+  },
+  {
+    name: 'Indian',
+    image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80',
+    description: 'Spicy Indian curries, tandoori, and classic flavors.'
+  },
+  {
+    name: 'Restaurants',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=400&q=80',
+    description: 'Top-rated restaurants and party places in your city.'
+  },
+  {
+    name: 'Party Palaces',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
+    description: 'Book party palaces for your special events and celebrations.'
+  },
+];
+
 export default function HomepageBody() {
   const [currentHero, setCurrentHero] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -195,36 +219,40 @@ export default function HomepageBody() {
         </div>
       </section>
 
-      {/* Best in the Town Section */}
-      <section className="featured-section">
-        <h2 className="section-title fade-in-up">Best in the Town</h2>
-        <div className="featured-cards">
-          <div className="featured-card-anim" style={{ animationDelay: `0s` }}>
-            <FoodCard title={featuredDishes[0].title} image={featuredDishes[0].image} price={featuredDishes[0].price} />
-            <span className="best-badge">{featuredDishes[0].badge}</span>
+      {/* Restaurant & Party Palace Section */}
+      <section className="restaurant-party-section">
+        <h2 className="section-title">Restaurants & Party Palaces</h2>
+        <p className="section-subtitle">Discover top-rated restaurants and book amazing party venues</p>
+        <div className="restaurant-party-cards">
+          <div className="restaurant-party-card">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=400&q=80" alt="Restaurants" className="restaurant-party-img" />
+            <div className="restaurant-party-content">
+              <h3>Restaurants</h3>
+              <p>Explore the best restaurants in your city with diverse cuisines and amazing reviews.</p>
+            </div>
+          </div>
+          <div className="restaurant-party-card">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Party Places" className="restaurant-party-img" />
+            <div className="restaurant-party-content">
+              <h3>Party Palaces</h3>
+              <p>Book beautiful party palaces for your special events and celebrations.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Food Categories Section */}
-      <section className="featured-section">
-        <h2 className="section-title fade-in-up">Food Categories</h2>
-        <div className="featured-cards">
-          {foodCategories.map((cat, idx) => (
-            <div className="featured-card-anim" key={cat.name + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
-              <FoodCard title={cat.name} image={cat.image} price={''} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Dishes Section */}
-      <section className="featured-section">
-        <h2 className="section-title fade-in-up">Featured Dishes</h2>
-        <div className="featured-cards">
-          {featuredDishes.slice(1).map((dish, idx) => (
-            <div className="featured-card-anim" key={dish.title + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
-              <FoodCard title={dish.title} image={dish.image} price={dish.price} />
+      <section className="categories-section">
+        <h2 className="section-title">Food Categories</h2>
+        <p className="section-subtitle">Explore our diverse food categories</p>
+        <div className="categories-cards">
+          {foodCategories.map((cat) => (
+            <div className="category-card" key={cat.name}>
+              <img src={cat.image} alt={cat.name + ' food'} className="category-img" />
+              <div className="category-content">
+                <h3>{cat.name}</h3>
+                <p>Delicious {cat.name.toLowerCase()} cuisine with authentic flavors.</p>
+              </div>
             </div>
           ))}
         </div>

@@ -7,6 +7,7 @@ import ModalContainer from '../components/common/ModalContainer';
 import LoginForm from '../components/authh/LoginForm';
 import ForgotPassword from '../components/authh/ForgotPassword';
 import RegisterForm from '../components/authh/RegisterForm';
+import ChatbotFood from './client/chatbotfood';
 
 const Homepage = () => {
   const [modalType, setModalType] = useState(null); // 'login', 'forgot-password', 'signup'
@@ -97,6 +98,7 @@ const Homepage = () => {
         <HomepageBody />
       </main>
       <Footer />
+      <ChatbotFood />
       
       <ModalContainer 
         isOpen={modalType !== null}

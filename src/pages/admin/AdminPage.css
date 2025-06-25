@@ -47,14 +47,14 @@
 
 /* Header */
 .admin-header {
-  background: var(--bg-white);
-  color: var(--text-primary);
+  background: var(--primary-light);
+  color: #fff;
   padding: 1.5rem 2rem;
   font-size: 1.875rem;
   font-weight: 700;
   text-align: center;
   box-shadow: var(--shadow-md);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--primary-color);
   position: relative;
   z-index: 10;
 }
@@ -70,8 +70,8 @@
 /* Sidebar */
 .admin-sidebar {
   width: 280px;
-  background: var(--bg-white);
-  border-right: 1px solid var(--border-color);
+  background: var(--bg-gray-100);
+  border-right: 1px solid var(--primary-light);
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -135,9 +135,9 @@
 }
 
 .admin-sidebar button:hover {
-  background: var(--bg-gray-100);
-  color: var(--text-primary);
-  border-color: var(--border-color);
+  background: var(--primary-light);
+  color: #fff;
+  border-color: var(--primary-color);
 }
 
 .admin-sidebar button svg {
@@ -152,13 +152,14 @@
 
 .admin-sidebar .active {
   background: var(--primary-color);
-  color: white;
+  color: #fff;
   font-weight: 600;
   box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
 }
 
 .admin-sidebar .active svg {
-  color: white;
+  color: #fff;
 }
 
 /* Main Content */
@@ -444,11 +445,11 @@
 
 /* Footer */
 .admin-footer {
-  background: var(--bg-white);
-  color: var(--text-secondary);
+  background: var(--primary-light);
+  color: #fff;
   text-align: center;
   padding: 1.5rem 2rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--primary-color);
   font-size: 0.875rem;
 }
 
@@ -481,11 +482,14 @@
 }
 
 .admin-social-link {
-  color: var(--text-muted);
-  font-size: 1.125rem;
-  transition: color 0.2s ease;
+  color: #fff;
+  font-size: 1.5rem;
+  transition: color 0.2s ease, background 0.2s ease;
   padding: 0.5rem;
   border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-social-link:hover {
@@ -587,4 +591,11 @@
     width: 95%;
     padding: 1.5rem;
   }
+}
+
+.admin-form-section, .admin-content, .category-table-container, .product-table-container {
+  background: var(--bg-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
 }

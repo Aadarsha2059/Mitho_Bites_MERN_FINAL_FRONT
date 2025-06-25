@@ -3,7 +3,6 @@ import { useOrders, useCancelOrder, useMarkOrderReceived } from '../../../hooks/
 import { FaTimes, FaCheckCircle, FaClock, FaBan, FaReceipt } from 'react-icons/fa';
 import "../Dashboard.css";
 import axios from 'axios';
-import "https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;700&display=swap";
 import { useNavigate } from 'react-router-dom';
 
 const statusMap = {
@@ -17,8 +16,6 @@ const OrdersSection = () => {
   const cancelOrderMutation = useCancelOrder();
   const markOrderReceivedMutation = useMarkOrderReceived();
   const orders = ordersData?.data || [];
-  const [showAdminMsg, setShowAdminMsg] = useState(false);
-  const [adminMsgType, setAdminMsgType] = useState(null); // 'received' or 'cancelled'
   const navigate = useNavigate();
 
   // Debug logging
@@ -27,13 +24,10 @@ const OrdersSection = () => {
   console.log('OrdersSection - isLoading:', isLoading);
   console.log('OrdersSection - error:', error);
 
-  // Store dialog open state and message globally, not per order
   const handleMarkReceived = async (orderId) => {
     try {
       await markOrderReceivedMutation.mutateAsync(orderId);
-      setAdminMsgType('received');
-      setShowAdminMsg(true);
-      // Do NOT reload here, let user close dialog
+      navigate('/boom-congratulations');
     } catch (err) {
       alert('Failed to mark as received');
     }
@@ -41,9 +35,6 @@ const OrdersSection = () => {
 
   const handleCancelOrder = async (orderId) => {
     await cancelOrderMutation.mutateAsync(orderId);
-    setAdminMsgType('cancelled');
-    setShowAdminMsg(true);
-    setTimeout(() => setShowAdminMsg(false), 6000);
   };
 
   if (isLoading) {
@@ -145,124 +136,6 @@ const OrdersSection = () => {
           ))
         )}
       </div>
-      {/* Global dialog overlay for received/cancelled */}
-      {showAdminMsg && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0,0,0,0.25)',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            background: adminMsgType === 'received'
-              ? 'linear-gradient(120deg, #f9d423 0%, #ff4e50 100%)'
-              : 'linear-gradient(90deg, #ef4444 60%, #fecaca 100%)',
-            color: adminMsgType === 'received' ? '#fff' : '#991b1b',
-            borderRadius: 32,
-            padding: '2.5em 3em',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-            textAlign: 'center',
-            fontWeight: 900,
-            fontSize: '1.35rem',
-            border: adminMsgType === 'received' ? '4px solid #ff4e50' : '3px solid #ef4444',
-            minWidth: 340,
-            maxWidth: '90vw',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 16,
-            fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif"
-          }}>
-            {adminMsgType === 'received' ? (
-              <>
-                <button
-                  onClick={() => { setShowAdminMsg(false); navigate('/dashboard'); }}
-                  style={{
-                    position: 'absolute',
-                    top: 18,
-                    right: 24,
-                    background: 'none',
-                    border: 'none',
-                    fontSize: '2rem',
-                    color: '#fff',
-                    cursor: 'pointer',
-                    zIndex: 10,
-                    transition: 'color 0.2s',
-                  }}
-                  aria-label="Close"
-                >
-                  ×
-                </button>
-                <span style={{
-                  fontSize: '2.8rem',
-                  marginBottom: 10,
-                  fontWeight: 900,
-                  background: 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textShadow: '0 4px 24px #ff4e50, 0 2px 8px #f9d423',
-                  fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif"
-                }}>
-                  💥🎉 Boom! Congratulations! 🎉💥
-                </span>
-                <span style={{
-                  fontSize: '2.1rem',
-                  marginBottom: 14,
-                  fontWeight: 700,
-                  color: '#fff',
-                  letterSpacing: 1.2,
-                  fontFamily: "'Poppins', 'Montserrat', 'Segoe UI', Arial, sans-serif"
-                }}>
-                  We are so happy to deliver foods for you!
-                </span>
-                <span style={{
-                  fontSize: '1.25rem',
-                  marginBottom: 10,
-                  color: '#ffe',
-                  fontWeight: 400,
-                  fontFamily: "'Poppins', 'Montserrat', 'Segoe UI', Arial, sans-serif"
-                }}>
-                  Keep on ordering, keep on fooding...<br />
-                  <span style={{
-                    color: '#fff',
-                    fontWeight: 900,
-                    fontSize: '1.15rem',
-                    textShadow: '0 2px 8px #ff4e50',
-                    fontFamily: "'Montserrat', 'Poppins', 'Segoe UI', Arial, sans-serif"
-                  }}>
-                    20+ orders will create a token for attractive gift hampers!
-                  </span>
-                </span>
-              </>
-            ) : (
-              <>
-                <span style={{ fontSize: '2rem', marginBottom: 12 }}>❌ Order Cancelled</span>
-                <span style={{ fontSize: '1.1rem', marginBottom: 8 }}>
-                  If you have any questions or concerns about this cancellation, please contact our Super Admin:
-                </span>
-                <a href="mailto:superadmin_aadarsha@gmail.com" style={{
-                  color: '#991b1b',
-                  fontWeight: 900,
-                  fontSize: '1.15rem',
-                  textDecoration: 'underline',
-                  marginTop: 6
-                }}>superadmin_aadarsha@gmail.com</a>
-                <span style={{ fontSize: '1.08rem', marginTop: 10 }}>
-                  We value your feedback and are here to help you 24/7!
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-      )}
     </section>
   );
 };
