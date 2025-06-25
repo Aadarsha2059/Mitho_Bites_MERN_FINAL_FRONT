@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useOrders, useCancelOrder, useMarkOrderReceived } from '../../../hooks/useOrders';
-import { FaTimes, FaCheckCircle, FaClock, FaBan, FaReceipt } from 'react-icons/fa';
+import { FaTimes, FaCheckCircle, FaClock, FaBan, FaReceipt, FaStar } from 'react-icons/fa';
 import "../Dashboard.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +37,22 @@ const OrdersSection = () => {
     await cancelOrderMutation.mutateAsync(orderId);
   };
 
+  const handleGiveFeedback = () => {
+    // Gather all received items from received orders
+    const receivedItems = [];
+    orders.forEach(order => {
+      if (order.orderStatus === 'received') {
+        order.items.forEach(item => {
+          receivedItems.push({
+            ...item,
+            orderId: order._id
+          });
+        });
+      }
+    });
+    navigate('/give-feedbacks', { state: { items: receivedItems } });
+  };
+
   if (isLoading) {
     return (
       <section className="section">
@@ -62,7 +78,16 @@ const OrdersSection = () => {
 
   return (
     <section className="section">
-      <h2 className="section-title glow-text">Your Orders</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 className="section-title glow-text">Your Orders</h2>
+        <button
+          className="micro-btn"
+          style={{ background: '#ff9800', color: '#fff', border: 'none', borderRadius: 8, padding: '0.5em 1.2em', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+          onClick={handleGiveFeedback}
+        >
+          <FaStar style={{ marginRight: 4 }} /> Give Feedback
+        </button>
+      </div>
       <div className="categories-row orders-grid">
         {orders.length === 0 ? (
           <div className="category-card animated-card">

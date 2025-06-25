@@ -34,6 +34,7 @@ import BoomCongratulations from '../pages/client/BoomCongratulations';
 import UpdateProduct from '../pages/admin/UpdateProduct';
 import UpdateRestaurant from '../pages/admin/UpdateRestaurant';
 import ViewRestaurant from '../pages/admin/ViewRestaurant';
+import GiveFeedbacks from '../pages/client/GiveFeedbacks';
 
 export default function AppRouter() {
   return (
@@ -53,7 +54,7 @@ export default function AppRouter() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<WhatsCooking />} />
-          
+          <Route path="/give-feedbacks" element={<GiveFeedbacks />} />
         </Route>
 
         {/* Guest Routes (e.g., signup) */}
