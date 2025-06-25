@@ -1,5 +1,5 @@
 .modal-overlay {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   right: 0;
@@ -9,9 +9,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 999999 !important;
   animation: fadeIn 0.4s ease-out;
-  padding-top: 80px; /* Account for homepage header */
+  padding-top: 20px; /* Reduced for better centering */
 }
 
 .modal-container {

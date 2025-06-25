@@ -1,10 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './ModalContainer.css';
 
 const ModalContainer = ({ isOpen, onClose, children, title }) => {
   if (!isOpen) return null;
 
-  return (
+  return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
@@ -17,7 +18,8 @@ const ModalContainer = ({ isOpen, onClose, children, title }) => {
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
