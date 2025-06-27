@@ -10,7 +10,6 @@ import chowmein from "../../../assets/cat_4.png";
 import thakali from "../../../assets/cat_sri.png";
 import "../Dashboard.css";
 import { useOrders } from '../../../hooks/useOrders';
-import { getBackendImageUrl } from '../../../utils/backend-image';
 
 const muchLovedDishes = [
   { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Nepali", restaurant: "Momo House" },
@@ -75,13 +74,16 @@ const HomeSection = () => {
               orders.slice(0, 4).map((order) => (
                 <div className="category-card animated-card" key={order._id}>
                   <img
-                    src={getBackendImageUrl(order.items?.[0]?.productId?.filepath)}
+                    src={order.items?.[0]?.productId?.image || '/placeholder-food.jpg'}
                     alt={order.items?.[0]?.productId?.name || 'Product'}
                     className="category-image"
+                    onError={(e) => {
+                      e.target.src = '/placeholder-food.jpg';
+                    }}
                   />
                   <h3 className="category-title">{order.items?.[0]?.productId?.name || 'Product'}</h3>
                   <p className="category-subtitle">
-                    {order.items?.[0]?.productId?.restaurantId?.name || 'Restaurant'} |
+                    {order.items?.[0]?.productId?.restaurantName || 'Restaurant'} |
                     {new Date(order.createdAt).toLocaleString()}
                   </p>
                 </div>

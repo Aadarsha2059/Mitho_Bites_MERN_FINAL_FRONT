@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaStar, FaHeart, FaShoppingCart, FaEye } from 'react-icons/fa';
+import { FaStar, FaHeart, FaShoppingCart, FaEye, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import './FoodProductCard.css';
 import momoFallback from '../../assets/images/momo.png';
 import selRotiFallback from '../../assets/images/sel_roti.png';
@@ -18,7 +18,12 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
         description,
         price,
         image,
-        category,
+        categoryName,
+        categoryImage,
+        restaurantName,
+        restaurantImage,
+        restaurantLocation,
+        restaurantContact,
         type,
         rating = 4.5,
         reviewCount = 0,
@@ -164,9 +169,9 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
                 </div>
 
                 {/* Category Tag */}
-                {category && (
+                {categoryName && (
                     <div className="category-tag">
-                        {category.name}
+                        {categoryName}
                     </div>
                 )}
             </div>
@@ -181,6 +186,37 @@ const FoodProductCard = ({ product, onAddToCart, onViewDetails, onToggleFavorite
                         : description
                     }
                 </p>
+
+                {/* Restaurant Information */}
+                {restaurantName && (
+                    <div className="restaurant-info">
+                        <div className="restaurant-header">
+                            {restaurantImage && (
+                                <img 
+                                    src={restaurantImage} 
+                                    alt={restaurantName}
+                                    className="restaurant-thumbnail"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                    }}
+                                />
+                            )}
+                            <span className="restaurant-name">{restaurantName}</span>
+                        </div>
+                        {restaurantLocation && (
+                            <div className="restaurant-location">
+                                <FaMapMarkerAlt className="location-icon" />
+                                <span>{restaurantLocation}</span>
+                            </div>
+                        )}
+                        {restaurantContact && (
+                            <div className="restaurant-contact">
+                                <FaPhoneAlt className="contact-icon" />
+                                <span>{restaurantContact}</span>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Rating */}
                 <div className="product-rating">

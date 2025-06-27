@@ -38,9 +38,9 @@ export const getOneProductService = async (id) => {
 
 export const updateOneProductService = async (id, data) => {
     try {
-        const response = await updateOneProductApi(id, data)
-        return response.data
+        const response = await updateOneProductApi(id, data);
+        return response.data;
     } catch (err) {
-        throw err.response?.data || { message: "Failed to update product" }
+        throw err.response?.data || { message: "Failed to update product" };
     }
 }

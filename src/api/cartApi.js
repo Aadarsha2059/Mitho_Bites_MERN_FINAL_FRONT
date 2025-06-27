@@ -1,5 +1,6 @@
 import axios from "./api";
 
+export const testCartAuthApi = () => axios.get("/cart/test");
 export const getCartApi = () => axios.get("/cart");
 export const addToCartApi = (data) => axios.post("/cart/add", data);
 export const updateCartItemApi = (data) => axios.put("/cart/update", data);

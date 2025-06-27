@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './GiveFeedbacks.css';
 import { FaStar } from 'react-icons/fa';
-import { getBackendImageUrl } from '../../utils/backend-image';
 import axiosInstance from '../../api/api';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -38,17 +37,35 @@ const GiveFeedbacks = () => {
       return;
     }
     setFeedbacks(fbs => fbs.map((fb, i) => i === idx ? { ...fb, submitting: true, error: '', success: false } : fb));
+    
+    const feedbackData = {
+      order: fb.orderId,
+      product: fb.productId,
+      rating: fb.rating,
+      text: fb.text
+    };
+    
+    console.log('=== FEEDBACK SUBMISSION DEBUG ===');
+    console.log('Submitting feedback data:', feedbackData);
+    console.log('Auth token:', localStorage.getItem('token'));
+    
     try {
-      await axiosInstance.post('/feedbacks', {
-        order: fb.orderId,
-        product: fb.productId,
-        rating: fb.rating,
-        text: fb.text
-      });
+      const response = await axiosInstance.post('/feedbacks', feedbackData);
+      console.log('Feedback submission successful:', response.data);
       setFeedbacks(fbs => fbs.map((fb, i) => i === idx ? { ...fb, submitting: false, success: true } : fb));
       toast.success('Feedback submitted successfully!');
     } catch (err) {
-      setFeedbacks(fbs => fbs.map((fb, i) => i === idx ? { ...fb, submitting: false, error: 'Failed to submit feedback.' } : fb));
+      console.error('Feedback submission error:', {
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        data: err.response?.data,
+        message: err.message
+      });
+      setFeedbacks(fbs => fbs.map((fb, i) => i === idx ? { 
+        ...fb, 
+        submitting: false, 
+        error: err.response?.data?.message || 'Failed to submit feedback.' 
+      } : fb));
     }
   };
 
@@ -63,9 +80,12 @@ const GiveFeedbacks = () => {
             <div className="feedback-item" key={`${item.orderId}-${productId}`}>
               <div className="feedback-item-header">
                 <img
-                  src={getBackendImageUrl(productObj.filepath)}
+                  src={productObj.image || '/placeholder-food.jpg'}
                   alt={productObj.name}
                   className="feedback-product-image"
+                  onError={(e) => {
+                    e.target.src = '/placeholder-food.jpg';
+                  }}
                 />
                 <div>
                   <div className="feedback-item-title">{productObj.name}</div>

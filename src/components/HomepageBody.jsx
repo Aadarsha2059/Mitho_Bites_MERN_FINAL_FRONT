@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaSearch, FaChevronLeft, FaChevronRight, FaQuoteLeft, FaStar } from 'react-icons/fa';
 import './HomepageBody.css';
 import FoodCard from './FoodCard';
+import { useFoodCategories } from '../hooks/useFoodCategories';
 
 // Local images for hero
 import heroImage from '../assets/images/hero.png';
@@ -76,16 +77,17 @@ const featuredDishes = [
   },
 ];
 
-const foodCategories = [
-  {
-    name: 'Indian',
-    image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80', // Fresh vegetables
-  },
-  {
-    name: 'Nepali',
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80', // Chicken roast
-  },
-];
+// Fallback images for categories
+const fallbackCategoryImages = {
+  'Indian': 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80',
+  'Nepali': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80',
+  'Chinese': 'https://images.unsplash.com/photo-1563379091339-03246963d4a9?auto=format&fit=crop&w=400&q=80',
+  'Burger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80',
+  'Pizza': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80',
+  'Sushi': 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=400&q=80',
+  'Desserts': 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=400&q=80',
+  'Dal-Bhat': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80',
+};
 
 const testimonials = [
   {
@@ -144,6 +146,9 @@ export default function HomepageBody() {
   const [search, setSearch] = useState('');
   const [heroTextClass, setHeroTextClass] = useState('animated-text fade-in-up');
 
+  // Fetch real categories from backend
+  const { categories, isLoading: categoriesLoading } = useFoodCategories();
+
   // Hero carousel auto-advance every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -176,6 +181,14 @@ export default function HomepageBody() {
   const handleHeroPrev = () => {
     const newIndex = (currentHero - 1 + heroSlides.length) % heroSlides.length;
     handleHeroChange(newIndex);
+  };
+
+  // Function to get category image - uses backend image or fallback
+  const getCategoryImage = (category) => {
+    if (category.image) {
+      return category.image;
+    }
+    return fallbackCategoryImages[category.name] || fallbackCategoryImages['Nepali'];
   };
 
   return (
@@ -245,17 +258,30 @@ export default function HomepageBody() {
       <section className="categories-section">
         <h2 className="section-title">Food Categories</h2>
         <p className="section-subtitle">Explore our diverse food categories</p>
-        <div className="categories-cards">
-          {foodCategories.map((cat) => (
-            <div className="category-card" key={cat.name}>
-              <img src={cat.image} alt={cat.name + ' food'} className="category-img" />
-              <div className="category-content">
-                <h3>{cat.name}</h3>
-                <p>Delicious {cat.name.toLowerCase()} cuisine with authentic flavors.</p>
+        {categoriesLoading ? (
+          <div className="loading-container">
+            <div className="loader">Loading categories...</div>
+          </div>
+        ) : (
+          <div className="categories-cards">
+            {categories.map((cat) => (
+              <div className="category-card" key={cat._id}>
+                <img 
+                  src={getCategoryImage(cat)} 
+                  alt={cat.name + ' food'} 
+                  className="category-img"
+                  onError={(e) => {
+                    e.target.src = fallbackCategoryImages[cat.name] || fallbackCategoryImages['Nepali'];
+                  }}
+                />
+                <div className="category-content">
+                  <h3>{cat.name}</h3>
+                  <p>Delicious {cat.name.toLowerCase()} cuisine with authentic flavors.</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Testimonials Section */}

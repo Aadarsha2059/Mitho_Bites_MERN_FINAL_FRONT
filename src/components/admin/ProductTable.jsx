@@ -1,7 +1,6 @@
 import React from 'react'
 import { useAdminProduct } from '../../hooks/admin/useAdminProduct'
 import './ProductTable.css'
-import { getBackendImageUrl } from '../../utils/backend-image'
 import { Link } from 'react-router-dom'
 import { useDeleteOneProduct } from '../../hooks/admin/useAdminProduct'
 import { toast } from 'react-toastify'
@@ -17,6 +16,24 @@ export default function ProductTable() {
 
   const deleteOneProductHook = useDeleteOneProduct()
   const [deleteId, setDeleteId] = React.useState(null)
+
+  // Debug logging
+  React.useEffect(() => {
+    if (products && products.length > 0) {
+      console.log('=== PRODUCT TABLE DEBUG ===');
+      console.log('Products data:', products);
+      console.log('Sample product:', products[0]);
+      console.log('Product image URLs:');
+      products.forEach((product, index) => {
+        console.log(`${index + 1}. ${product.name}:`, {
+          image: product.image,
+          categoryName: product.categoryName,
+          restaurantName: product.restaurantName,
+          hasImage: !!product.image
+        });
+      });
+    }
+  }, [products]);
 
   if (error) return <>{error.message}</>
 
@@ -83,7 +100,7 @@ export default function ProductTable() {
               <td>
                 <img
                   className="product-image"
-                  src={getBackendImageUrl(row.filepath)}
+                  src={row.image || 'https://via.placeholder.com/60?text=No+Image'}
                   alt={row.name}
                   style={{ width: 60, height: 60, borderRadius: 8, objectFit: 'cover', background: '#f3f4f6', border: '1px solid #e5e7eb' }}
                   onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/60?text=No+Image'; }}
@@ -92,8 +109,8 @@ export default function ProductTable() {
               <td>{row.name}</td>
               <td>NPR {row.price}</td>
               <td>{row.type}</td>
-              <td>{row.categoryId?.name || 'Unknown'}</td>
-              <td>{row.restaurantId?.name || 'Unknown'}</td>
+              <td>{row.categoryName || 'Unknown'}</td>
+              <td>{row.restaurantName || 'Unknown'}</td>
               <td>
                 <Link to={`/admin/product/${row._id}/edit`}><button className="edit-btn">Edit</button></Link>
                 <button onClick={() => setDeleteId(row._id)} className="delete-btn">Delete</button>

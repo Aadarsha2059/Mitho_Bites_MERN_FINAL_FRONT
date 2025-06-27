@@ -48,7 +48,7 @@ body, html {
   padding: 40px 30px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 18px rgba(255, 255, 255, 0.1);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  color: #f7e893;
   text-align: center;
 }
 
@@ -61,20 +61,20 @@ h2 {
 .login-subtitle {
   font-size: 1.1rem;
   font-weight: 400;
-  color: #ddd;
+  color: #8de57d;
   margin-bottom: 28px;
 }
 
 .signup-prompt {
   margin-top: 28px;
   font-size: 1rem;
-  color: #eee;
+  color: #55de49;
   font-weight: 500;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .signup-link {
-  color: #ffcc00;
+  color: #e8a965;
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
@@ -83,6 +83,6 @@ h2 {
 }
 
 .signup-link:hover {
-  color: #fff100;
+  color: #f8a9f5;
   text-shadow: 0 2px 8px rgba(255, 241, 0, 0.9);
 }

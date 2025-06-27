@@ -1,6 +1,6 @@
 import React from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock } from "react-icons/fa";
-import { useAdminRestaurant } from "../../../hooks/admin/useAdminRestaurant";
+import { useRestaurants } from "../../../hooks/useRestaurants";
 import { getBackendImageUrl } from "../../../utils/backend-image";
 import "../Dashboard.css";
 
@@ -36,21 +36,59 @@ const getRestaurantImage = (restaurantName) => {
 };
 
 const RestaurantsSection = ({ onRestaurantClick }) => {
-  console.log('RestaurantsSection rendered');
+  console.log('=== RestaurantsSection Component Rendered ===');
   
-  // Use the same hook as admin restaurant management
-  const { restaurants, isLoading, error } = useAdminRestaurant();
+  // Use the public restaurant hook
+  const { data: restaurantsData, isLoading, error } = useRestaurants();
   
-  console.log('Restaurants hook data:', { restaurants, isLoading, error });
+  console.log('Restaurants hook result:', { 
+    data: restaurantsData, 
+    isLoading, 
+    error,
+    hasData: !!restaurantsData,
+    dataType: typeof restaurantsData
+  });
+  
+  const restaurants = restaurantsData?.data || [];
+  
+  console.log('Processed restaurants array:', {
+    restaurants,
+    length: restaurants.length,
+    isArray: Array.isArray(restaurants),
+    firstRestaurant: restaurants[0]
+  });
   
   const handleRestaurantClick = (restaurant) => {
+    console.log('Restaurant clicked:', restaurant);
     if (onRestaurantClick) {
       onRestaurantClick(restaurant);
     }
   };
 
+  // Function to get restaurant image URL - handles both old and new formats
+  const getRestaurantImageUrl = (restaurant) => {
+    // If backend provides transformed image URL, use it
+    if (restaurant.image) {
+      console.log('Using transformed image URL:', restaurant.image);
+      return restaurant.image;
+    }
+    
+    // If backend provides filepath, construct URL
+    if (restaurant.filepath) {
+      const imageUrl = getBackendImageUrl(restaurant.filepath);
+      console.log('Constructed image URL from filepath:', imageUrl);
+      return imageUrl;
+    }
+    
+    // Fallback to static image based on name
+    const fallbackImage = getRestaurantImage(restaurant.name);
+    console.log('Using fallback image:', fallbackImage);
+    return fallbackImage;
+  };
+
   // Show loading state
   if (isLoading) {
+    console.log('Showing loading state');
     return (
       <section className="section">
         <h2 className="section-title glow-text">Popular Restaurants</h2>
@@ -70,15 +108,17 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
         <div className="error-container">
           <p>Error loading restaurants. Please try again later.</p>
           <p>Error: {error.message}</p>
+          <p>Status: {error.response?.status}</p>
+          <p>Data: {JSON.stringify(error.response?.data)}</p>
         </div>
       </section>
     );
   }
 
-  console.log('Restaurants from backend:', restaurants);
-  console.log('Number of restaurants:', restaurants.length);
+  console.log('About to render restaurants. Count:', restaurants.length);
 
   if (restaurants.length === 0) {
+    console.log('No restaurants found, showing empty state');
     return (
       <section className="section">
         <h2 className="section-title glow-text">Popular Restaurants</h2>
@@ -86,10 +126,13 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
         <div className="empty-state">
           <p>No restaurants available at the moment.</p>
           <p>Please add some restaurants from the admin panel.</p>
+          <p>Debug: restaurantsData = {JSON.stringify(restaurantsData)}</p>
         </div>
       </section>
     );
   }
+
+  console.log('Rendering restaurants grid with', restaurants.length, 'restaurants');
 
   return (
     <section className="section">
@@ -97,40 +140,46 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
       <p className="section-subtitle">Discover amazing restaurants near you</p>
       
       <div className="categories-row restaurants-grid">
-        {restaurants.map((restaurant) => (
-          <div 
-            className="category-card animated-card restaurant-card" 
-            key={restaurant._id}
-            onClick={() => handleRestaurantClick(restaurant)}
-            style={{ cursor: "pointer" }}
-          >
-            <img 
-              src={getBackendImageUrl(restaurant.filepath)} 
-              alt={restaurant.name} 
-              className="category-image"
-              onError={(e) => {
-                e.target.src = '/placeholder-restaurant.jpg';
-              }}
-            />
-            <h3 className="category-title">{restaurant.name}</h3>
-            <div className="restaurant-meta">
-              <span className="restaurant-location">
-                <FaMapMarkerAlt /> {restaurant.location}
-              </span>
-              <span className="restaurant-contact">
-                <FaPhoneAlt /> {restaurant.contact}
-              </span>
+        {restaurants.map((restaurant, index) => {
+          console.log(`Rendering restaurant ${index}:`, restaurant);
+          const imageUrl = getRestaurantImageUrl(restaurant);
+          
+          return (
+            <div 
+              className="category-card animated-card restaurant-card" 
+              key={restaurant._id}
+              onClick={() => handleRestaurantClick(restaurant)}
+              style={{ cursor: "pointer" }}
+            >
+              <img 
+                src={imageUrl} 
+                alt={restaurant.name} 
+                className="category-image"
+                onError={(e) => {
+                  console.log('Image error for restaurant:', restaurant.name);
+                  e.target.src = getRestaurantImage(restaurant.name);
+                }}
+              />
+              <h3 className="category-title">{restaurant.name}</h3>
+              <div className="restaurant-meta">
+                <span className="restaurant-location">
+                  <FaMapMarkerAlt /> {restaurant.location}
+                </span>
+                <span className="restaurant-contact">
+                  <FaPhoneAlt /> {restaurant.contact}
+                </span>
+              </div>
+              <div className="restaurant-status">
+                <span className="status-open">
+                  <FaClock /> Open Now
+                </span>
+                <span className="rating">
+                  <FaStar /> 4.5
+                </span>
+              </div>
             </div>
-            <div className="restaurant-status">
-              <span className="status-open">
-                <FaClock /> Open Now
-              </span>
-              <span className="rating">
-                <FaStar /> 4.5
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

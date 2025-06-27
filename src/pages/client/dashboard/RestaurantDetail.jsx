@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock, FaArrowLeft, FaShoppingCart } from "react-icons/fa";
-import { getBackendImageUrl } from "../../../utils/backend-image";
 import { useFoodProducts } from "../../../hooks/useFoodProducts";
 import ProductList from "../ProductList";
 import "../Dashboard.css";
@@ -35,8 +34,8 @@ const RestaurantDetail = ({ restaurant, onBack, onAddToCart }) => {
   };
 
   const getRestaurantImage = () => {
-    if (restaurant.filepath) {
-      return getBackendImageUrl(restaurant.filepath);
+    if (restaurant.image) {
+      return restaurant.image;
     }
     // Use fallback based on restaurant name or index
     const index = restaurant.name ? restaurant.name.length % fallbackImages.length : 0;

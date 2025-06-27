@@ -12,8 +12,17 @@ const instance =axios.create(
 )       
 instance.interceptors.request.use((config)=>{
     const token=localStorage.getItem("token")
+    console.log('=== API REQUEST DEBUG ===');
+    console.log('Request URL:', config.url);
+    console.log('Request method:', config.method);
+    console.log('Has token:', !!token);
+    console.log('Token length:', token?.length);
+    
     if(token){
         config.headers.Authorization="Bearer " + token
+        console.log('Authorization header set');
+    } else {
+        console.log('No token found in localStorage');
     }
     return config
 })

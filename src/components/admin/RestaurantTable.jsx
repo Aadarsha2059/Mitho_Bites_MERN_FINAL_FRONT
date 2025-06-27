@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAdminRestaurant, useDeleteOneRestaurant } from '../../hooks/admin/useAdminRestaurant';
-import { getBackendImageUrl } from '../../utils/backend-image';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -8,6 +7,22 @@ export default function RestaurantTable() {
   const { restaurants, error, isPending } = useAdminRestaurant();
   const deleteOneRestaurantHook = useDeleteOneRestaurant();
   const [deleteId, setDeleteId] = React.useState(null);
+
+  // Debug logging
+  React.useEffect(() => {
+    if (restaurants && restaurants.length > 0) {
+      console.log('=== RESTAURANT TABLE DEBUG ===');
+      console.log('Restaurants data:', restaurants);
+      console.log('Sample restaurant:', restaurants[0]);
+      console.log('Restaurant image URLs:');
+      restaurants.forEach((restaurant, index) => {
+        console.log(`${index + 1}. ${restaurant.name}:`, {
+          image: restaurant.image,
+          hasImage: !!restaurant.image
+        });
+      });
+    }
+  }, [restaurants]);
 
   const handleDelete = () => {
     deleteOneRestaurantHook.mutate(deleteId, {
@@ -33,7 +48,7 @@ export default function RestaurantTable() {
             <th>Image</th>
             <th>Name</th>
             <th>Location</th>
-            <th>Type</th>
+            <th>Contact</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -43,7 +58,7 @@ export default function RestaurantTable() {
               <td>
                 <img
                   className="product-image"
-                  src={getBackendImageUrl(row.filepath)}
+                  src={row.image || 'https://via.placeholder.com/60?text=No+Image'}
                   alt={row.name}
                   style={{ width: 60, height: 60, borderRadius: 8, objectFit: 'cover', background: '#f3f4f6', border: '1px solid #e5e7eb' }}
                   onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/60?text=No+Image'; }}
@@ -51,7 +66,7 @@ export default function RestaurantTable() {
               </td>
               <td>{row.name}</td>
               <td>{row.location}</td>
-              <td>{row.type}</td>
+              <td>{row.contact}</td>
               <td>
                 <Link to={`/admin/restaurant/${row._id}`}><button className="view-btn">View</button></Link>
                 <Link to={`/admin/restaurant/${row._id}/edit`}><button className="edit-btn">Edit</button></Link>

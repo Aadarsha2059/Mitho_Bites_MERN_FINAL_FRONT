@@ -1,5 +1,4 @@
 import React from 'react';
-import { getBackendImageUrl } from '../../utils/backend-image';
 import './ProductList.css';
 
 const ProductList = ({ products, onAddToCart, onBack }) => {
@@ -12,7 +11,7 @@ const ProductList = ({ products, onAddToCart, onBack }) => {
           products.map((product) => (
             <div className="product-card" key={product._id}>
               <img 
-                src={product.filepath ? getBackendImageUrl(product.filepath) : '/placeholder-food.jpg'} 
+                src={product.image || '/placeholder-food.jpg'} 
                 alt={product.name} 
                 className="product-image"
                 onError={(e) => {
@@ -24,13 +23,13 @@ const ProductList = ({ products, onAddToCart, onBack }) => {
                 <p className="product-price">NPR {product.price}</p>
                 <p className="product-type">{product.type}</p>
                 <p className="product-category">
-                  📂 {product.categoryId?.name || 'Unknown Category'}
+                  📂 {product.categoryName || 'Unknown Category'}
                 </p>
                 <p className="product-restaurant">
-                  🏪 {product.restaurantId?.name || 'Unknown Restaurant'}
+                  🏪 {product.restaurantName || 'Unknown Restaurant'}
                 </p>
                 <p className="product-location">
-                  📍 {product.restaurantId?.location || 'Location not available'}
+                  📍 {product.restaurantLocation || 'Location not available'}
                 </p>
               </div>
               <button className="add-to-cart-btn" onClick={() => onAddToCart(product)}>

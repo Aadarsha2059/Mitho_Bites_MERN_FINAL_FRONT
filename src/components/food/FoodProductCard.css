@@ -206,19 +206,73 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Restaurant Information */
+.restaurant-info {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.restaurant-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.restaurant-thumbnail {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.restaurant-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8B4513;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.restaurant-location,
+.restaurant-contact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.restaurant-location:last-child,
+.restaurant-contact:last-child {
+    margin-bottom: 0;
+}
+
+.location-icon,
+.contact-icon {
+    font-size: 11px;
+    color: #FF8C00;
+}
+
 /* Preparation Time */
 .preparation-time {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 16px;
     font-size: 13px;
     color: #666;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .time-icon {
     font-size: 14px;
+    color: #FF8C00;
 }
 
 /* Product Footer */
