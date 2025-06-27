@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useCart } from "./CartContext";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
@@ -28,6 +28,8 @@ import { useFoodCategories } from "../../hooks/useFoodCategories";
 import { useFoodProducts } from "../../hooks/useFoodProducts";
 import { getBackendImageUrl } from "../../utils/backend-image";
 import "./Dashboard.css";
+import { AuthContext } from "../../auth/authProvider";
+import { useNavigate } from "react-router-dom";
 
 const SIDEBAR_OPTIONS = [
   { id: 'dashboard', label: 'Home', icon: <FaHome /> },
@@ -49,6 +51,8 @@ const Dashboard = () => {
   const [slideDirection, setSlideDirection] = useState('right');
   const [cartAnimation, setCartAnimation] = useState(false);
   const mainContentRef = useRef(null);
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // Fetch real data from backend
   const { categories, isLoading: categoriesLoading } = useFoodCategories();
@@ -79,10 +83,23 @@ const Dashboard = () => {
     }, 400); // match animation duration
   };
 
+  // Add to cart handler (only for category view)
+  const handleAddToCart = (product) => {
+    console.log('Adding to cart:', product);
+    addToCart(product); // Pass the full product object
+    setCartAnimation(true);
+    setCartModalOpen(true);
+    
+    // Reset animation after 1 second
+    setTimeout(() => {
+      setCartAnimation(false);
+    }, 1000);
+  };
+
   // Category click handler
-  const handleCategoryClick = (catId) => {
+  const handleCategoryClick = (category) => {
     setSlideDirection('right');
-    setSelectedCategory(catId);
+    setSelectedCategory(category);
     setView('category');
   };
 
@@ -93,24 +110,12 @@ const Dashboard = () => {
     setView('restaurant-detail');
   };
 
-  // Add to cart handler (only for category view)
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    setCartAnimation(true);
-    setCartModalOpen(true);
-    
-    // Reset animation after 1 second
-    setTimeout(() => {
-      setCartAnimation(false);
-    }, 1000);
-  };
-
   // Filter products for selected category
   const filteredProducts = selectedCategory
     ? products.filter((p) => {
         // Convert both to strings for comparison
         const productCategoryId = p.categoryId?._id || p.categoryId;
-        return productCategoryId?.toString() === selectedCategory?.toString();
+        return productCategoryId?.toString() === selectedCategory._id?.toString();
       })
     : [];
 
@@ -124,7 +129,15 @@ const Dashboard = () => {
   let SectionComponent = null;
   console.log('Current view:', view);
   
-  if (view === 'dashboard') SectionComponent = <HomeSection />;
+  if (view === 'dashboard') SectionComponent = (
+    <HomeSection 
+      onViewAllOrders={() => handleSidebarNav('orders')}
+      onCategoryClick={() => handleSidebarNav('categories')}
+      onRestaurantClick={() => handleSidebarNav('restaurants')}
+      categories={categories}
+      restaurants={[]} // We'll add restaurants later if needed
+    />
+  );
   else if (view === 'categories') SectionComponent = (
     <section className="section">
       <h2 className="section-title glow-text">Food Categories</h2>
@@ -138,14 +151,15 @@ const Dashboard = () => {
             <div
               className="category-card animated-card"
               key={cat._id}
-              onClick={() => handleCategoryClick(cat._id)}
+              onClick={() => handleCategoryClick(cat)}
               style={{ cursor: "pointer" }}
             >
               <img 
-                src={cat.filepath ? getBackendImageUrl(cat.filepath) : momo} 
+                src={cat.image || momo} 
                 alt={cat.name} 
                 className="category-image" 
                 onError={(e) => {
+                  console.log('Category image failed to load, using fallback');
                   e.target.src = momo; // Fallback image
                 }}
               />
@@ -165,6 +179,57 @@ const Dashboard = () => {
   else if (view === 'category') SectionComponent = (
     <div>
       <button className="back-btn big-back-btn" onClick={() => handleBack('categories')}><FaArrowLeft /> Back to Categories</button>
+      
+      {/* Category Header with Name and Image */}
+      {selectedCategory && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '30px',
+          padding: '20px',
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '15px',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }}>
+          <img 
+            src={selectedCategory.image || momo} 
+            alt={selectedCategory.name}
+            style={{
+              width: '80px',
+              height: '80px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '3px solid #fff',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+            }}
+            onError={(e) => {
+              e.target.src = momo;
+            }}
+          />
+          <div>
+            <h2 style={{
+              margin: '0 0 8px 0',
+              fontSize: '28px',
+              fontWeight: 'bold',
+              color: '#fff',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}>
+              {selectedCategory.name}
+            </h2>
+            <p style={{
+              margin: '0',
+              fontSize: '16px',
+              color: '#e0e0e0',
+              opacity: '0.9'
+            }}>
+              {filteredProducts.length} items available
+            </p>
+          </div>
+        </div>
+      )}
+      
       {productsLoading ? (
         <div className="loading-container">
           <div className="loader">Loading products...</div>
@@ -207,9 +272,14 @@ const Dashboard = () => {
 
   console.log('Rendering component for view:', view, 'Component:', SectionComponent?.type?.name || 'Unknown');
 
+  const handleLogout = () => {
+    logout();
+    // Navigation to homepage is now handled by the Sidebar component
+  };
+
   return (
     <div className="dashboard-container fancy-bg">
-      <Sidebar options={SIDEBAR_OPTIONS} onNavigate={handleSidebarNav} />
+      <Sidebar options={SIDEBAR_OPTIONS} onNavigate={handleSidebarNav} onLogout={handleLogout} />
       <div className="sidebar-icon">
         <span className="icon-circle">🍽️</span>
         <span className="icon-label">Mitho Bites</span>

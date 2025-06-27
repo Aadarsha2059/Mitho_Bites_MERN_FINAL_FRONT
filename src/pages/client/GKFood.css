@@ -1,0 +1,52 @@
+.gkfood-page {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #a18cd122;
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin: 40px auto;
+  max-width: 500px;
+  min-height: 320px;
+  position: relative;
+  text-align: center;
+}
+.gkfood-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.gkfood-icon {
+  font-size: 3.5rem;
+  color: #a18cd1;
+  margin-bottom: 0.5rem;
+}
+.gkfood-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #a18cd1;
+}
+.gkfood-content {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 1.2rem;
+}
+.back-arrow-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #fbc2eb;
+  color: #a18cd1;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #a18cd122;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.back-arrow-btn:hover {
+  background: #a18cd1;
+  color: #fff;
+  transform: scale(1.08);
+} 

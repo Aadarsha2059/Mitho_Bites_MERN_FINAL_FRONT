@@ -1,120 +1,344 @@
-import React from "react";
-import { useOrders, useCancelOrder } from '../../../hooks/useOrders';
-import { FaTimes, FaCheckCircle, FaClock, FaBan } from 'react-icons/fa';
-import "../Dashboard.css";
+import React, { useState, useEffect } from 'react';
+import { FaStar, FaComment, FaClock, FaMapMarkerAlt, FaTimes, FaCheck, FaHistory } from 'react-icons/fa';
+import momo from '../../../assets/images/momo.png';
+import './OrdersSection.css';
+import BoomCongratulations from '../BoomCongratulations';
 
-const statusMap = {
-  pending: { label: 'Pending', icon: <FaClock style={{ color: '#f59e42' }} /> },
-  confirmed: { label: 'Confirmed', icon: <FaCheckCircle style={{ color: '#4ade80' }} /> },
-  preparing: { label: 'Preparing', icon: <FaClock style={{ color: '#3b82f6' }} /> },
-  out_for_delivery: { label: 'Out for Delivery', icon: <FaCheckCircle style={{ color: '#8b5cf6' }} /> },
-  delivered: { label: 'Delivered', icon: <FaCheckCircle style={{ color: '#4ade80' }} /> },
-  cancelled: { label: 'Cancelled', icon: <FaBan style={{ color: '#ef4444' }} /> },
-};
+const Toast = ({ message, type, onClose }) => (
+  <div className={`custom-toast ${type}`}> 
+    <span>{message}</span>
+    <button className="toast-close" onClick={onClose}>&times;</button>
+  </div>
+);
 
-const OrdersSection = () => {
-  const { data: ordersData, isLoading, error } = useOrders();
-  const cancelOrderMutation = useCancelOrder();
-  const orders = ordersData?.data || [];
+const OrdersSection = ({ onGiveFeedback }) => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [feedbackProduct, setFeedbackProduct] = useState(null);
+  const [feedbackOrderId, setFeedbackOrderId] = useState(null);
+  const [showCongrats, setShowCongrats] = useState(false);
 
-  // Debug logging
-  console.log('OrdersSection - ordersData:', ordersData);
-  console.log('OrdersSection - orders:', orders);
-  console.log('OrdersSection - isLoading:', isLoading);
-  console.log('OrdersSection - error:', error);
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-  if (isLoading) {
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5050/api/orders', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setOrders(data.data);
+      }
+    } catch (error) {
+      //
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleCancelOrder = async (orderId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5050/api/orders/${orderId}/cancel`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        showToast('Order cancelled successfully!', 'error');
+        fetchOrders();
+      } else {
+        showToast('Failed to cancel order: ' + data.message, 'error');
+      }
+    } catch (error) {
+      showToast('Error cancelling order', 'error');
+    }
+  };
+
+  const handleMarkReceived = async (orderId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5050/api/orders/${orderId}/received`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (data.success) {
+        showToast('Order marked as received!', 'success');
+        fetchOrders();
+        setShowCongrats(true);
+      } else {
+        showToast('Failed to mark order as received: ' + data.message, 'error');
+      }
+    } catch (error) {
+      showToast('Error marking order as received', 'error');
+    }
+  };
+
+  const handleGiveFeedback = (orderId, product) => {
+    setFeedbackOrderId(orderId);
+    setFeedbackProduct(product);
+  };
+
+  const handleFeedbackSubmit = async (feedbackData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5050/api/feedbacks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : null,
+          productId: feedbackData.productId,
+          rating: feedbackData.rating,
+          comment: feedbackData.comment
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        showToast('Feedback submitted successfully!', 'success');
+        setFeedbackProduct(null);
+        setFeedbackOrderId(null);
+      } else {
+        showToast('Failed to submit feedback: ' + data.message, 'error');
+      }
+    } catch (error) {
+      showToast('Error submitting feedback', 'error');
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      'pending': { color: '#ff9800', icon: <FaClock />, text: 'Pending' },
+      'received': { color: '#4caf50', icon: <FaCheck />, text: 'Received' },
+      'cancelled': { color: '#f44336', icon: <FaTimes />, text: 'Cancelled' }
+    };
+    const config = statusConfig[status.toLowerCase()] || statusConfig['pending'];
     return (
-      <section className="section">
-        <h2 className="section-title glow-text">Your Orders</h2>
+      <div className="status-badge" style={{ backgroundColor: config.color }}>
+        {config.icon} {config.text}
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="orders-section">
         <div className="loading-container">
           <div className="loader">Loading orders...</div>
         </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="section">
-        <h2 className="section-title glow-text">Your Orders</h2>
-        <div className="error-container">
-          <p>Error loading orders. Please try again later.</p>
-          <p>Error: {error.message}</p>
-        </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className="section">
-      <h2 className="section-title glow-text">Your Orders</h2>
-      <div className="categories-row" style={{ flexDirection: 'column', gap: '1.5rem' }}>
-        {orders.length === 0 ? (
-          <div className="category-card animated-card">
-            <p>No orders yet. Start ordering your favorite food!</p>
-          </div>
-        ) : (
-          orders.map(order => (
-            <div className="category-card animated-card" key={order._id} style={{ minWidth: 0, width: '100%', maxWidth: 600 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Order #{order._id.slice(-8)}</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {statusMap[order.orderStatus]?.icon} <span style={{ marginLeft: 4 }}>{statusMap[order.orderStatus]?.label}</span>
-                </span>
+    <div className="orders-section">
+      <h2 className="section-title">Order History</h2>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      {showCongrats && (
+        <BoomCongratulations onClose={() => setShowCongrats(false)} />
+      )}
+      {orders.length === 0 ? (
+        <div className="no-orders">
+          <p>No orders found</p>
+        </div>
+      ) : (
+        <div className="orders-grid">
+          {orders.map((order) => (
+            <div key={order._id} className="order-card animated-card">
+              <div className="order-status-badge">
+                {getStatusBadge(order.orderStatus)}
               </div>
-              <div style={{ fontSize: '0.98rem', marginBottom: 6 }}>
-                <b>Placed:</b> {new Date(order.createdAt).toLocaleString()}
-              </div>
-              <div style={{ marginBottom: 8 }}>
-                <b>Items:</b>
-                <ul style={{ margin: 0, paddingLeft: 18 }}>
-                  {order.items.map((item, i) => (
-                    <li key={i}>
-                      <div style={{ marginBottom: '4px' }}>
-                        <strong>{item.productName}</strong> x{item.quantity} (NPR {item.price * item.quantity})
-                      </div>
-                      <div style={{ fontSize: '0.85rem', color: '#666', marginLeft: '16px' }}>
-                        📂 {item.categoryName} | 🏪 {item.restaurantName} | 📍 {item.restaurantLocation} | {item.foodType}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div style={{ marginBottom: 8 }}>
-                <b>Total:</b> NPR {order.totalAmount}
-              </div>
-              <div style={{ marginBottom: 8 }}>
-                <b>Payment:</b> {order.paymentMethod === 'online' ? 'Online Payment' : 'Cash on Delivery'}
-              </div>
-              <div style={{ marginBottom: 8 }}>
-                <b>Delivery Address:</b> {order.deliveryAddress?.street}, {order.deliveryAddress?.city}
-              </div>
-              {order.deliveryInstructions && (
-                <div style={{ marginBottom: 8 }}>
-                  <b>Instructions:</b> {order.deliveryInstructions}
+              <div className="order-header">
+                <div className="order-date">
+                  <FaClock />
+                  <span>{new Date(order.createdAt).toLocaleDateString()}</span>
                 </div>
-              )}
-              <div style={{ display: 'flex', gap: 12 }}>
+                <div className="order-id">
+                  Order #{order._id.slice(-6).toUpperCase()}
+                </div>
+              </div>
+              <div className="order-items">
+                {order.items && order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    <img
+                      src={item.productId?.image || momo}
+                      alt={item.productId?.name || 'Product'}
+                      className="order-item-image"
+                      onError={(e) => {
+                        e.target.src = momo;
+                      }}
+                    />
+                    <div className="order-item-info">
+                      <h4>{item.productId?.name || 'Product'}</h4>
+                      <p>Qty: {item.quantity}</p>
+                      <p>₹{item.price}</p>
+                      {item.categoryName && (
+                        <p className="item-category">Category: {item.categoryName}</p>
+                      )}
+                      {item.restaurantName && (
+                        <p className="item-restaurant">Restaurant: {item.restaurantName}</p>
+                      )}
+                      {item.restaurantLocation && (
+                        <p className="item-location">📍 {item.restaurantLocation}</p>
+                      )}
+                      {order.orderStatus === 'received' && (
+                        <button
+                          className="feedback-btn"
+                          onClick={() => handleGiveFeedback(order._id, item)}
+                        >
+                          <FaComment /> Give Feedback
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="order-footer">
+                <div className="order-total">
+                  <strong>Total: ₹{order.totalAmount}</strong>
+                </div>
+                <div className="order-location">
+                  <FaMapMarkerAlt />
+                  <span>{order.deliveryAddress?.street || 'Delivery address'}</span>
+                </div>
+              </div>
+              <div className="order-actions">
                 {order.orderStatus === 'pending' && (
-                  <button
-                    className="micro-btn"
-                    style={{ background: '#ef4444', color: '#fff', border: 'none', borderRadius: 8, padding: '0.5em 1.2em', fontWeight: 600, cursor: 'pointer' }}
-                    onClick={() => {
-                      cancelOrderMutation.mutate(order._id);
-                    }}
-                    disabled={cancelOrderMutation.isPending}
-                  >
-                    <FaTimes style={{ marginRight: 6 }} /> 
-                    {cancelOrderMutation.isPending ? 'Cancelling...' : 'Cancel Order'}
-                  </button>
+                  <>
+                    <button
+                      className="cancel-btn"
+                      onClick={() => handleCancelOrder(order._id)}
+                    >
+                      <FaTimes /> Cancel Order
+                    </button>
+                    <button
+                      className="receive-btn"
+                      onClick={() => handleMarkReceived(order._id)}
+                    >
+                      <FaCheck /> Mark Received
+                    </button>
+                  </>
+                )}
+                {order.orderStatus === 'cancelled' && (
+                  <div className="cancelled-notice">
+                    <FaHistory /> Order Cancelled
+                  </div>
                 )}
               </div>
+              
+              {/* Foreground Feedback Overlay */}
+              {feedbackOrderId === order._id && feedbackProduct && (
+                <div className="feedback-overlay">
+                  <div className="feedback-overlay-content">
+                    <FeedbackForm 
+                      order={order}
+                      product={feedbackProduct}
+                      onSubmit={handleFeedbackSubmit}
+                      onClose={() => { setFeedbackProduct(null); setFeedbackOrderId(null); }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          ))
-        )}
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Feedback Form Component (foreground overlay)
+const FeedbackForm = ({ order, product, onSubmit, onClose }) => {
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({
+      productId: product.productId._id,
+      rating,
+      comment
+    });
+  };
+
+  return (
+    <div className="feedback-overlay-container">
+      <div className="feedback-overlay-backdrop" onClick={onClose}></div>
+      <div className="feedback-overlay-modal">
+        <div className="feedback-modal-header">
+          <h3>Rate Your Experience</h3>
+          <button className="feedback-close-btn" onClick={onClose}>
+            <FaTimes />
+          </button>
+        </div>
+        <div className="feedback-product-info">
+          <img
+            src={product.productId?.image || '/placeholder.jpg'}
+            alt={product.productId?.name}
+            className="feedback-product-image"
+          />
+          <div className="feedback-product-details">
+            <h4>{product.productId?.name}</h4>
+            <p>Order #{order._id.slice(-6).toUpperCase()}</p>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} className="feedback-form-overlay">
+          <div className="rating-section">
+            <label>How would you rate this product?</label>
+            <div className="rating-stars-large">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FaStar
+                  key={star}
+                  className={`star-large ${star <= rating ? 'filled' : ''}`}
+                  onClick={() => setRating(star)}
+                />
+              ))}
+            </div>
+            <span className="rating-text">{rating} out of 5 stars</span>
+          </div>
+          
+          <div className="comment-section">
+            <label>Share your experience (optional)</label>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Tell us about your experience with this product..."
+              rows="4"
+              className="feedback-textarea"
+            />
+          </div>
+          
+          <div className="feedback-actions-overlay">
+            <button type="button" onClick={onClose} className="cancel-feedback-btn">
+              Cancel
+            </button>
+            <button type="submit" className="submit-feedback-btn">
+              Submit Feedback
+            </button>
+          </div>
+        </form>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -357,3 +357,119 @@
     padding: 0.3em 0.7em;
   }
 }
+
+/* Explore Restaurants and Party Palaces Section */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  margin: 32px 0 24px 0;
+  justify-items: center;
+}
+.explore-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(229, 57, 53, 0.10);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.3s;
+  cursor: pointer;
+  width: 100%;
+  max-width: 260px;
+  padding-bottom: 12px;
+}
+.explore-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(229, 57, 53, 0.18);
+}
+.explore-img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-bottom: 2px solid #e53935;
+}
+.explore-label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #e53935;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* Modern Food Card Layout */
+.attractive-food-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 28px;
+  margin-top: 24px;
+}
+.food-card-modern {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(229, 57, 53, 0.10);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.3s;
+  cursor: pointer;
+  padding-bottom: 16px;
+  position: relative;
+}
+.food-card-modern:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(229, 57, 53, 0.18);
+}
+.food-card-img-wrap {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
+  padding: 18px 0 10px 0;
+}
+.food-card-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #e53935;
+  background: #fff;
+  box-shadow: 0 2px 8px #e5393522;
+}
+.food-card-price {
+  position: absolute;
+  bottom: 8px;
+  right: 18px;
+  background: linear-gradient(135deg, #e53935, #d32f2f);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-radius: 16px;
+  padding: 4px 14px;
+  box-shadow: 0 2px 8px #e5393522;
+}
+.food-card-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #222;
+  margin-top: 14px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .explore-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .attractive-food-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .explore-card, .food-card-modern {
+    max-width: 98vw;
+  }
+}

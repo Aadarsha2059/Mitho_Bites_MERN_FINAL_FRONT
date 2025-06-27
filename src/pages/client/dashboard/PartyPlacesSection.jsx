@@ -51,6 +51,46 @@ const partyPlaces = [
     description: "Charming venue for small gatherings",
     rating: 4.5,
     price: "Starting from Rs. 8,000"
+  },
+  {
+    id: 5,
+    name: "Celebration Zone",
+    image: res2,
+    location: "Kupondole, Lalitpur",
+    seats: "40-80 people",
+    description: "Modern venue with great amenities",
+    rating: 4.7,
+    price: "Starting from Rs. 18,000"
+  },
+  {
+    id: 6,
+    name: "Golden Events",
+    image: res3,
+    location: "Jhamsikhel, Lalitpur",
+    seats: "60-120 people",
+    description: "Premium venue for special occasions",
+    rating: 4.8,
+    price: "Starting from Rs. 22,000"
+  },
+  {
+    id: 7,
+    name: "Party Paradise",
+    image: bestparty,
+    location: "Boudha, Kathmandu",
+    seats: "25-60 people",
+    description: "Cozy venue with garden view",
+    rating: 4.4,
+    price: "Starting from Rs. 10,000"
+  },
+  {
+    id: 8,
+    name: "Elite Celebration",
+    image: taaj,
+    location: "Maharajgunj, Kathmandu",
+    seats: "80-150 people",
+    description: "Luxurious venue for grand events",
+    rating: 4.9,
+    price: "Starting from Rs. 30,000"
   }
 ];
 

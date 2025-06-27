@@ -1,0 +1,139 @@
+.khanakhajan-page {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #a18cd122, 0 2px 8px #fbc2eb44;
+  padding: 2.5rem 2rem 2rem 2rem;
+  margin: 40px auto;
+  max-width: 540px;
+  min-height: 420px;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+.decorated-bg {
+  background: linear-gradient(135deg, #fbc2eb 0%, #a18cd1 100%);
+  box-shadow: 0 8px 32px #a18cd122, 0 2px 8px #fbc2eb44;
+}
+.khanakhajan-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.khanakhajan-icon {
+  font-size: 3.5rem;
+  color: #a18cd1;
+  margin-bottom: 0.5rem;
+}
+.khanakhajan-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #a18cd1;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #fbc2eb99;
+}
+.khanakhajan-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.2rem;
+}
+.kk-section {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #a18cd122;
+  padding: 1.2rem 1.5rem;
+  gap: 1.2rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  border-left: 6px solid #a18cd1;
+}
+.kk-section:hover {
+  box-shadow: 0 8px 32px #a18cd144;
+  transform: translateY(-2px) scale(1.02);
+}
+.kk-section-icon {
+  font-size: 2.1rem;
+  color: #a18cd1;
+  flex-shrink: 0;
+  margin-right: 0.7rem;
+}
+.kk-section-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #a18cd1;
+  margin-bottom: 0.2rem;
+}
+.kk-section-desc {
+  font-size: 1rem;
+  color: #555;
+  opacity: 0.85;
+}
+.kk-action-btn {
+  margin-left: auto;
+  background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #a18cd122;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.kk-action-btn:hover {
+  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  color: #e53935;
+  transform: scale(1.07);
+}
+.back-arrow-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #fbc2eb;
+  color: #a18cd1;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #a18cd122;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  z-index: 10;
+}
+.back-arrow-btn:hover {
+  background: #a18cd1;
+  color: #fff;
+  transform: scale(1.08);
+}
+@media (max-width: 600px) {
+  .khanakhajan-page {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    min-width: 0;
+    width: 98vw;
+  }
+  .khanakhajan-title {
+    font-size: 1.3rem;
+  }
+  .khanakhajan-content {
+    gap: 1rem;
+  }
+  .kk-section {
+    padding: 0.8rem 0.7rem;
+    font-size: 0.95rem;
+  }
+  .kk-section-title {
+    font-size: 1rem;
+  }
+  .kk-section-desc {
+    font-size: 0.9rem;
+  }
+  .kk-section-icon {
+    font-size: 1.3rem;
+  }
+} 

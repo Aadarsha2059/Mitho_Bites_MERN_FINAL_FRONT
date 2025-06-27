@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
+import { FaSignOutAlt, FaHome } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ options = [], onNavigate }) => {
+const Sidebar = ({ options = [], onNavigate, onLogout }) => {
   const [active, setActive] = useState(options[0]?.id || 'dashboard');
+  const navigate = useNavigate();
 
   const handleClick = (id) => {
     setActive(id);
     if (onNavigate) onNavigate(id);
+  };
+
+  const handleLogout = () => {
+    // Call the original logout function if provided
+    if (onLogout) {
+      onLogout();
+    }
+    // Navigate to homepage
+    navigate('/homepage');
   };
 
   return (
@@ -25,6 +37,17 @@ const Sidebar = ({ options = [], onNavigate }) => {
           </div>
         ))}
       </nav>
+      <div className="sidebar-logout-wrapper">
+        <button
+          className="sidebar-logout-btn"
+          onClick={handleLogout}
+        >
+          <span className="sidebar-icon">
+            <FaSignOutAlt />
+          </span>
+          <span className="sidebar-label">Logout to Homepage</span>
+        </button>
+      </div>
     </aside>
   );
 };

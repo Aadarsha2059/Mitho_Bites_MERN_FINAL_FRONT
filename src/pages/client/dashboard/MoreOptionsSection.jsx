@@ -1,23 +1,18 @@
 import React, { useState } from "react";
-import { FaCog, FaBookOpen, FaGlobeAsia, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaCog, FaBookOpen, FaGlobeAsia, FaUserCircle, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import KhanaKhajan from "../moreoptions/KhanaKhajan";
-import GKFood from "../moreoptions/GKFood";
+import Settings from "../Settings";
 import "../Dashboard.css";
 
 const options = [
-  { id: 'settings', label: 'Settings', icon: <FaCog /> },
-  { id: 'khana', label: 'Khana Khajan', icon: <FaBookOpen /> },
-  { id: 'gk', label: 'GK of Food & Cuisines', icon: <FaGlobeAsia /> },
-  { id: 'profile', label: 'Profile', icon: <FaUserCircle /> },
+  { id: 'settings', label: 'Settings', icon: <FaCog />, route: '/settings' },
+  { id: 'khana', label: 'Khana Khajan', icon: <FaBookOpen />, route: '/more/khanakhajan' },
+  { id: 'gk', label: 'GK of Food & Cuisines', icon: <FaGlobeAsia />, route: '/more/gkfood' },
+  { id: 'profile', label: 'Profile', icon: <FaUserCircle />, route: '/more/profile' },
 ];
 
 const MoreOptionsSection = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(null);
-
-  if (open === 'khana') return <KhanaKhajan />;
-  if (open === 'gk') return <GKFood />;
 
   return (
     <section className="section">
@@ -28,7 +23,7 @@ const MoreOptionsSection = () => {
             className="more-option-card animated-card"
             key={opt.id}
             onClick={() => {
-              if (opt.id === 'khana' || opt.id === 'gk') setOpen(opt.id);
+              if (opt.route) navigate(opt.route);
             }}
           >
             <span className="more-option-icon">{opt.icon}</span>

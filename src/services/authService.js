@@ -1,6 +1,7 @@
 import { registerUserApi } from "../api/authApi";
 import { loginUserApi } from "../api/authApi";
 import { forgotPasswordApi, resetPasswordApi } from "../api/authApi";
+import { updateUserProfileApi } from "../api/authApi";
 
 export const registerUserService=async (formData) =>{
     try{
@@ -39,5 +40,14 @@ export const resetPasswordService = async ({ token, password }) => {
         throw err.response?.data || { message: "Failed to reset password" };
     }
 };
+
+export const updateUserProfileService=async(userId,formData) => {
+    try{
+        const response= await updateUserProfileApi(userId,formData)
+        return response.data
+    }catch(err){
+        throw err?.response?.data || {message:"Profile update failed"}
+    }
+}
 
 

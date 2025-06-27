@@ -13,6 +13,7 @@ import LoginTest from '../state_manage/LoginTest';
 import WhatsCooking from '../pages/Menu';
 import AdminPage from '../pages/admin/AdminPage';
 import ProductManagement from '../pages/admin/ProductManagement'; 
+import UpdateProduct from '../pages/admin/UpdateProduct';
 import MainLayout from '../layouts/MainLayout';
 import GuestRouter from './GuestRouter';
 import NormalUserRoute from './NormalUserRoute';
@@ -22,6 +23,8 @@ import CreateCategory from '../pages/admin/CreateCategory';
 import CategoryManagement from '../pages/admin/CategoryManagement';
 import CreateRestaurant from '../pages/admin/CreateRestaurant';
 import RestaurantManagement from '../pages/admin/RestaurantManagement';
+import ViewRestaurant from '../pages/admin/ViewRestaurant';
+import UpdateRestaurant from '../pages/admin/UpdateRestaurant';
 import CreateUser from '../pages/admin/CreateUser';
 import AdminSettingsPage from '../pages/admin/AdminSettings';
 import ViewCategory from '../pages/admin/ViewCategory';
@@ -29,6 +32,11 @@ import UpdateCategory from '../pages/admin/UpdateCategory';
 import UpdateUser from '../pages/admin/UpdateUser';
 import PaymentMethod from '../pages/client/PaymentMethod';
 import AdminRoute from '../components/AdminRoute';
+import Settings from '../pages/client/Settings';
+import Profile from '../pages/client/Profile';
+import GKFood from '../pages/client/GKFood';
+import KhanaKhajan from '../pages/client/KhanaKhajan';
+import UpdateProfile from '../pages/client/UpdateProfile';
 
 export default function AppRouter() {
   return (
@@ -62,14 +70,21 @@ export default function AppRouter() {
         {/* Other Routes */}
         <Route path="/login-test" element={<LoginTest />} />
         <Route path="/dashboard" element={<Dashboard />} />
-         <Route path="/paymentmethod" element={<PaymentMethod />} />
-         <Route path="/cart" element={<CartDialog/>} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/paymentmethod" element={<PaymentMethod />} />
+        <Route path="/cart" element={<CartDialog/>} />
+        <Route path="/more/settings" element={<Settings />} />
+        <Route path="/more/profile" element={<Profile />} />
+        <Route path="/more/gkfood" element={<GKFood />} />
+        <Route path="/more/khanakhajan" element={<KhanaKhajan />} />
+        <Route path="/more/update-profile" element={<UpdateProfile />} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/*" element={<AdminRoute>{
           <Routes>
             <Route path="adminpage" element={<AdminPage />} />
             <Route path="product" element={<ProductManagement />} />
+            <Route path="product/:id/edit" element={<UpdateProduct />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="category/create" element={<CreateCategory />} />
             <Route path="users/create" element={<CreateUser />} />
@@ -80,6 +95,8 @@ export default function AppRouter() {
             <Route path="adminsettings" element={<AdminSettingsPage />} />
             <Route path="restaurant/create" element={<CreateRestaurant />} />
             <Route path="restaurant" element={<RestaurantManagement />} />
+            <Route path="restaurant/:id" element={<ViewRestaurant />} />
+            <Route path="restaurant/:id/edit" element={<UpdateRestaurant />} />
           </Routes>
         }</AdminRoute>} />
       </Routes>

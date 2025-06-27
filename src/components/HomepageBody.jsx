@@ -18,6 +18,12 @@ import testimonial3 from '../assets/images/customers/customer2.png';
 import testimonial4 from '../assets/admin.png';
 import customer1 from '../assets/images/customers/customer1.png';
 import customer2 from '../assets/images/customers/customer2.png';
+import rooftoppnepal from '../assets/restaurant/rooftoppnepal.png';
+import nezzeRestro from '../assets/restaurant/nezze restro nepal.png';
+import saloneDeCafe from '../assets/restaurant/salone de cafe.png';
+import bestParty from '../assets/party_palace/bestparty.png';
+import taaj from '../assets/party_palace/taaj.png';
+import smart from '../assets/party_palace/smart.png';
 
 const heroSlides = [
   {
@@ -218,13 +224,50 @@ export default function HomepageBody() {
         </div>
       </section>
 
-      {/* Featured Dishes Section */}
+      {/* Explore Restaurants and Party Palaces Section */}
+      <section className="featured-section">
+        <h2 className="section-title fade-in-up">Explore Restaurants and Party Palaces</h2>
+        <div className="explore-grid">
+          {/* Restaurants */}
+          <div className="explore-card">
+            <img src={rooftoppnepal} alt="Rooftop Nepal" className="explore-img" />
+            <div className="explore-label">Rooftop Nepal</div>
+          </div>
+          <div className="explore-card">
+            <img src={nezzeRestro} alt="Nezze Restro Nepal" className="explore-img" />
+            <div className="explore-label">Nezze Restro Nepal</div>
+          </div>
+          <div className="explore-card">
+            <img src={saloneDeCafe} alt="Salone De Cafe" className="explore-img" />
+            <div className="explore-label">Salone De Cafe</div>
+          </div>
+          {/* Party Palaces */}
+          <div className="explore-card">
+            <img src={bestParty} alt="Best Party Palace" className="explore-img" />
+            <div className="explore-label">Best Party Palace</div>
+          </div>
+          <div className="explore-card">
+            <img src={taaj} alt="Taaj Party Palace" className="explore-img" />
+            <div className="explore-label">Taaj Party Palace</div>
+          </div>
+          <div className="explore-card">
+            <img src={smart} alt="Smart Party Palace" className="explore-img" />
+            <div className="explore-label">Smart Party Palace</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Dishes Section - More Attractive Cards */}
       <section className="featured-section">
         <h2 className="section-title fade-in-up">Featured Dishes</h2>
-        <div className="featured-cards">
+        <div className="featured-cards attractive-food-cards">
           {featuredDishes.slice(1).map((dish, idx) => (
-            <div className="featured-card-anim" key={dish.title + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
-              <FoodCard title={dish.title} image={dish.image} price={dish.price} />
+            <div className="featured-card-anim food-card-modern" key={dish.title + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
+              <div className="food-card-img-wrap">
+                <img src={dish.image} alt={dish.title} className="food-card-img" />
+                <span className="food-card-price">₹{dish.price}</span>
+              </div>
+              <div className="food-card-title">{dish.title}</div>
             </div>
           ))}
         </div>

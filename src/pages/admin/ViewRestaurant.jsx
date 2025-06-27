@@ -1,7 +1,6 @@
 import React from "react";
 import { useGetOneRestaurant } from "../../hooks/admin/useAdminRestaurant";
 import { useParams } from "react-router-dom";
-import { getBackendImageUrl } from "../../utils/backend-image";
 import "./ViewRestaurant.css";
 
 export default function ViewRestaurant() {
@@ -16,7 +15,7 @@ export default function ViewRestaurant() {
       <h2 className="restaurant-title">Restaurant Details</h2>
       <div className="restaurant-card">
         <img
-          src={getBackendImageUrl(restaurant.filepath)}
+          src={restaurant.image}
           alt={restaurant.name}
           className="restaurant-image"
         />

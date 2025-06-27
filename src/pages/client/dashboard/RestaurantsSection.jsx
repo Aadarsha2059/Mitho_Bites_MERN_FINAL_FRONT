@@ -1,5 +1,5 @@
 import React from "react";
-import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock, FaArrowRight } from "react-icons/fa";
 import { useAdminRestaurant } from "../../../hooks/admin/useAdminRestaurant";
 import { getBackendImageUrl } from "../../../utils/backend-image";
 import "../Dashboard.css";
@@ -35,6 +35,130 @@ const getRestaurantImage = (restaurantName) => {
   }
 };
 
+// Sample restaurants for demonstration (will be replaced by backend data)
+const sampleRestaurants = [
+  {
+    _id: "rest1",
+    name: "Rooftop Nepal",
+    image: rooftopNepal,
+    location: "Thamel, Kathmandu",
+    contact: "+977-1-4444444",
+    description: "Amazing rooftop dining with city views",
+    rating: 4.8,
+    status: "Open"
+  },
+  {
+    _id: "rest2", 
+    name: "Salone de Cafe",
+    image: saloneCafe,
+    location: "Baneshwor, Kathmandu",
+    contact: "+977-1-5555555",
+    description: "Cozy cafe with great coffee and food",
+    rating: 4.6,
+    status: "Open"
+  },
+  {
+    _id: "rest3",
+    name: "Your Own Restro",
+    image: yourOwnRestro,
+    location: "Durbar Marg, Kathmandu",
+    contact: "+977-1-6666666",
+    description: "Authentic Nepali cuisine",
+    rating: 4.7,
+    status: "Open"
+  },
+  {
+    _id: "rest4",
+    name: "Nezze Restro Nepal",
+    image: nezzeRestro,
+    location: "Patan, Lalitpur",
+    contact: "+977-1-7777777",
+    description: "Traditional and modern fusion",
+    rating: 4.5,
+    status: "Open"
+  },
+  {
+    _id: "rest5",
+    name: "Spice Garden",
+    image: res1,
+    location: "Kupondole, Lalitpur",
+    contact: "+977-1-8888888",
+    description: "Spicy and flavorful dishes",
+    rating: 4.4,
+    status: "Open"
+  },
+  {
+    _id: "rest6",
+    name: "Golden Plate",
+    image: res2,
+    location: "Jhamsikhel, Lalitpur",
+    contact: "+977-1-9999999",
+    description: "Premium dining experience",
+    rating: 4.9,
+    status: "Open"
+  },
+  {
+    _id: "rest7",
+    name: "Taste of Nepal",
+    image: res3,
+    location: "Boudha, Kathmandu",
+    contact: "+977-1-1010101",
+    description: "Authentic local flavors",
+    rating: 4.3,
+    status: "Open"
+  },
+  {
+    _id: "rest8",
+    name: "Urban Kitchen",
+    image: rooftopNepal,
+    location: "Maharajgunj, Kathmandu",
+    contact: "+977-1-2020202",
+    description: "Modern urban dining",
+    rating: 4.6,
+    status: "Open"
+  },
+  {
+    _id: "rest9",
+    name: "Himalayan Delights",
+    image: saloneCafe,
+    location: "Swayambhu, Kathmandu",
+    contact: "+977-1-3030303",
+    description: "Mountain-inspired cuisine",
+    rating: 4.7,
+    status: "Open"
+  },
+  {
+    _id: "rest10",
+    name: "Riverside Cafe",
+    image: yourOwnRestro,
+    location: "Bagmati, Kathmandu",
+    contact: "+977-1-4040404",
+    description: "Peaceful riverside dining",
+    rating: 4.2,
+    status: "Open"
+  },
+  {
+    _id: "rest11",
+    name: "Downtown Bistro",
+    image: nezzeRestro,
+    location: "New Road, Kathmandu",
+    contact: "+977-1-5050505",
+    description: "Contemporary bistro style",
+    rating: 4.5,
+    status: "Open"
+  },
+  {
+    _id: "rest12",
+    name: "Garden Restaurant",
+    image: res1,
+    location: "Garden of Dreams, Kathmandu",
+    contact: "+977-1-6060606",
+    description: "Beautiful garden setting",
+    rating: 4.8,
+    status: "Open"
+  }
+];
+
 const RestaurantsSection = ({ onRestaurantClick }) => {
   console.log('RestaurantsSection rendered');
   
@@ -42,6 +166,9 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
   const { restaurants, isLoading, error } = useAdminRestaurant();
   
   console.log('Restaurants hook data:', { restaurants, isLoading, error });
+  
+  // Use backend data if available, otherwise use sample data for demonstration
+  const displayRestaurants = restaurants && restaurants.length > 0 ? restaurants : sampleRestaurants;
   
   const handleRestaurantClick = (restaurant) => {
     if (onRestaurantClick) {
@@ -75,10 +202,11 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
     );
   }
 
-  console.log('Restaurants from backend:', restaurants);
-  console.log('Number of restaurants:', restaurants.length);
+  console.log('Display restaurants:', displayRestaurants);
+  console.log('Number of restaurants:', displayRestaurants.length);
+  console.log('Grid layout: 4 restaurants per row on large screens, responsive breakpoints applied');
 
-  if (restaurants.length === 0) {
+  if (displayRestaurants.length === 0) {
     return (
       <section className="section">
         <h2 className="section-title glow-text">Popular Restaurants</h2>
@@ -95,50 +223,54 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
     <section className="section">
       <h2 className="section-title glow-text">Popular Restaurants</h2>
       <p className="section-subtitle">Discover amazing restaurants near you</p>
-      
-      <div className="categories-row">
-        {restaurants.map((restaurant) => {
-          console.log('Processing restaurant:', restaurant);
-          
-          return (
-            <div 
-              className="category-card animated-card restaurant-card" 
-              key={restaurant._id}
-              onClick={() => handleRestaurantClick(restaurant)}
-              style={{ cursor: "pointer" }}
-            >
-              <img 
-                src={getBackendImageUrl(restaurant.filepath)} 
-                alt={restaurant.name} 
-                className="category-image"
+      <div className="restaurants-grid">
+        {displayRestaurants.map((restaurant) => (
+          <div
+            key={restaurant._id}
+            className="restaurant-card animated-card"
+            onClick={() => handleRestaurantClick(restaurant)}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="restaurant-image-container">
+              <img
+                src={restaurant.image || getRestaurantImage(restaurant.name)}
+                alt={restaurant.name}
+                className="restaurant-image"
                 onError={(e) => {
                   console.log('Restaurant image failed to load:', restaurant.name);
-                  e.target.src = '/placeholder-restaurant.jpg';
-                }}
-                onLoad={() => {
-                  console.log('Restaurant image loaded successfully:', restaurant.name);
+                  e.target.src = getRestaurantImage(restaurant.name);
                 }}
               />
-              <h3 className="category-title">{restaurant.name}</h3>
+              <div className="restaurant-overlay">
+                <FaArrowRight className="arrow-icon" />
+              </div>
+            </div>
+            <div className="restaurant-info">
+              <h3 className="restaurant-name">{restaurant.name}</h3>
               <div className="restaurant-meta">
                 <span className="restaurant-location">
                   <FaMapMarkerAlt /> {restaurant.location}
                 </span>
-                <span className="restaurant-contact">
-                  <FaPhoneAlt /> {restaurant.contact}
-                </span>
+                {restaurant.contact && (
+                  <span className="restaurant-contact">
+                    <FaPhoneAlt /> {restaurant.contact}
+                  </span>
+                )}
               </div>
               <div className="restaurant-status">
                 <span className="status-open">
-                  <FaClock /> Open Now
+                  <FaClock /> {restaurant.status || 'Open Now'}
                 </span>
                 <span className="rating">
-                  <FaStar /> 4.5
+                  <FaStar /> {restaurant.rating || '4.5'}
                 </span>
               </div>
+              {restaurant.description && (
+                <p className="restaurant-description">{restaurant.description}</p>
+              )}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </section>
   );

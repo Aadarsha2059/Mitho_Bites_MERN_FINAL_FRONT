@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaArrowLeft, FaSpinner, FaFilter, FaSort, FaSearch } from 'react-icons/fa';
+import { FaArrowLeft, FaSpinner, FaFilter, FaSort, FaSearch, FaUtensils, FaStar } from 'react-icons/fa';
 import { useFoodProducts } from '../hooks/useFoodProducts';
 import { useFoodCategories } from '../hooks/useFoodCategories';
 import { useCart } from '../hooks/useCart';
@@ -75,120 +75,157 @@ export default function Menu() {
     };
 
     return (
-        <section className="menu-container">
-            {/* Header */}
-            <div className="menu-header">
-                <a href="/" className="back-to-home" aria-label="Back to homepage">
-                    <FaArrowLeft size={18} />
-                    <span>Back to Home</span>
-                </a>
-
-                <div className="menu-title-section">
-                    <h1 className="menu-title">Our Delicious Menu 🍽️</h1>
-                    <p className="menu-subtitle">Discover authentic Nepali flavors and traditional dishes</p>
-                    <div className="title-underline" />
-                </div>
-            </div>
-
-            {/* Search and Filters */}
-            <FoodSearchFilters
-                search={search}
-                setSearch={setSearch}
-                categoryFilter={categoryFilter}
-                setCategoryFilter={setCategoryFilter}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                categories={categories}
-                isLoading={isLoading || categoriesLoading}
-            />
-
-            {/* Results Summary */}
-            <div className="results-summary">
-                <div className="results-info">
-                    <span className="results-count">
-                        {pagination.total || 0} {pagination.total === 1 ? 'item' : 'items'} found
-                    </span>
-                    {(search || categoryFilter) && (
-                        <button onClick={handleClearFilters} className="clear-filters-btn">
-                            Clear all filters
-                        </button>
-                    )}
-                </div>
-            </div>
-
-            {/* Loading State */}
-            {isLoading && (
-                <div className="loading-container">
-                    <FaSpinner className="loading-spinner" />
-                    <p>Loading delicious food...</p>
-                </div>
-            )}
-
-            {/* Error State */}
-            {error && (
-                <div className="error-container">
-                    <p>Sorry, we couldn't load the menu. Please try again later.</p>
-                    <button onClick={() => window.location.reload()} className="retry-btn">
-                        Retry
+        <div className="menu-page-wrapper">
+            {/* Enhanced Header with Proper Back Button */}
+            <div className="menu-header-container">
+                <div className="menu-header-content">
+                    <button 
+                        onClick={() => window.history.back()} 
+                        className="menu-back-btn"
+                        aria-label="Go back"
+                    >
+                        <FaArrowLeft />
+                        <span>Back</span>
                     </button>
-                </div>
-            )}
 
-            {/* Products Grid */}
-            {!isLoading && !error && (
-                <>
-                    {products.length === 0 ? (
-                        <div className="no-results">
-                            <div className="no-results-icon">🍽️</div>
-                            <h3>No dishes found</h3>
-                            <p>Try adjusting your search or filters to find what you're looking for.</p>
+                    <div className="menu-title-section">
+                        <div className="menu-title-wrapper">
+                            <FaUtensils className="menu-title-icon" />
+                            <h1 className="menu-title">Our Delicious Menu</h1>
+                        </div>
+                        <p className="menu-subtitle">Discover authentic Nepali flavors and traditional dishes</p>
+                        <div className="menu-stats">
+                            <span className="stat-item">
+                                <FaStar className="stat-icon" />
+                                {pagination.total || 0} Dishes Available
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content Container */}
+            <div className="menu-main-container">
+                {/* Search and Filters */}
+                <div className="filters-section">
+                    <FoodSearchFilters
+                        search={search}
+                        setSearch={setSearch}
+                        categoryFilter={categoryFilter}
+                        setCategoryFilter={setCategoryFilter}
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
+                        sortOrder={sortOrder}
+                        setSortOrder={setSortOrder}
+                        categories={categories}
+                        isLoading={isLoading || categoriesLoading}
+                    />
+                </div>
+
+                {/* Results Summary */}
+                <div className="results-summary">
+                    <div className="results-info">
+                        <span className="results-count">
+                            {pagination.total || 0} {pagination.total === 1 ? 'item' : 'items'} found
+                        </span>
+                        {(search || categoryFilter) && (
                             <button onClick={handleClearFilters} className="clear-filters-btn">
+                                <FaFilter />
                                 Clear all filters
                             </button>
-                        </div>
-                    ) : (
-                        <div className="products-grid">
-                            {products.map((product) => (
-                                <FoodProductCard
-                                    key={product._id}
-                                    product={product}
-                                    onAddToCart={handleAddToCart}
-                                    onViewDetails={handleViewDetails}
-                                    onToggleFavorite={handleToggleFavorite}
-                                    isFavorite={favorites.some(fav => fav._id === product._id)}
-                                />
-                            ))}
-                        </div>
-                    )}
+                        )}
+                    </div>
+                </div>
 
-                    {/* Pagination */}
-                    {pagination.totalPages > 1 && (
-                        <div className="pagination">
-                            <button
-                                onClick={() => setPageNumber(pageNumber - 1)}
-                                disabled={!canPreviousPage}
-                                className="pagination-btn"
-                            >
-                                Previous
-                            </button>
-                            
-                            <div className="page-info">
-                                Page {pagination.page} of {pagination.totalPages}
-                            </div>
-                            
-                            <button
-                                onClick={() => setPageNumber(pageNumber + 1)}
-                                disabled={!canNextPage}
-                                className="pagination-btn"
-                            >
-                                Next
-                            </button>
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="loading-container">
+                        <div className="loading-spinner-wrapper">
+                            <FaSpinner className="loading-spinner" />
                         </div>
-                    )}
-                </>
-            )}
-        </section>
+                        <p>Loading delicious food...</p>
+                        <div className="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Error State */}
+                {error && (
+                    <div className="error-container">
+                        <div className="error-icon">⚠️</div>
+                        <h3>Oops! Something went wrong</h3>
+                        <p>Sorry, we couldn't load the menu. Please try again later.</p>
+                        <button onClick={() => window.location.reload()} className="retry-btn">
+                            <FaSpinner />
+                            Retry
+                        </button>
+                    </div>
+                )}
+
+                {/* Products Grid */}
+                {!isLoading && !error && (
+                    <>
+                        {products.length === 0 ? (
+                            <div className="no-results">
+                                <div className="no-results-icon">🍽️</div>
+                                <h3>No dishes found</h3>
+                                <p>Try adjusting your search or filters to find what you're looking for.</p>
+                                <button onClick={handleClearFilters} className="clear-filters-btn">
+                                    <FaFilter />
+                                    Clear all filters
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="products-grid">
+                                {products.map((product) => (
+                                    <FoodProductCard
+                                        key={product._id}
+                                        product={product}
+                                        onAddToCart={handleAddToCart}
+                                        onViewDetails={handleViewDetails}
+                                        onToggleFavorite={handleToggleFavorite}
+                                        isFavorite={favorites.some(fav => fav._id === product._id)}
+                                    />
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Enhanced Pagination */}
+                        {pagination.totalPages > 1 && (
+                            <div className="pagination-container">
+                                <div className="pagination">
+                                    <button
+                                        onClick={() => setPageNumber(pageNumber - 1)}
+                                        disabled={!canPreviousPage}
+                                        className="pagination-btn prev-btn"
+                                    >
+                                        <FaArrowLeft />
+                                        Previous
+                                    </button>
+                                    
+                                    <div className="page-info">
+                                        <span className="page-current">{pagination.page}</span>
+                                        <span className="page-separator">of</span>
+                                        <span className="page-total">{pagination.totalPages}</span>
+                                    </div>
+                                    
+                                    <button
+                                        onClick={() => setPageNumber(pageNumber + 1)}
+                                        disabled={!canNextPage}
+                                        className="pagination-btn next-btn"
+                                    >
+                                        Next
+                                        <FaArrowLeft style={{ transform: 'rotate(180deg)' }} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
+        </div>
     );
 }

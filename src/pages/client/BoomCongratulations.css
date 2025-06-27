@@ -1,0 +1,167 @@
+/* Overlay */
+.boom-congrats-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s;
+}
+
+/* Container */
+.boom-congrats-container {
+  position: relative;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(255, 105, 135, 0.25), 0 2px 8px #a18cd122;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 350px;
+  max-width: 95vw;
+  text-align: center;
+  overflow: hidden;
+  animation: popIn 0.7s cubic-bezier(0.68,-0.55,0.27,1.55);
+}
+
+/* Close Button */
+.boom-congrats-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #ff6b6b44;
+  transition: background 0.2s, transform 0.2s;
+  z-index: 10;
+}
+.boom-congrats-close:hover {
+  background: #e53935;
+  transform: scale(1.1) rotate(10deg);
+}
+
+/* Balloons */
+.boom-balloons {
+  position: absolute;
+  left: 0; right: 0;
+  top: 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 1;
+}
+.balloon {
+  position: absolute;
+  bottom: 0;
+  width: 38px;
+  height: 55px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0.85;
+  animation: floatBalloon 3.5s ease-in-out infinite;
+}
+.balloon-0 { left: 10%; background: linear-gradient(135deg, #fbc2eb, #a18cd1); animation-delay: 0s; }
+.balloon-1 { left: 25%; background: linear-gradient(135deg, #ff9a9e, #fad0c4); animation-delay: 0.5s; }
+.balloon-2 { left: 40%; background: linear-gradient(135deg, #f6d365, #fda085); animation-delay: 1s; }
+.balloon-3 { left: 60%; background: linear-gradient(135deg, #a1c4fd, #c2e9fb); animation-delay: 1.5s; }
+.balloon-4 { left: 80%; background: linear-gradient(135deg, #fdcbf1, #e0c3fc); animation-delay: 2s; }
+
+@keyframes floatBalloon {
+  0% { transform: translateY(60px) scale(1); opacity: 0.7; }
+  30% { opacity: 1; }
+  60% { transform: translateY(-40px) scale(1.08); }
+  100% { transform: translateY(-120px) scale(1.12); opacity: 0.5; }
+}
+
+/* Blast Animation */
+.boom-blast {
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  width: 180px;
+  height: 180px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.boom-blast::before, .boom-blast::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe082 0%, #ff6f00 60%, transparent 100%);
+  opacity: 0.25;
+  transform: translate(-50%, -50%) scale(0.7);
+  animation: boomBlast 1.2s cubic-bezier(0.68,-0.55,0.27,1.55) infinite;
+}
+.boom-blast::after {
+  width: 180px;
+  height: 180px;
+  opacity: 0.13;
+  animation-delay: 0.5s;
+}
+@keyframes boomBlast {
+  0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.25; }
+  60% { opacity: 0.18; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+}
+
+.boom-congrats-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #e53935;
+  margin-top: 110px;
+  margin-bottom: 0.7rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #fbc2eb99;
+  z-index: 2;
+  position: relative;
+}
+.boom-congrats-message {
+  font-size: 1.18rem;
+  color: #4a4a4a;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+  position: relative;
+}
+.boom-congrats-message .highlight {
+  color: #ff6b6b;
+  font-weight: 800;
+  background: #fff0f0;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin: 0 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+  .boom-congrats-container {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    min-width: 0;
+    width: 98vw;
+  }
+  .boom-congrats-title {
+    font-size: 1.3rem;
+    margin-top: 70px;
+  }
+  .boom-congrats-message {
+    font-size: 1rem;
+  }
+} 

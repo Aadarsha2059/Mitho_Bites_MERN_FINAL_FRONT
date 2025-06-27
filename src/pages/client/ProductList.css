@@ -32,8 +32,8 @@
   border-radius: 8px;
 }
 .product-card {
-  min-width: 260px;
-  max-width: 320px;
+  min-width: 280px;
+  max-width: 350px;
   background: #fff;
   border-radius: 1.2rem;
   box-shadow: 0 4px 18px #a18cd122;
@@ -44,20 +44,27 @@
   transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
   margin-bottom: 0.5rem;
   position: relative;
+  border: 1px solid #f0f0f0;
 }
 .product-card:hover {
   box-shadow: 0 12px 32px #a18cd144;
   transform: translateY(-8px) scale(1.04);
-  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+  border-color: #a18cd1;
 }
 .product-image {
   width: 100%;
-  max-width: 180px;
-  height: 140px;
+  max-width: 200px;
+  height: 160px;
   object-fit: cover;
   border-radius: 0.8rem;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 8px #a18cd122;
+  box-shadow: 0 4px 12px #a18cd122;
+  border: 2px solid #f0f0f0;
+  transition: border-color 0.2s;
+}
+.product-card:hover .product-image {
+  border-color: #a18cd1;
 }
 .product-title {
   font-size: 1.18rem;
@@ -75,22 +82,25 @@
   font-weight: 600;
 }
 .add-to-cart-btn {
-  background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
-  color: #2d2346;
+  background: linear-gradient(135deg, #e53935 0%, #d32f2f 100%);
+  color: white;
   border: none;
   border-radius: 0.7rem;
-  padding: 0.7em 1.7em;
-  font-weight: 800;
-  font-size: 1.08rem;
+  padding: 0.8em 1.8em;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px #a18cd122;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3);
+  transition: all 0.3s ease;
   margin-top: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .add-to-cart-btn:hover {
-  background: linear-gradient(90deg, #fbc2eb 0%, #a18cd1 100%);
-  color: #e53935;
-  box-shadow: 0 4px 16px #a18cd144;
+  background: linear-gradient(135deg, #d32f2f 0%, #e53935 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 57, 53, 0.4);
 }
 .no-products {
   color: #e53935;
@@ -142,4 +152,12 @@
   font-size: 0.8rem;
   color: #888;
   margin-bottom: 0.2rem;
+}
+.product-description {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  text-align: center;
+  font-style: italic;
 } 
