@@ -20,7 +20,7 @@ export default function ProductManagement() {
   const confirmDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/product/${deleteId}`, {
+      const response = await fetch(`http://localhost:5050/api/admin/product/${deleteId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

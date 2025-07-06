@@ -16,7 +16,7 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/product', {
+      const response = await fetch('http://localhost:5050/api/admin/product', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

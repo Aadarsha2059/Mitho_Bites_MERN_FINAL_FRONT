@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 import momoBg from '../assets/momo.png';
+import signupImage from '../assets/login&signup/sign up web image.png';
 import RegisterForm from '../components/authh/RegisterForm';
 
 function SignUpPage() {
@@ -16,19 +17,31 @@ function SignUpPage() {
       className="signup-container" 
       style={{ backgroundImage: `url(${momoBg})` }}
     >
-      <div className="signup-box">
-        <h2 className="signup-heading">Create Your Account</h2>
+      <div className="signup-wrapper">
+        <div className="signup-layout">
+          {/* Left side - Image */}
+          <div className="signup-image-section">
+            <img src={signupImage} alt="Sign Up" className="signup-image" />
+          </div>
+          
+          {/* Right side - Form */}
+          <div className="signup-form-section">
+            <div className="signup-box">
+              <h2 className="signup-heading">Create Your Account</h2>
 
-        <RegisterForm />
+              <RegisterForm />
 
-        <div className="login-redirect">
-          <span>Already have an account?</span>
-          <button 
-            className="login-button" 
-            onClick={handleBackToLogin}
-          >
-            Back to Login
-          </button>
+              <div className="login-redirect">
+                <span>Already have an account?</span>
+                <button 
+                  className="login-button" 
+                  onClick={handleBackToLogin}
+                >
+                  Back to Login
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

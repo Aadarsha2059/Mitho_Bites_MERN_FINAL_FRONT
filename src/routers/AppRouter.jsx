@@ -37,6 +37,8 @@ import Profile from '../pages/client/Profile';
 import GKFood from '../pages/client/GKFood';
 import KhanaKhajan from '../pages/client/KhanaKhajan';
 import UpdateProfile from '../pages/client/UpdateProfile';
+import TransactionHistory from '../pages/admin/TransactionHistory';
+import TransactionDetails from '../pages/admin/TransactionDetails';
 
 export default function AppRouter() {
   return (
@@ -97,6 +99,8 @@ export default function AppRouter() {
             <Route path="restaurant" element={<RestaurantManagement />} />
             <Route path="restaurant/:id" element={<ViewRestaurant />} />
             <Route path="restaurant/:id/edit" element={<UpdateRestaurant />} />
+            <Route path="transaction-history" element={<TransactionHistory />} />
+            <Route path="transaction-details/:id" element={<TransactionDetails />} />
           </Routes>
         }</AdminRoute>} />
       </Routes>

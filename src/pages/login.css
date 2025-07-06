@@ -30,8 +30,43 @@ body, html {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 440px;
+  max-width: 1200px;
   padding: 40px 20px;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 600px;
+}
+
+.login-image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.login-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+  display: block;
+  object-fit: contain;
+}
+
+.login-form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .login-logo {
@@ -50,6 +85,8 @@ body, html {
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   text-align: center;
+  width: 100%;
+  max-width: 440px;
 }
 
 h2 {
@@ -85,4 +122,60 @@ h2 {
 .signup-link:hover {
   color: #fff100;
   text-shadow: 0 2px 8px rgba(255, 241, 0, 0.9);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .login-container {
+    gap: 40px;
+  }
+  
+  .login-wrapper {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .login-wrapper {
+    max-width: 440px;
+  }
+  
+  .login-image-section {
+    order: 2;
+  }
+  
+  .login-form-section {
+    order: 1;
+  }
+  
+  .login-image {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 20px 15px;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  .login-subtitle {
+    font-size: 1rem;
+  }
+  
+  .login-image {
+    max-width: 90%;
+  }
 }

@@ -27,7 +27,7 @@ const popularRestaurants = [
 const staticRecentOrders = [
   {
     _id: "order1",
-    status: "Delivered",
+    status: "delivered",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
     totalAmount: 450,
     deliveryAddress: "Kathmandu, Nepal",
@@ -54,7 +54,7 @@ const staticRecentOrders = [
   },
   {
     _id: "order2",
-    status: "In Progress",
+    status: "in-progress",
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
     totalAmount: 320,
     deliveryAddress: "Lalitpur, Nepal",
@@ -99,7 +99,13 @@ const HomeSection = ({
       const token = localStorage.getItem('token');
       console.log('Fetching recent orders with token:', token ? 'Token exists' : 'No token');
       
-      const response = await fetch('http://localhost:5000/api/orders?limit=3', {
+      if (!token) {
+        console.log('No token found, using static data');
+        setOrders(staticRecentOrders);
+        return;
+      }
+      
+      const response = await fetch('http://localhost:5050/api/orders?limit=3', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -108,9 +114,40 @@ const HomeSection = ({
       
       console.log('Orders API response:', data);
       
-      if (data.success && data.data && data.data.length > 0) {
+      if (data.success && data.data && Array.isArray(data.data) && data.data.length > 0) {
         console.log('Fetched recent orders:', data.data);
-        setOrders(data.data);
+        console.log('Order statuses:', data.data.map(order => order.status));
+        // Ensure each order has the required properties
+        const validatedOrders = data.data.map(order => {
+          // Handle deliveryAddress - could be string or object
+          let deliveryAddress = 'Address not specified';
+          if (order.deliveryAddress) {
+            if (typeof order.deliveryAddress === 'string') {
+              deliveryAddress = order.deliveryAddress;
+            } else if (typeof order.deliveryAddress === 'object') {
+              // Convert address object to string
+              const address = order.deliveryAddress;
+              const addressParts = [
+                address.street,
+                address.city,
+                address.state,
+                address.zipCode,
+                address.country
+              ].filter(part => part && part.trim());
+              deliveryAddress = addressParts.join(', ');
+            }
+          }
+
+          return {
+            _id: order._id || `order-${Date.now()}`,
+            status: order.status || 'Unknown',
+            createdAt: order.createdAt || new Date(),
+            totalAmount: order.totalAmount || 0,
+            deliveryAddress: deliveryAddress,
+            products: Array.isArray(order.products) ? order.products : []
+          };
+        });
+        setOrders(validatedOrders);
       } else {
         console.log('No orders found, using static data');
         setOrders(staticRecentOrders);
@@ -126,145 +163,243 @@ const HomeSection = ({
 
   console.log('HomeSection rendering with orders:', orders);
 
-  return (
-    <div className="home-section">
-      {/* Welcome Section */}
-      <div className="welcome-section">
-        <h1 className="welcome-title">Welcome to MithoBites</h1>
-        <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
-      </div>
+  try {
+    return (
+      <div className="home-section">
+        {/* Welcome Section */}
+        <div className="welcome-section">
+          <h1 className="welcome-title">Welcome to MithoBites</h1>
+          <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
+        </div>
 
-      {/* Recent Orders */}
-      {!loading && orders && orders.length > 0 && (
-        <div className="recent-orders-section">
-          <div className="section-header">
-            <h2 className="section-title">Recent Orders</h2>
-            <button className="view-all-btn" onClick={onViewAllOrders}>
-              View All <FaArrowRight />
-            </button>
-          </div>
-          <div className="orders-grid">
-            {orders.map((order) => (
-              <div key={order._id} className="order-card animated-card">
-                <div className="order-header">
-                  <div className="order-status">
-                    <span className={`status-badge ${order.status.toLowerCase()}`}>
-                      {order.status}
-                    </span>
-                  </div>
-                  <div className="order-date">
-                    <FaClock />
-                    <span>{new Date(order.createdAt).toLocaleDateString()}</span>
-                  </div>
-                </div>
-                <div className="order-items">
-                  {order.products && order.products.slice(0, 2).map((item, index) => (
-                    <div key={index} className="order-item">
-                      <img
-                        src={item.productId?.image || momo}
-                        alt={item.productId?.name || 'Product'}
-                        className="order-item-image"
-                        onError={(e) => {
-                          e.target.src = momo;
-                        }}
-                      />
-                      <div className="order-item-info">
-                        <h4>{item.productId?.name || 'Product'}</h4>
-                        <p>Qty: {item.quantity}</p>
-                        <p>₹{item.price}</p>
+        {/* Recent Orders */}
+        {!loading && orders && orders.length > 0 && (
+          <div className="recent-orders-section">
+            <div className="section-header">
+              <h2 className="section-title">Recent Orders</h2>
+              <button className="view-all-btn" onClick={onViewAllOrders}>
+                View All <FaArrowRight />
+              </button>
+            </div>
+            <div className="orders-grid">
+              {orders.slice(0, 2).map((order) => {
+                // Ensure order has required properties
+                const safeOrder = {
+                  _id: order._id || `order-${Date.now()}`,
+                  status: order.status || 'Unknown',
+                  createdAt: order.createdAt || new Date(),
+                  totalAmount: order.totalAmount || 0,
+                  deliveryAddress: (() => {
+                    // Handle deliveryAddress - could be string or object
+                    if (!order.deliveryAddress) return 'Address not specified';
+                    if (typeof order.deliveryAddress === 'string') return order.deliveryAddress;
+                    if (typeof order.deliveryAddress === 'object') {
+                      const address = order.deliveryAddress;
+                      const addressParts = [
+                        address.street,
+                        address.city,
+                        address.state,
+                        address.zipCode,
+                        address.country
+                      ].filter(part => part && part.trim());
+                      return addressParts.join(', ');
+                    }
+                    return 'Address not specified';
+                  })(),
+                  products: Array.isArray(order.products) ? order.products : []
+                };
+                
+                // Debug status processing
+                // console.log('Processing order status:', {
+                //   original: order.status,
+                //   safe: safeOrder.status,
+                //   mapped: (() => {
+                //     const status = typeof safeOrder.status === 'string' ? safeOrder.status.toLowerCase() : 'unknown';
+                //     if (status === 'delivered' || status === 'completed' || status === 'success') return 'delivered';
+                //     if (status === 'in progress' || status === 'in-progress' || status === 'processing' || status === 'preparing') return 'in-progress';
+                //     if (status === 'pending' || status === 'confirmed' || status === 'accepted') return 'pending';
+                //     if (status === 'failed' || status === 'error' || status === 'declined') return 'failed';
+                //     if (status === 'cancelled' || status === 'canceled') return 'cancelled';
+                //     return 'unknown';
+                //   })()
+                // });
+                
+                return (
+                  <div key={safeOrder._id} className="order-card animated-card">
+                    <div className="order-header">
+                      <div className="order-status">
+                        <span className={`status-badge ${(() => {
+                          const status = typeof safeOrder.status === 'string' ? safeOrder.status.toLowerCase() : 'unknown';
+                          // Map various status values to our CSS classes
+                          if (status === 'delivered' || status === 'completed' || status === 'success') return 'delivered';
+                          if (status === 'in progress' || status === 'in-progress' || status === 'processing' || status === 'preparing') return 'in-progress';
+                          if (status === 'pending' || status === 'confirmed' || status === 'accepted') return 'pending';
+                          if (status === 'failed' || status === 'error' || status === 'declined') return 'failed';
+                          if (status === 'cancelled' || status === 'canceled') return 'cancelled';
+                          return 'unknown';
+                        })()}`}>
+                          {(() => {
+                            const status = typeof safeOrder.status === 'string' ? safeOrder.status : 'Unknown';
+                            // Format status for display
+                            if (status.toLowerCase() === 'in progress') return 'In Progress';
+                            if (status.toLowerCase() === 'in-progress') return 'In Progress';
+                            return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+                          })()}
+                        </span>
+                      </div>
+                      <div className="order-date">
+                        <FaClock />
+                        <span>{new Date(safeOrder.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
-                  ))}
-                  {order.products && order.products.length > 2 && (
-                    <div className="more-items">
-                      <span>+{order.products.length - 2} more items</span>
+                    <div className="order-items">
+                      {safeOrder.products && safeOrder.products.slice(0, 2).map((item, index) => {
+                        const safeItem = {
+                          productId: item.productId || {},
+                          quantity: item.quantity || 1,
+                          price: item.price || 0
+                        };
+                        
+                        return (
+                          <div key={index} className="order-item">
+                            <div className="order-item-image-container">
+                              <img
+                                src={typeof safeItem.productId.image === 'string' ? safeItem.productId.image : momo}
+                                alt={typeof safeItem.productId.name === 'string' ? safeItem.productId.name : 'Product'}
+                                className="order-item-image"
+                                onError={(e) => {
+                                  e.target.src = momo;
+                                }}
+                              />
+                              <div className="item-quantity-badge">
+                                {typeof safeItem.quantity === 'number' ? safeItem.quantity : 1}
+                              </div>
+                            </div>
+                            <div className="order-item-info">
+                              <h4 className="item-name">{typeof safeItem.productId.name === 'string' ? safeItem.productId.name : 'Product'}</h4>
+                              <p className="item-price">₹{typeof safeItem.price === 'number' ? safeItem.price : 0}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {safeOrder.products && safeOrder.products.length > 2 && (
+                        <div className="more-items">
+                          <span>+{safeOrder.products.length - 2} more items</span>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="order-footer">
-                  <div className="order-total">
-                    <strong>Total: ₹{order.totalAmount}</strong>
+                    <div className="order-footer">
+                      <div className="order-total">
+                        <strong>Total: ₹{typeof safeOrder.totalAmount === 'number' ? safeOrder.totalAmount : 0}</strong>
+                      </div>
+                      <div className="order-location">
+                        <FaMapMarkerAlt />
+                        <span>{typeof safeOrder.deliveryAddress === 'string' ? safeOrder.deliveryAddress : 'Address not specified'}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="order-location">
-                    <FaMapMarkerAlt />
-                    <span>{order.deliveryAddress}</span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Much Loved Dishes */}
+        <div className="much-loved-section">
+          <h2 className="section-title">Much Loved Dishes</h2>
+          <div className="dishes-grid">
+            {muchLovedDishes.map((dish) => (
+              <div key={dish.id} className="dish-card animated-card">
+                <img
+                  src={dish.image}
+                  alt={dish.name}
+                  className="dish-image"
+                />
+                <h3 className="dish-name">{dish.name}</h3>
+                <p className="dish-info">{dish.type} • {dish.restaurant}</p>
+                <p className="dish-price">₹{dish.price}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Popular Restaurants */}
+        <div className="popular-restaurants-section">
+          <h2 className="section-title">Popular Restaurants</h2>
+          <div className="restaurants-grid">
+            {popularRestaurants.map((restaurant) => (
+              <div key={restaurant.id} className="restaurant-card animated-card">
+                <img
+                  src={restaurant.image}
+                  alt={restaurant.name}
+                  className="restaurant-image"
+                />
+                <div className="restaurant-content">
+                  <h3 className="restaurant-name">{restaurant.name}</h3>
+                  <p className="restaurant-desc">{restaurant.desc}</p>
+                  <div className="restaurant-footer">
+                    <span className="restaurant-rating">{restaurant.rating}</span>
+                    <button className="view-menu-btn">
+                      View Menu
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      )}
 
-      {/* Much Loved Dishes */}
-      <div className="much-loved-section">
-        <h2 className="section-title">Much Loved Dishes</h2>
-        <div className="dishes-grid">
-          {muchLovedDishes.map((dish) => (
-            <div key={dish.id} className="dish-card animated-card">
-              <img
-                src={dish.image}
-                alt={dish.name}
-                className="dish-image"
-              />
-              <h3 className="dish-name">{dish.name}</h3>
-              <p className="dish-info">{dish.type} • {dish.restaurant}</p>
-              <p className="dish-price">₹{dish.price}</p>
+        {/* Quick Actions */}
+        <div className="quick-actions-section">
+          <h2 className="section-title">Quick Actions</h2>
+          <div className="quick-actions-grid">
+            <div 
+              className="quick-action-card animated-card"
+              onClick={() => onCategoryClick()}
+            >
+              <div className="action-icon">🍽️</div>
+              <h3>Browse Categories</h3>
+              <p>Explore food by category</p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Popular Restaurants */}
-      <div className="popular-restaurants-section">
-        <h2 className="section-title">Popular Restaurants</h2>
-        <div className="restaurants-grid">
-          {popularRestaurants.map((restaurant) => (
-            <div key={restaurant.id} className="restaurant-card animated-card">
-              <img
-                src={restaurant.image}
-                alt={restaurant.name}
-                className="restaurant-image"
-              />
-              <div className="restaurant-content">
-                <h3 className="restaurant-name">{restaurant.name}</h3>
-                <p className="restaurant-desc">{restaurant.desc}</p>
-                <div className="restaurant-footer">
-                  <span className="restaurant-rating">{restaurant.rating}</span>
-                  <button className="view-menu-btn">
-                    View Menu
-                  </button>
-                </div>
-              </div>
+            <div 
+              className="quick-action-card animated-card"
+              onClick={() => onRestaurantClick()}
+            >
+              <div className="action-icon">🏪</div>
+              <h3>View Restaurants</h3>
+              <p>Find your favorite restaurants</p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="quick-actions-section">
-        <h2 className="section-title">Quick Actions</h2>
-        <div className="quick-actions-grid">
-          <div 
-            className="quick-action-card animated-card"
-            onClick={() => onCategoryClick()}
-          >
-            <div className="action-icon">🍽️</div>
-            <h3>Browse Categories</h3>
-            <p>Explore food by category</p>
-          </div>
-          <div 
-            className="quick-action-card animated-card"
-            onClick={() => onRestaurantClick()}
-          >
-            <div className="action-icon">🏪</div>
-            <h3>View Restaurants</h3>
-            <p>Find your favorite restaurants</p>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error rendering HomeSection:', error);
+    return (
+      <div className="home-section">
+        <div className="welcome-section">
+          <h1 className="welcome-title">Welcome to MithoBites</h1>
+          <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
+        </div>
+        <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+          <p>Something went wrong while loading the dashboard.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            style={{
+              padding: '10px 20px',
+              background: '#667eea',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default HomeSection; 

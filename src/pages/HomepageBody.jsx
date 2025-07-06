@@ -15,7 +15,7 @@ const HomepageBody = () => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/categories');
+      const response = await fetch('http://localhost:5050/api/categories');
       const data = await response.json();
       
       if (data.success) {

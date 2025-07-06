@@ -12,6 +12,7 @@ import {
   FaListAlt,
   FaListUl,
   FaSearch,
+  FaHistory,
 } from 'react-icons/fa';
 import { useAdminCategory } from '../../hooks/admin/useAdminCategory';
 import { useCreateProduct } from '../../hooks/admin/useAdminProduct';
@@ -294,6 +295,16 @@ const AdminPage = () => {
           >
             <FaCog style={{ marginRight: '8px' }} />
             Settings
+          </button>
+          <button
+            className={activeTab === 'history' ? 'active' : ''}
+            onClick={() => {
+              setActiveTab('history');
+              navigate('/admin/transaction-history');
+            }}
+          >
+            <FaHistory style={{ marginRight: '8px' }} />
+            Transaction History
           </button>
           <button
             className={activeTab === 'logout' ? 'active' : ''}

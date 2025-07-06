@@ -35,7 +35,7 @@ const UpdateProduct = () => {
   const fetchProduct = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/product/${id}`, {
+      const response = await fetch(`http://localhost:5050/api/admin/product/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -45,34 +45,26 @@ const UpdateProduct = () => {
       if (data.success) {
         setProduct(data.data);
         setFormData({
-          name: data.data.name || '',
-          price: data.data.price || '',
-          categoryId: data.data.categoryId || '',
-          type: data.data.type || '',
-          restaurantId: data.data.restaurantId || '',
-          description: data.data.description || '',
-          isAvailable: data.data.isAvailable !== undefined ? data.data.isAvailable : true,
-          filepath: null
+          name: data.data.name,
+          price: data.data.price,
+          categoryId: data.data.categoryId._id,
+          type: data.data.type,
+          restaurantId: data.data.restaurantId._id,
         });
-        setImagePreview(null);
-        if (fileInputRef.current) fileInputRef.current.value = '';
       } else {
-        toast.error('Failed to fetch product');
-        navigate('/admin/product');
+        toast.error(data.message || 'Failed to fetch product');
       }
     } catch (error) {
       console.error('Error fetching product:', error);
       toast.error('Error fetching product');
-      navigate('/admin/product');
-    } finally {
-      setLoading(false);
     }
   };
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/categories');
+      const response = await fetch('http://localhost:5050/api/categories');
       const data = await response.json();
+      
       if (data.success) {
         setCategories(data.data);
       }
@@ -83,8 +75,9 @@ const UpdateProduct = () => {
 
   const fetchRestaurants = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/restaurants');
+      const response = await fetch('http://localhost:5050/api/restaurants');
       const data = await response.json();
+      
       if (data.success) {
         setRestaurants(data.data);
       }
@@ -154,7 +147,7 @@ const UpdateProduct = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/product/${id}`, {
+      const response = await fetch(`http://localhost:5050/api/admin/product/${id}`, {
         method: 'PUT',
         body: updateData,
         headers: {
