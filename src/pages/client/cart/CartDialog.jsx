@@ -90,39 +90,64 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
         })}
       </div>
 
-      <aside className="order-summary-container expanded-order-summary">
-        <h2>Order Summary</h2>
-        <div className="summary-row">
-          <span>Subtotal ({cart.length} items)</span>
-          <span>NRS {subtotal}</span>
+      <aside
+        className="order-summary-container expanded-order-summary"
+        style={{
+          background: 'linear-gradient(135deg, #f8f8ff 0%, #e3f2fd 100%)',
+          boxShadow: '0 8px 32px #a18cd144, 0 1.5px 8px #e3f2fd55 inset',
+          border: '2.5px solid #90caf9',
+          borderRadius: '1.5rem',
+          padding: '40px 36px 44px 36px',
+          margin: '0',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '24px',
+          minWidth: '320px',
+          maxWidth: '400px',
+          alignSelf: 'flex-start',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <h2 style={{display: 'flex', alignItems: 'center', gap: '10px', fontSize: '2rem', color: '#FF6B35'}}>
+          <span role="img" aria-label="summary">🧾</span> Order Summary
+        </h2>
+        <div className="summary-row" style={{marginBottom: '8px'}}>
+          <span><span role="img" aria-label="cart">🛒</span> Subtotal <span style={{fontWeight:400}}>({cart.length} items)</span></span>
+          <span style={{fontWeight:700, color:'#FF6B35'}}>NRS {subtotal}</span>
         </div>
-        <div className="summary-row">
-          <span>Delivery Fee</span>
-          <span className={deliveryFee === 0 ? 'free-delivery' : ''}>
+        <div className="summary-row" style={{marginBottom: '8px'}}>
+          <span><span role="img" aria-label="delivery">🚚</span> Delivery Fee</span>
+          <span className={deliveryFee === 0 ? 'free-delivery' : ''} style={{fontWeight:700, color: deliveryFee === 0 ? '#2ca02c' : '#333'}}>
             {deliveryFee === 0 ? 'FREE' : `NRS ${deliveryFee}`}
           </span>
         </div>
-        <div className="summary-row">
-          <span>Taxes & Fees</span>
-          <span>NRS {tax}</span>
+        <div className="summary-row" style={{marginBottom: '8px'}}>
+          <span><span role="img" aria-label="tax">💸</span> Taxes & Fees</span>
+          <span style={{fontWeight:700, color:'#1976D2'}}>NRS {tax}</span>
         </div>
-        <div className="summary-row total">
-          <span>Total</span>
-          <span>NRS {total}</span>
+        <div className="summary-row total" style={{background:'#fff3e0', borderRadius:'8px', padding:'12px 0', marginTop:'18px', boxShadow:'0 2px 8px #ff6b3511'}}>
+          <span style={{fontSize:'1.3rem', color:'#FF6B35', display:'flex', alignItems:'center', gap:'8px'}}><span role="img" aria-label="total">💰</span> Total</span>
+          <span style={{fontWeight:900, fontSize:'1.3rem', color:'#FF6B35'}}>NRS {total}</span>
         </div>
 
         {subtotal < 500 && (
-          <p className="add-more">
-            Add NRS {500 - subtotal} more for FREE delivery! 🚚
+          <p className="add-more" style={{marginTop:'10px', color:'#FF6B35', fontWeight:600, background:'#fff7e6', borderRadius:'6px', padding:'8px 0'}}>
+            <span role="img" aria-label="info">ℹ️</span> Add NRS {500 - subtotal} more for <b>FREE delivery!</b> 🚚
           </p>
         )}
 
         <button
           className="proceed-btn"
+          style={{marginTop:'18px', fontSize:'1.18rem', letterSpacing:'0.5px', boxShadow:'0 2px 8px #ff6b3533'}}
           disabled={isProcessing}
           onClick={handleProceedPayment}
         >
-          {isProcessing ? 'Processing...' : 'Proceed to Payment'} →
+          {isProcessing ? (
+            <><span role="img" aria-label="loading">⏳</span> Processing...</>
+          ) : (
+            <><span role="img" aria-label="pay">💳</span> Proceed to Payment →</>
+          )}
         </button>
       </aside>
     </div>
