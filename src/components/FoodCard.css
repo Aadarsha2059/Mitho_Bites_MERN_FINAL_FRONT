@@ -12,7 +12,7 @@
 
 .food-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(255, 87, 34, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 139, 139, 0.15);
 }
 
 /* === Image Styling === */
@@ -68,7 +68,7 @@
 }
 
 .food-price {
-  color: #ff5722;
+  color: #008B8B;
   font-size: 1.1rem;
   font-weight: 800;
   margin: 0;
@@ -76,7 +76,7 @@
 
 .view-details-btn {
   background-color: #ffefe9;
-  color: #ff5722;
+  color: #008B8B;
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -90,6 +90,9 @@
 }
 
 .view-details-btn:hover {
-  background-color: #ff5722;
+  background-color: #008B8B;
   color: #fff;
 }
+
+
+

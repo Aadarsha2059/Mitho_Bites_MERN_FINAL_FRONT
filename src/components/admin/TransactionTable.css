@@ -2,10 +2,12 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 32px 0;
+  background: rgba(255,255,255,0.92);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(90,63,215,0.10), 0 2px 8px rgba(44,62,80,0.06);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #e9eaf3;
 }
 
 .table-header {
@@ -150,16 +152,16 @@
 }
 
 .transaction-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(90deg, #5a3fd7 60%, #7c5dfa 100%);
+  color: #fff;
 }
 
 .transaction-table th {
-  padding: 16px 12px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid #e0e0e0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e9eaf3;
+  background: transparent;
 }
 
 .transaction-table td {
@@ -173,7 +175,9 @@
 }
 
 .transaction-table tbody tr:hover {
-  background-color: #f8f9ff;
+  background-color: #f4f6fb;
+  box-shadow: 0 2px 12px #5a3fd71a;
+  transition: box-shadow 0.2s, background 0.2s;
 }
 
 .transaction-id {
@@ -248,7 +252,7 @@
 
 .delete-btn {
   background: #ffebee;
-  color: #d32f2f;
+  color: #660000;
 }
 
 .delete-btn:hover {
@@ -270,7 +274,7 @@
 }
 
 .error {
-  color: #d32f2f;
+  color: #660000;
   font-weight: 600;
 }
 
@@ -363,3 +367,5 @@
     padding: 8px 4px;
   }
 } 
+
+

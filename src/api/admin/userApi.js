@@ -15,3 +15,4 @@ export const updateOneUserApi = (id, data) =>
 // Delete one user by ID
 export const deleteOneUserApi = (id) => 
   axios.delete(`/admin/users/${id}`);
+

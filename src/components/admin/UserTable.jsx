@@ -57,7 +57,7 @@
 
 //   return (
 //     <div className="user-table-container">
-//       <h2>Mitho Bites - User Table</h2>
+//       <h2>BhokBhoj - User Table</h2>
 
 //       {/* Delete Confirmation Modal */}
 //       <DeleteModal
@@ -192,7 +192,7 @@ export default function UserTable() {
 
   return (
     <div className="user-table-container">
-      <h2>Mitho Bites - User Table</h2>
+      <h2 style={{ textAlign: 'center', fontWeight: 700, fontSize: '2rem', margin: '1.5rem 0', color: '#4c51bf', letterSpacing: '0.5px' }}>BhokBhoj - User Table</h2>
 
       {/* Delete Confirmation Modal */}
       <DeleteModal
@@ -269,3 +269,4 @@ export default function UserTable() {
     </div>
   );
 }
+

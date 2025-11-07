@@ -61,7 +61,7 @@ export default function UpdateUser() {
 
   return (
     <div className="update-user-container">
-      <h2 className="update-user-title">Update User | Mitho Bites</h2>
+      <h2 className="update-user-title">Update User | BhokBhoj</h2>
       <form className="update-user-form" onSubmit={formik.handleSubmit}>
         {/* Full Name */}
         <div className="form-group">
@@ -160,3 +160,5 @@ export default function UpdateUser() {
     </div>
   );
 }
+
+

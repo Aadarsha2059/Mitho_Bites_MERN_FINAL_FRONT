@@ -24,6 +24,7 @@ import selRoti from '../../assets/images/sel_roti.png';
 import yomari from '../../assets/images/yomari.png';
 import featured1 from '../../assets/images/featured/featured1.png';
 import adminAvatar from '../../assets/admin/adminfood.png'; // Use as avatar for now
+import BusinessRiseFlows from './BusinessRiseFlows';
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -244,7 +245,7 @@ const AdminPage = () => {
         </div>
       )}
 
-      <header className="admin-header">🍽️ Mitho-Bites Admin Dashboard</header>
+      <header className="admin-header">🍽️ BhokBhoj Admin Dashboard</header>
 
       <div className="admin-body">
         <nav className="admin-sidebar">
@@ -305,6 +306,15 @@ const AdminPage = () => {
           >
             <FaHistory style={{ marginRight: '8px' }} />
             Transaction History
+          </button>
+          <button
+            className={window.location.pathname.includes('business-rise-flows') ? 'active' : ''}
+            onClick={() => {
+              navigate('/admin/business-rise-flows');
+            }}
+          >
+            <FaListAlt style={{ marginRight: '8px' }} />
+            Business Rise Flows
           </button>
           <button
             className={activeTab === 'logout' ? 'active' : ''}
@@ -439,20 +449,19 @@ const AdminPage = () => {
       </div>
 
       <footer className="admin-footer">
-        <div className="admin-footer-content">
-          <div className="admin-footer-section">
-            <h4>Connect with us</h4>
-            <div className="admin-social-links">
-              <a href="#" className="admin-social-link">
-                <FaFacebook />
-              </a>
-              <a href="#" className="admin-social-link">
-                <FaLinkedin />
-              </a>
-            </div>
+        <div className="admin-footer-content" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem'}}>
+          <div className="admin-footer-section" style={{display: 'flex', alignItems: 'center', gap: '2.2rem', flexWrap: 'wrap', fontWeight: 700, fontSize: '1.08rem', letterSpacing: '0.5px', color: '#fff'}}>
+            <span>2025 AD.</span>
+            <span>Designed and implemented by: <span style={{color:'#ffb347'}}>Aadarsha Babu Dhakal</span>.</span>
+            <span>Supervised by module teacher: <span style={{color:'#7c5dfa'}}>Albert Maharjan</span>.</span>
           </div>
-          <div className="admin-footer-section">
-            <p>&copy; 2024 Mitho-Bites. All rights reserved.</p>
+          <div className="admin-footer-section" style={{display: 'flex', alignItems: 'center', gap: '1.2rem'}}>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="admin-social-link" style={{color:'#fff', fontSize:'1.5rem'}}>
+              <FaFacebook />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="admin-social-link" style={{color:'#fff', fontSize:'1.5rem'}}>
+              <FaLinkedin />
+            </a>
           </div>
         </div>
       </footer>
@@ -461,3 +470,5 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
+

@@ -70,7 +70,9 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => {
+            {products
+              .filter(product => product.categoryName !== 'Thakali Khana items')
+              .map((product) => {
               console.log('Rendering product in admin table:', product);
               console.log('Product image field:', product.image);
               console.log('Product category name:', product.categoryName);
@@ -106,13 +108,16 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button
-                        className="edit-btn"
-                        onClick={() => onEdit(product)}
-                        title="Edit Product"
-                      >
-                        <FaEdit />
-                      </button>
+                      {/* Only render edit button if not Thakali Khana items */}
+                      {product.categoryName !== 'Thakali Khana items' && (
+                        <button
+                          className="edit-btn"
+                          onClick={() => onEdit(product)}
+                          title="Edit Product"
+                        >
+                          <FaEdit />
+                        </button>
+                      )}
                       <button
                         className="delete-btn"
                         onClick={() => onDelete(product._id)}
@@ -139,3 +144,4 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
 };
 
 export default ProductTable;
+

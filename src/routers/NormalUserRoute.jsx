@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../auth/authProvider";
+import { AuthContext } from "../auth/AuthProvider";
 import { useContext } from "react";
 
 
@@ -18,3 +18,4 @@ export default function NormalUserRoute() {
     <div>NormalUserRoute</div>
   )
 }
+

@@ -30,3 +30,4 @@ export const useRegisterUser = () => {
     error,
   };
 };
+

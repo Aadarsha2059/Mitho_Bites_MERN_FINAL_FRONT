@@ -1,10 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useCreateUser } from '../../hooks/admin/useAdminUseradd'; 
+import { useNavigate } from 'react-router-dom';
+import { useCreateUser } from '../../hooks/admin/useAdminUseradd';
 import './CreateUser.css';
 
 export default function CreateUser() {
+  const navigate = useNavigate();
   const { mutate, isPending } = useCreateUser();
 
   const validationSchema = Yup.object({
@@ -15,7 +17,7 @@ export default function CreateUser() {
       .min(3, 'Username must be at least 3 characters')
       .required('Username is required'),
     email: Yup.string()
-      .email('Invalid email format')
+      .email('Invalid email address')
       .required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
@@ -29,6 +31,9 @@ export default function CreateUser() {
     address: Yup.string()
       .min(5, 'Address must be at least 5 characters')
       .required('Address is required'),
+    role: Yup.string()
+      .oneOf(['user', 'admin'], 'Invalid role')
+      .required('Role is required'),
   });
 
   const formik = useFormik({
@@ -39,19 +44,22 @@ export default function CreateUser() {
       password: '',
       phone: '',
       address: '',
+      role: 'user',
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values)
       mutate(values, {
-        onSuccess: () => formik.resetForm(),
+        onSuccess: () => {
+          formik.resetForm();
+          navigate('/admin/users');
+        },
       });
     },
   });
 
   return (
     <div className="create-user-container">
-      <h2 className="create-user-title">Create New User | Mitho Bites</h2>
+      <h2 className="create-user-title">Create New User | BhokBhoj</h2>
 
       <form className="create-user-form" onSubmit={formik.handleSubmit}>
         {/* Full Name */}
@@ -62,7 +70,7 @@ export default function CreateUser() {
           <input
             type="text"
             name="fullname"
-            placeholder="e.g. John Doe"
+            placeholder="Enter full name"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -81,7 +89,7 @@ export default function CreateUser() {
           <input
             type="text"
             name="username"
-            placeholder="aadarsha"
+            placeholder="Enter username"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -100,7 +108,7 @@ export default function CreateUser() {
           <input
             type="email"
             name="email"
-            placeholder="user@example.com"
+            placeholder="Enter email address"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -138,7 +146,7 @@ export default function CreateUser() {
           <input
             type="text"
             name="phone"
-            placeholder="+977-98XXXXXXXX"
+            placeholder="Enter phone number"
             className="form-input"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -156,22 +164,50 @@ export default function CreateUser() {
           </label>
           <textarea
             name="address"
-            placeholder="Enter full address"
+            placeholder="Enter address"
             className="form-textarea"
+            rows={3}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.address}
-            rows={3}
           />
           {formik.touched.address && formik.errors.address && (
             <div className="form-error">{formik.errors.address}</div>
           )}
         </div>
 
-        {/* Submit Button */}
-        <button type="submit" className="submit-btn">
-          {isPending ? 'Creating...' : 'Create User'}
-        </button>
+        {/* Role */}
+        <div className="form-group">
+          <label className="form-label">
+            Role <span style={{ color: 'red' }}>*</span>
+          </label>
+          <select
+            name="role"
+            className="form-input"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.role}
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          {formik.touched.role && formik.errors.role && (
+            <div className="form-error">{formik.errors.role}</div>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={() => navigate('/admin/users')}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="submit-btn" disabled={isPending}>
+            {isPending ? 'Creating...' : 'Create User'}
+          </button>
+        </div>
       </form>
     </div>
   );

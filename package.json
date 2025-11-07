@@ -1,7 +1,7 @@
 {
-  "name": "mitho_bites",
+  "name": "bhokbhoj",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -26,7 +26,10 @@
     "react-modal": "^3.16.3",
     "react-router-dom": "^6.30.1",
     "react-toastify": "^11.0.5",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.4.0",
+    "react-joyride": "^2.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

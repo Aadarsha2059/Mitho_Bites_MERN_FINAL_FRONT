@@ -8,7 +8,7 @@ function ResetPasswordPage() {
   return (
     <div className="reset-password-page" style={{ backgroundImage: `url(${background})` }}>
       <div className="reset-password-wrapper">
-        <img src={logo} alt="Mitho Bites Logo" className="reset-password-logo" />
+        <img src={logo} alt="BhokBhoj Logo" className="reset-password-logo" />
         <ResetPassword />
       </div>
     </div>
@@ -16,3 +16,4 @@ function ResetPasswordPage() {
 }
 
 export default ResetPasswordPage; 
+

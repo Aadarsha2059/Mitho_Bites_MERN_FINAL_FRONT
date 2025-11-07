@@ -163,7 +163,6 @@ export default function CategoryTable() {
                 description="Are you sure you want to delete?"
             />
             <h3 className="table-title">Category Table</h3>
-            
             {/* Backend status indicator */}
             <div style={{ 
                 background: backendStatus === 'connected' ? '#e8f5e8' : backendStatus === 'error' ? '#ffeaea' : '#fff3cd',
@@ -176,22 +175,7 @@ export default function CategoryTable() {
             }}>
                 <strong>Backend Status:</strong> {backendStatus === 'connected' ? '✅ Connected' : backendStatus === 'error' ? '❌ Connection Failed' : '⏳ Checking...'}
             </div>
-            
-            {/* Debug info - remove this in production */}
-            <div style={{ 
-                background: '#f0f0f0', 
-                padding: '10px', 
-                margin: '10px 0', 
-                borderRadius: '5px',
-                fontSize: '12px'
-            }}>
-                <strong>Debug Info:</strong> {categories?.length || 0} categories loaded
-                {categories?.map(cat => (
-                    <div key={cat._id}>
-                        {cat.name}: {cat.filepath || 'No filepath'}
-                    </div>
-                ))}
-            </div>
+            {/* Debug info removed for clean UI */}
             
             <table className='category-table'>
                 <thead>
@@ -203,7 +187,9 @@ export default function CategoryTable() {
                 </thead>
                 <tbody>
                     {
-                        categories.map((row) => {
+                        categories
+                          .filter(row => row.name !== 'Thakali Khana items')
+                          .map((row) => {
                             const imageUrl = getBackendImageUrl(row.filepath);
                             const hasImageError = imageErrors.has(row._id);
                             const isImageLoaded = loadedImages.has(row._id);
@@ -253,3 +239,4 @@ export default function CategoryTable() {
         </div>
     )
 }
+

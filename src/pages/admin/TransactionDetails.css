@@ -75,7 +75,7 @@
 
 .delete-btn {
   background: #ffebee;
-  color: #d32f2f;
+  color: #660000;
 }
 
 .delete-btn:hover {
@@ -245,7 +245,7 @@
 
 .status.failed {
   background: #ffebee;
-  color: #d32f2f;
+  color: #660000;
 }
 
 .status.cancelled {
@@ -281,7 +281,7 @@
 }
 
 .transaction-details-error {
-  color: #d32f2f;
+  color: #660000;
   font-weight: 600;
 }
 
@@ -376,3 +376,5 @@
     font-size: 12px;
   }
 } 
+
+

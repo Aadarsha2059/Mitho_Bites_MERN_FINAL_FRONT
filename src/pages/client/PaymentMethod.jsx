@@ -1,4 +1,4 @@
-// Updated Mitho Bites Payment Methods Component (Simple & Accurate)
+// Updated BhokBhoj Payment Methods Component (Simple & Accurate)
 import React, { useState } from 'react';
 import { useCart } from './CartContext';
 import { FaMoneyBillWave, FaCreditCard, FaMobileAlt } from 'react-icons/fa';
@@ -16,6 +16,7 @@ function PaymentMethod({ onClose }) {
   const [paymentComplete, setPaymentComplete] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [showCallDialog, setShowCallDialog] = useState(false);
+  const [showFinalDialog, setShowFinalDialog] = useState(false); // NEW
 
   // Calculate cart summary
   const cartTotal = getCartTotal();
@@ -73,8 +74,12 @@ function PaymentMethod({ onClose }) {
           setShowCallDialog(true);
           setTimeout(() => {
             setShowCallDialog(false);
-            setPaymentComplete(false);
-            if (onClose) onClose();
+            setShowFinalDialog(true); // NEW: show final dialog
+            setTimeout(() => {
+              setShowFinalDialog(false);
+              setPaymentComplete(false);
+              if (onClose) onClose();
+            }, 5000); // Show final dialog for 5s
           }, 5000);
         }, 3000);
         
@@ -91,12 +96,12 @@ function PaymentMethod({ onClose }) {
 
   if (paymentComplete) {
     return (
-      <div className="payment-modal-bg">
+      <div className="payment-modal-bg festive-bg"> {/* NEW: festive-bg for more attractive look */}
         <button className="modal-close-btn" onClick={onClose}>×</button>
         <div className="success-container">
           <div className="success-icon">✅</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Successful!</h2>
-          <p className="text-gray-600 mb-6">Your Mitho Bites food order has been confirmed.</p>
+          <p className="text-gray-600 mb-6">Your BhokBhoj food order has been confirmed.</p>
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <p className="text-sm text-gray-500">Order ID</p>
             <p className="font-mono text-lg font-semibold">#MB-NEPAL-2025-001</p>
@@ -121,6 +126,28 @@ function PaymentMethod({ onClose }) {
             </div>
           </div>
         )}
+        {showFinalDialog && (
+          <div className="dialog-overlay">
+            <div className="dialog-box festive-dialog-box">
+              <div className="decorative-header">
+                <span className="confetti">🎉</span>
+                <span className="confetti">✨</span>
+                <span className="confetti">🍽️</span>
+              </div>
+              <h2 className="festive-title">Order Placed Successfully!</h2>
+              <p className="festive-message">
+                Your items successfully on orders place.<br/>
+                <span style={{color:'#f76d6d', fontWeight:'bold'}}>We are making foods for you with love and hygiene.</span><br/>
+                <span style={{color:'#f8b500'}}>Please visit email inbox and orders history. Stay updated!</span>
+              </p>
+              <div className="decorative-footer">
+                <span className="confetti">💌</span>
+                <span className="confetti">🍲</span>
+                <span className="confetti">💖</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -131,7 +158,7 @@ function PaymentMethod({ onClose }) {
       <div className="payment-modal-container">
         <div className="payment-modal-left">
           <h1 className="payment-title">Payment Methods</h1>
-          <p className="payment-desc">Secure your Mitho Bites order now</p>
+          <p className="payment-desc">Secure your BhokBhoj order now</p>
           <form onSubmit={handlePayment} className="payment-form">
             <div className="payment-method-select">
               <label>Select Payment Method</label>
@@ -239,3 +266,5 @@ function PaymentMethod({ onClose }) {
 }
 
 export default PaymentMethod;
+
+

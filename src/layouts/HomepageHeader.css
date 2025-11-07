@@ -6,12 +6,12 @@
   right: 0;
   width: 100%;
   padding: 15px 40px;
-  background-color: rgba(246, 188, 152, 0.95);
+  background-color: rgba(255, 248, 220, 0.95);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 139, 139, 0.15);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(10px);
 }
@@ -67,15 +67,15 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ff5722, #ff8c00);
+  background: linear-gradient(90deg, #008B8B, #FFA500);
   transition: all 0.3s ease;
   transform: translateX(-50%);
   border-radius: 1px;
 }
 
 .homepage-nav-link:hover {
-  color: #ff5722;
-  background-color: rgba(255, 87, 34, 0.1);
+  color: #008B8B;
+  background-color: rgba(0, 139, 139, 0.1);
   transform: translateY(-2px);
 }
 
@@ -85,19 +85,19 @@
 
 /* Special styling for login link */
 .login-link {
-  background: linear-gradient(135deg, #ff5722, #ff8c00);
+  background: linear-gradient(135deg, #008B8B, #FFA500);
   color: white !important;
   border-radius: 25px;
   padding: 12px 24px;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(255, 87, 34, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 139, 139, 0.3);
   transition: all 0.3s ease;
 }
 
 .login-link:hover {
-  background: linear-gradient(135deg, #e64a19, #ff7f00);
+  background: linear-gradient(135deg, #006666, #FFA500);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 139, 139, 0.4);
   color: white !important;
 }
 
@@ -181,3 +181,6 @@
     padding: 6px 12px;
   }
 }
+
+
+

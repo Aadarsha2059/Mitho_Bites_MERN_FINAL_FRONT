@@ -141,9 +141,11 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useLoginUser } from '../../hooks/useLoginUser'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../auth/authProvider'
+import { AuthContext } from '../../auth/AuthProvider'
+import googleLogo from '../../assets/google_logo.png';
+import facebookLogo from '../../assets/facebook_logo.png';
 
-export default function LoginForm() {
+export default function LoginForm({ closeModal }) {
   const { mutate, data, error, isPending } = useLoginUser()
   const navigate = useNavigate()
   const { login } = useContext(AuthContext)
@@ -157,6 +159,9 @@ export default function LoginForm() {
       // Login the user with the response data
       login(data.user, data.token)
       
+      // Close modal if provided
+      if (closeModal) closeModal();
+      
       // Check if user is admin based on hardcoded credentials
       if (data.user.username === 'admin_aadarsha') {
         console.log('Admin user detected! Navigating to admin page...');
@@ -166,7 +171,7 @@ export default function LoginForm() {
         navigate('/dashboard')
       }
     }
-  }, [data, error, navigate, login])
+  }, [data, error, navigate, login, closeModal])
 
   const validationSchema = Yup.object({
     username: Yup.string().required('Please fill username'),
@@ -190,7 +195,7 @@ export default function LoginForm() {
         <div className="login-icon">
           <span role="img" aria-label="login">🍽️</span>
         </div>
-        <h3 className="login-subtitle">Welcome back! Let's get you signed in</h3>
+        <h3 className="login-subtitle">Welcome to BhokBhoj! Let's get you signed in</h3>
       </div>
 
       <form onSubmit={formik.handleSubmit} className="login-form">
@@ -240,7 +245,7 @@ export default function LoginForm() {
           )}
         </div>
 
-        <button type="submit" className="login-btn" disabled={isPending}>
+        <button type="submit" className="login-btn enhanced-login-btn" disabled={isPending}>
           {isPending ? (
             <>
               <span role="img" aria-label="loading">⏳</span> Signing in...
@@ -259,6 +264,21 @@ export default function LoginForm() {
           </div>
         )}
       </form>
-    </div>
+      <div className="social-login-divider">
+        {/* <span>or sign in with</span> */}
+      </div>
+      {/* <div className="social-login-buttons"> */}
+        <button
+          // type="button"
+          // className="social-btn facebook-btn"
+          // style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#1877f2', color: '#fff', border: 'none', borderRadius: '4px', padding: '10px 16px', fontWeight: 500, cursor: 'pointer', width: '100%', justifyContent: 'center' }}
+          // onClick={() => { window.location.href = 'http://localhost:5051/api/auth/facebook'; }}
+        >
+          {/* <img src={facebookLogo} alt="Facebook" className="social-icon" style={{ width: '24px', height: '24px' }} onError={e => e.target.style.display='none'} /> */}
+          {/* Sign in with Facebook */}
+        </button>
+      </div>
+    // </div>
   )
 }
+

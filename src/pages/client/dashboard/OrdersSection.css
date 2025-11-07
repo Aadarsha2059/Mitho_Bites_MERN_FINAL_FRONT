@@ -226,7 +226,7 @@
 }
 
 .cancel-btn:hover {
-  background: #d32f2f;
+  background: #660000;
   transform: translateY(-2px);
 }
 
@@ -502,7 +502,7 @@
   font-weight: bold;
   transition: color 0.2s;
 }
-.toast-close:hover { color: #e53935; }
+.toast-close:hover { color: #8B0000; }
 @keyframes toastIn {
   0% { opacity: 0; transform: translateY(-30px) scale(0.95); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -563,7 +563,7 @@
 }
 
 .close-inline-feedback:hover { 
-  color: #e53935; 
+  color: #8B0000; 
   background: #f5f5f5;
 }
 
@@ -988,3 +988,5 @@
     padding: 12px;
   }
 } 
+
+

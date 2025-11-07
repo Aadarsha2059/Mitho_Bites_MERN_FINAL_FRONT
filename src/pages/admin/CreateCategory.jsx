@@ -35,7 +35,7 @@ export default function CreateCategory() {
 
   return (
     <div className="create-category-container">
-      <h2 className="create-category-title">Category - Food | Mitho Bites</h2>
+      <h2 className="create-category-title">Category - Food | BhokBhoj</h2>
 
       <form className="create-category-form" onSubmit={formik.handleSubmit}>
 
@@ -100,3 +100,5 @@ export default function CreateCategory() {
     </div>
   )
 }
+
+

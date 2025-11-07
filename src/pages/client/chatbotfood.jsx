@@ -16,7 +16,18 @@ const DUMMY_QA = [
   { q: 'Can I change the quantity of an item in the cart?', a: 'Yes, inside the cart dialog, you can update the quantity of each item before proceeding to payment.' },
   { q: 'What happens after I place an order?', a: 'After confirming your payment, your order is placed and you will see a success message. You can track its status in the "Orders" section.' },
   { q: 'Is there a way to go back to the previous screen?', a: 'Yes, most sections like "Categories" or "Restaurants" have a "Back" button to return to the previous view.' },
-  { q: 'Where can I find more options?', a: 'The "More" section in the sidebar contains links to special menus or partner restaurants like KhanaKhajan and GKFood.' }
+  { q: 'Where can I find more options?', a: 'The "More" section in the sidebar contains links to special menus or partner restaurants like KhanaKhajan and GKFood.' },
+  // Project-relevant Q&A additions:
+  { q: 'How do I see my purchase trend?', a: 'Go to the "More" section and select "My Purchase Trend" to view your order history as a chart.' },
+  { q: 'How do I get bill confirmation?', a: 'After you mark an order as received, a detailed bill is sent to your email automatically.' },
+  { q: 'How do I use the chatbot?', a: 'Click the chat icon at the bottom right of the screen to open the chatbot and ask any question about BhokBhoj.' },
+  { q: 'How do I enable dark mode?', a: 'Go to App Settings in the More section and toggle Dark Mode.' },
+  { q: 'How do I contact support?', a: 'Use the Help & Support section in the More menu or email support@BhokBhoj.com.' },
+  { q: 'Can I use fingerprint login?', a: 'Yes, on supported devices, you can enable fingerprint login in the app settings.' },
+  { q: 'How do I refresh the dashboard?', a: 'Shake your device or pull down to refresh the dashboard and see the latest updates.' },
+  { q: 'What is Khana Khajan?', a: 'Khana Khajan is a special section with Nepali recipes and food facts. Find it in the More menu.' },
+  { q: 'How do I see the latest restaurants?', a: 'The dashboard shows a notification banner for the latest added restaurant, category, and food item.' },
+  { q: 'How do I logout?', a: 'Click the logout button in the More section or in the sidebar to securely log out.' },
 ];
 
 function getBotReply(userMsg) {
@@ -38,12 +49,13 @@ function getRandomExamples() {
 export default function ChatbotFood() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { from: 'bot', text: 'Hi! 👋 I am your Mitho Bites assistant. Ask me anything about food, orders, or the app!' }
+    { from: 'bot', text: 'Hi! 👋 I am your BhokBhoj assistant. Ask me anything about food, orders, or the app!' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const [examples, setExamples] = useState(getRandomExamples());
+  const [botAnim, setBotAnim] = useState(false);
 
   useEffect(() => {
     if (open && chatEndRef.current) {
@@ -60,10 +72,13 @@ export default function ChatbotFood() {
     if (!userMsg) return;
     setMessages(msgs => [...msgs, { from: 'user', text: userMsg }]);
     setLoading(true);
+    setBotAnim(true);
     setTimeout(() => {
       setMessages(msgs => [...msgs, { from: 'bot', text: getBotReply(userMsg) }]);
       setLoading(false);
-    }, 4000);
+      setExamples(getRandomExamples()); // swap questions after each answer
+      setBotAnim(false);
+    }, 1200);
     setInput('');
   };
 
@@ -72,16 +87,21 @@ export default function ChatbotFood() {
   };
 
   return (
-    <div className="chatbot-food-root">
+    <div className="chatbot-food-root" style={{background:'linear-gradient(135deg,#fffbe7 0%,#ffe3d1 100%)'}}>
       {open && (
-        <div className="chatbot-food-window">
-          <div className="chatbot-food-header">
-            <span role="img" aria-label="bot">🤖</span> Mitho Bites Chatbot
+        <div className="chatbot-food-window" style={{background:'linear-gradient(135deg,#f8f9fa 0%,#e0c3fc 100%)',boxShadow:'0 10px 40px #a18cd144'}}>
+          <div className="chatbot-food-header" style={{display:'flex',alignItems:'center',gap:10}}>
+            <span role="img" aria-label="bot" style={{fontSize:'2rem',animation:botAnim?'bot-bounce 0.7s':''}}>🤖</span>
+            <span style={{fontWeight:800,letterSpacing:'0.5px',fontSize:'1.1rem',color:'#7b1fa2'}}>BhokBhoj Chatbot</span>
             <button className="chatbot-food-close" onClick={() => setOpen(false)}>&times;</button>
           </div>
-          <div className="chatbot-food-messages">
+          <div className="chatbot-food-messages" style={{background:'rgba(255,255,255,0.7)',backdropFilter:'blur(4px)'}}>
             {messages.map((msg, i) => (
-              <div key={i} className={`chatbot-food-msg chatbot-food-msg-${msg.from}`}>{msg.text}</div>
+              <div key={i} className={`chatbot-food-msg chatbot-food-msg-${msg.from}`} style={{position:'relative'}}>
+                {msg.from==='bot' && <span style={{position:'absolute',left:-14,bottom:0,fontSize:'1.5rem',color:'#eef1f5'}}>◀</span>}
+                {msg.text}
+                {msg.from==='user' && <span style={{position:'absolute',right:-14,bottom:0,fontSize:'1.5rem',color:'#ffb347'}}>▶</span>}
+              </div>
             ))}
             {loading && (
               <div className="chatbot-food-msg chatbot-food-msg-bot">Thinking...</div>
@@ -102,8 +122,8 @@ export default function ChatbotFood() {
               {loading ? '...' : 'Send'}
             </button>
           </div>
-          <div className="chatbot-food-default-questions">
-            <p>Or, click one of these common questions:</p>
+          <div className="chatbot-food-default-questions" style={{background:'linear-gradient(90deg,#fffbe7 0%,#ffe3d1 100%)'}}>
+            <p style={{color:'#b71c1c',fontWeight:600}}>Or, try one of these:</p>
             {examples.map((qa, i) => (
               <button
                 key={i}
@@ -120,6 +140,17 @@ export default function ChatbotFood() {
       <button className="chatbot-food-toggle" onClick={() => setOpen(o => !o)}>
         <span role="img" aria-label="chat">💬</span>
       </button>
+      <style>{`
+        @keyframes bot-bounce {
+          0% { transform: translateY(0); }
+          30% { transform: translateY(-10px); }
+          60% { transform: translateY(0); }
+          80% { transform: translateY(-5px); }
+          100% { transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
+
+

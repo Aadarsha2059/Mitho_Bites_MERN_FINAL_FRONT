@@ -75,24 +75,24 @@ button:focus-visible {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  background: #f9f6ff;
+  background: #FFF8DC;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+  background: linear-gradient(120deg, #008B8B 0%, #FFA500 100%);
   border-radius: 8px;
-  box-shadow: 0 2px 8px #a18cd122;
+  box-shadow: 0 2px 8px rgba(0, 139, 139, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, #e53935 0%, #a18cd1 100%);
+  background: linear-gradient(90deg, #8B0000 0%, #008B8B 100%);
 }
 ::-webkit-scrollbar-corner {
-  background: #fff0f5;
+  background: #FFF8DC;
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #a18cd1 #f9f6ff;
+  scrollbar-color: #008B8B #FFF8DC;
 }
 
 /* === MICROINTERACTIONS === */
@@ -102,7 +102,7 @@ button, .micro-btn {
 }
 button:active, .micro-btn:active {
   transform: scale(0.96);
-  box-shadow: 0 2px 8px #a18cd122;
+  box-shadow: 0 2px 8px rgba(0, 139, 139, 0.2);
 }
 .card, .micro-card {
   transition: box-shadow 0.18s, transform 0.14s, background 0.18s;
@@ -110,12 +110,31 @@ button:active, .micro-btn:active {
 }
 .card:active, .micro-card:active {
   transform: scale(0.98);
-  box-shadow: 0 4px 16px #e5393522;
+  box-shadow: 0 4px 16px rgba(139, 0, 0, 0.2);
 }
 input, textarea, select {
   transition: box-shadow 0.18s, border-color 0.18s;
 }
 input:focus, textarea:focus, select:focus {
-  box-shadow: 0 0 0 2px #a18cd1aa;
-  border-color: #a18cd1;
+  box-shadow: 0 0 0 2px rgba(0, 139, 139, 0.4);
+  border-color: #008B8B;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #000000 !important;
+}
+
+.subtitle, .subtext, .description, .section-description, .settings-subtitle, .about-subtitle, .menu-subtitle, .setting-description, .form-error, .error-message, .login-subtitle, .update-profile-subtitle, .welcome-subtitle, .category-table .name-username, .category-table .table-title, .product-table-container label, .form-label, .setting-label, .section-description, .animated-text, .kk-section-desc, .results-count, .stat-item, .setting-description, .about-subtitle, .settings-subtitle, .update-profile-subtitle, .login-subtitle, .forgot-password-subtitle, .reset-password-subtitle, .signup-subtitle, .form-group small, .form-group label {
+  color: #008B8B !important;
+}
+
+button, .micro-btn, .login-btn, .submit-btn, .signup-button, .admin-submit-btn, .kk-action-btn, .clear-filters-btn, .back-button, .menu-back-btn, .social-btn, .google-btn, .facebook-btn {
+  color: #8B0000 !important;
+}
+
+.button-label, .btn-label, .button-desc, .btn-desc, .button-description, .btn-description, .button-helper, .btn-helper, .button-text, .btn-text {
+  color: #111 !important;
+}
+
+
+

@@ -168,7 +168,7 @@ const HomeSection = ({
       <div className="home-section">
         {/* Welcome Section */}
         <div className="welcome-section">
-          <h1 className="welcome-title">Welcome to MithoBites</h1>
+          <h1 className="welcome-title">Welcome to BhokBhoj</h1>
           <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
         </div>
 
@@ -378,7 +378,7 @@ const HomeSection = ({
     return (
       <div className="home-section">
         <div className="welcome-section">
-          <h1 className="welcome-title">Welcome to MithoBites</h1>
+          <h1 className="welcome-title">Welcome to BhokBhoj</h1>
           <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
         </div>
         <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
@@ -403,3 +403,4 @@ const HomeSection = ({
 };
 
 export default HomeSection; 
+

@@ -4,6 +4,8 @@ body, html {
   height: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
+  background-image: linear-gradient(120deg, #ffe0b2 0%, #e0c3fc 100%);
+  min-height: 100vh;
 }
 
 .login-page {
@@ -15,20 +17,43 @@ body, html {
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow: hidden;
 }
 
 .login-page::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: brightness(0.7);
+  background: linear-gradient(120deg, rgba(255,255,255,0.10) 0%, rgba(255,204,112,0.18) 100%);
   z-index: 1;
+  animation: loginGradientMove 8s ease-in-out infinite alternate;
 }
+
+/* Floating food icons/confetti */
+.login-page .login-float-icon {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.16;
+  font-size: 2.2rem;
+  animation: float1 7s infinite alternate;
+}
+.login-page .login-float-icon.icon2 { left: auto; right: 10%; top: 22%; animation: float2 8s infinite alternate; }
+.login-page .login-float-icon.icon3 { left: 14%; bottom: 18%; top: auto; animation: float3 9s infinite alternate; }
+.login-page .login-float-icon.icon4 { left: auto; right: 12%; bottom: 10%; top: auto; animation: float4 6s infinite alternate; }
+
+@keyframes loginGradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+@keyframes float1 { 0%{transform:translateY(0);} 100%{transform:translateY(-18px);} }
+@keyframes float2 { 0%{transform:translateY(0);} 100%{transform:translateY(-12px);} }
+@keyframes float3 { 0%{transform:translateY(0);} 100%{transform:translateY(-22px);} }
+@keyframes float4 { 0%{transform:translateY(0);} 100%{transform:translateY(-15px);} }
 
 .login-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   max-width: 1200px;
   padding: 40px 20px;
@@ -73,32 +98,57 @@ body, html {
   display: block;
   margin: 0 auto 28px;
   max-width: 160px;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 6px 18px #ffcc0077);
 }
 
 .login-card {
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  border-radius: 20px;
-  padding: 40px 30px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 18px rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px) saturate(180%);
+  border-radius: 24px;
+  padding: 44px 36px;
+  box-shadow: 0 16px 40px #ffcc0033, 0 0 18px #fff2;
+  border: 2.5px solid #fff3;
+  color: #f0caca;
   text-align: center;
   width: 100%;
   max-width: 440px;
+  transition: box-shadow 0.3s, border 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.login-card::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 28px;
+  border: 2.5px solid #ffe08299;
+  pointer-events: none;
+  box-shadow: 0 0 32px 8px #ffe08244;
+  opacity: 0.7;
+  animation: cardGlow 2.5s infinite alternate;
+}
+@keyframes cardGlow {
+  0% { box-shadow: 0 0 32px 8px #ffe08244; opacity: 0.7; }
+  100% { box-shadow: 0 0 48px 16px #ffe08299; opacity: 1; }
+}
+.login-card:hover {
+  box-shadow: 0 24px 60px #ffcc0055, 0 0 24px #fff4;
+  border: 2.5px solid #ffe082;
 }
 
 h2 {
   font-size: 2.2rem;
   margin-bottom: 10px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 8px #ffcc0033;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
 .login-subtitle {
   font-size: 1.1rem;
-  font-weight: 400;
-  color: #ddd;
+  font-weight: 600;
+  color: #ffe082;
   margin-bottom: 28px;
 }
 
@@ -107,11 +157,11 @@ h2 {
   font-size: 1rem;
   color: #eee;
   font-weight: 500;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 4px #ffcc0033;
 }
 
 .signup-link {
-  color: #ffcc00;
+  color: #00ff04;
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
@@ -121,7 +171,63 @@ h2 {
 
 .signup-link:hover {
   color: #fff100;
-  text-shadow: 0 2px 8px rgba(255, 241, 0, 0.9);
+  text-shadow: 0 2px 8px #fff10099;
+}
+
+/* Login button enhancements */
+.login-card button[type="submit"], .login-card .login-btn {
+  background: linear-gradient(90deg, #ffb347 0%, #ff6b6b 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 0;
+  margin-top: 18px;
+  width: 100%;
+  box-shadow: 0 6px 18px #ffb34755;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+.login-card button[type="submit"]:hover, .login-card .login-btn:hover {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ffb347 100%);
+  box-shadow: 0 12px 32px #ffb34799;
+  transform: translateY(-2px) scale(1.03);
+}
+.login-card button[type="submit"]:active, .login-card .login-btn:active {
+  transform: scale(0.98);
+}
+
+.enhanced-login-btn {
+  background: linear-gradient(90deg, #ffb347 0%, #ff6b6b 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 0;
+  margin-top: 22px;
+  width: 100%;
+  box-shadow: 0 8px 24px #ffb34755;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+.enhanced-login-btn:focus {
+  box-shadow: 0 0 0 4px #ffb34744, 0 8px 24px #ffb34755;
+  background: linear-gradient(90deg, #ffb347 10%, #ff6b6b 90%);
+}
+.enhanced-login-btn:hover {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ffb347 100%);
+  box-shadow: 0 16px 40px #ffb34799;
+  transform: translateY(-2px) scale(1.04);
+}
+.enhanced-login-btn:active {
+  transform: scale(0.98);
 }
 
 /* Responsive Design */
@@ -129,53 +235,47 @@ h2 {
   .login-container {
     gap: 40px;
   }
-  
   .login-wrapper {
     max-width: 900px;
   }
 }
-
 @media (max-width: 768px) {
   .login-container {
     flex-direction: column;
     gap: 30px;
   }
-  
   .login-wrapper {
     max-width: 440px;
   }
-  
   .login-image-section {
     order: 2;
   }
-  
   .login-form-section {
     order: 1;
   }
-  
   .login-image {
     max-width: 80%;
   }
 }
-
 @media (max-width: 480px) {
   .login-wrapper {
     padding: 20px 15px;
   }
-  
   .login-card {
     padding: 30px 20px;
   }
-  
   h2 {
     font-size: 1.8rem;
   }
-  
   .login-subtitle {
     font-size: 1rem;
   }
-  
   .login-image {
     max-width: 90%;
   }
 }
+
+/* Add more vibrant button styles if needed */
+
+
+

@@ -4,7 +4,7 @@ import { loginUserService } from "../services/authService"
 import { toast } from "react-toastify";
 
 import { useContext } from "react";
-import { AuthContext } from "../auth/authProvider";
+import { AuthContext } from "../auth/AuthProvider";
 
 
 export const useLoginUser = () => {

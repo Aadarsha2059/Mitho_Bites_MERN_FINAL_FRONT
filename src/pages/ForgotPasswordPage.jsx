@@ -8,7 +8,7 @@ function ForgotPasswordPage() {
   return (
     <div className="forgot-password-page" style={{ backgroundImage: `url(${background})` }}>
       <div className="forgot-password-wrapper">
-        <img src={logo} alt="Mitho Bites Logo" className="forgot-password-logo" />
+        <img src={logo} alt="BhokBhoj Logo" className="forgot-password-logo" />
         <ForgotPassword />
       </div>
     </div>
@@ -16,3 +16,4 @@ function ForgotPasswordPage() {
 }
 
 export default ForgotPasswordPage; 
+

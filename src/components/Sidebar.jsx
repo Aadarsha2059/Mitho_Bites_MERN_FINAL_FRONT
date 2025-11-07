@@ -23,7 +23,7 @@ const Sidebar = ({ options = [], onNavigate, onLogout }) => {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-heading">Mitho Bites<br /><span className="sidebar-sub">Dashboard</span></div>
+      <div className="sidebar-heading">BhokBhoj<br /><span className="sidebar-sub">Dashboard</span></div>
       <div className="sidebar-logo">🍽️</div>
       <nav className="sidebar-nav">
         {options.map((opt) => (

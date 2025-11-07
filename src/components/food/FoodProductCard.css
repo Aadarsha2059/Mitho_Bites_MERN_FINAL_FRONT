@@ -62,7 +62,7 @@
 }
 
 .badge.indian {
-    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+    background: linear-gradient(135deg, #008B8B, #FF8C42);
     color: white;
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
 }
@@ -74,9 +74,9 @@
 }
 
 .badge.spicy {
-    background: linear-gradient(135deg, #FF5722, #FF7043);
+    background: linear-gradient(135deg, #008B8B, #FFA500);
     color: white;
-    box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 139, 139, 0.3);
 }
 
 .badge.unavailable {
@@ -121,7 +121,7 @@
 }
 
 .action-btn:hover {
-    background: #FF8C00;
+    background: #FFA500;
     color: white;
     transform: scale(1.1);
 }
@@ -136,14 +136,14 @@
     position: absolute;
     bottom: 12px;
     left: 12px;
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #FFA500, #FFA500);
     color: white;
     padding: 6px 12px;
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.3);
 }
 
 /* Product Info */
@@ -238,7 +238,7 @@
 .price {
     font-size: 20px;
     font-weight: 700;
-    color: #FF8C00;
+    color: #FFA500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -250,7 +250,7 @@
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #FFA500, #FFA500);
     color: white;
     border: none;
     border-radius: 20px;
@@ -267,9 +267,9 @@
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #FF7F00, #FF8C00);
+    background: linear-gradient(135deg, #FF8C00, #FFA500);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
 }
 
 .add-to-cart-btn:disabled {
@@ -340,10 +340,10 @@
 
 .quick-view-btn {
     padding: 8px 16px;
-    border: 2px solid #FF8C00;
+    border: 2px solid #FFA500;
     border-radius: 20px;
     background: transparent;
-    color: #FF8C00;
+    color: #FFA500;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -352,18 +352,18 @@
 }
 
 .quick-view-btn:hover {
-    background: #FF8C00;
+    background: #FFA500;
     color: white;
     transform: translateY(-2px);
 }
 
 .quick-view-btn.primary {
-    background: #FF8C00;
+    background: #FFA500;
     color: white;
 }
 
 .quick-view-btn.primary:hover {
-    background: #FF7F00;
+    background: #FF8C00;
 }
 
 .quick-view-btn:disabled {
@@ -447,3 +447,5 @@
         gap: 8px;
     }
 } 
+
+

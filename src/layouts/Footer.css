@@ -44,7 +44,7 @@
 }
 
 .footer-right a:hover {
-  color: #ff5722;
+  color: #008B8B;
   transform: scale(1.1);
 }
 
@@ -61,7 +61,7 @@
   transition: color 0.2s;
 }
 .footer-link:hover {
-  color: #ff5722;
+  color: #008B8B;
   text-decoration: underline;
 }
 
@@ -82,10 +82,10 @@
   transition: border 0.2s;
 }
 .newsletter-input:focus {
-  border: 1.5px solid #ff5722;
+  border: 1.5px solid #008B8B;
 }
 .newsletter-btn {
-  background: linear-gradient(90deg, #ff9800, #ff5722);
+  background: linear-gradient(90deg, #ff9800, #008B8B);
   color: #fff;
   border: none;
   border-radius: 20px;
@@ -96,7 +96,7 @@
   transition: background 0.2s;
 }
 .newsletter-btn:hover {
-  background: linear-gradient(90deg, #ff5722, #ff9800);
+  background: linear-gradient(90deg, #008B8B, #ff9800);
 }
 
 /* Responsive tweaks */
@@ -130,3 +130,6 @@
     align-items: center;
   }
 }
+
+
+

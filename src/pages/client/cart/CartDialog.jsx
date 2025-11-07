@@ -155,3 +155,4 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
 };
 
 export default CartDialog;
+

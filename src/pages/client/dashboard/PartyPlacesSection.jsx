@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMapMarkerAlt, FaUsers, FaStar, FaBirthdayCake } from "react-icons/fa";
 import "../Dashboard.css";
 
@@ -95,6 +95,16 @@ const partyPlaces = [
 ];
 
 const PartyPlacesSection = () => {
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleBookNow = () => {
+    setShowDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+  };
+
   console.log('PartyPlacesSection rendered');
   
   return (
@@ -143,13 +153,153 @@ const PartyPlacesSection = () => {
                 </div>
               </div>
               
-              <button className="party-place-btn">
+              <button className="party-place-btn" onClick={handleBookNow}>
                 Book Now
               </button>
             </div>
           </div>
         ))}
       </div>
+      {showDialog && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.45)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {/* Festive animated background elements - now cover the full overlay, not just the dialog */}
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}>
+            {/* Balloons - more and varied */}
+            {[10,20,30,40,50,60,70,80,90].map((left, i) => (
+              <div key={'balloon'+i} style={{ position: 'absolute', left: `${left}%`, top: `${70 + (i%3)*10}%`, animation: `balloonUp ${5 + (i%4)}s ${(i%5)*0.7}s infinite linear`, zIndex: 2 }}>
+                <span role="img" aria-label="balloon" style={{ fontSize: 36 + (i%3)*12 }}>{['🎈','🎈','🎈','🎈','🎈','🎈','🎈','🎈','🎈','🎈'][i%10]}</span>
+              </div>
+            ))}
+            {/* Confetti - more and varied */}
+            {[15,25,35,45,55,65,75,85].map((left, i) => (
+              <div key={'confetti'+i} style={{ position: 'absolute', left: `${left}%`, top: `${5 + (i%4)*5}%`, zIndex: 2, animation: `confettiFall ${4 + (i%3)}s ${(i%4)*0.5}s infinite linear` }}>{['🎉','🎊','✨','🎉','🎊','✨','🎉','🎊'][i%8]}</div>
+            ))}
+            {/* Dizzling lights - more and varied */}
+            {[12,28,44,60,76,88].map((left, i) => (
+              <div key={'light'+i} style={{ position: 'absolute', left: `${left}%`, top: 0, width: 40, height: 40, zIndex: 2, filter: 'blur(1px)' }}>
+                <span style={{ fontSize: 28 + (i%2)*8, color: ['#ffe066','#ffd700','#fff700','#fffbe0','#fff200','#ffe066'][i%6], animation: `dizzle ${1.2 + (i%3)*0.4}s ${(i%4)*0.3}s infinite alternate` }}>💡</span>
+              </div>
+            ))}
+            {/* Dropping stars */}
+            {[18,32,48,62,78,88].map((left, i) => (
+              <div key={'star'+i} style={{ position: 'absolute', left: `${left}%`, top: '-5%', zIndex: 2, animation: `starDrop ${3.5 + (i%3)*0.7}s ${(i%4)*0.6}s infinite linear` }}>
+                <span role="img" aria-label="star" style={{ fontSize: 28 + (i%2)*8, color: '#ffd700', filter: 'drop-shadow(0 0 6px #fffbe0)' }}>⭐</span>
+              </div>
+            ))}
+            <style>{`
+              @keyframes balloonUp {
+                0% { transform: translateY(0); opacity: 1; }
+                80% { opacity: 1; }
+                100% { transform: translateY(-90vh); opacity: 0; }
+              }
+              @keyframes confettiFall {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(80vh); opacity: 0; }
+              }
+              @keyframes dizzle {
+                0% { filter: brightness(1); }
+                100% { filter: brightness(2.5); }
+              }
+              @keyframes starDrop {
+                0% { transform: translateY(0); opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(90vh); opacity: 0; }
+              }
+            `}</style>
+          </div>
+          <div style={{
+            background: 'linear-gradient(135deg, #fffbe0 0%, #ffe0f7 50%, #e0f7fa 100%)',
+            borderRadius: 20,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            padding: '2.5rem 2rem 2rem 2rem',
+            minWidth: 340,
+            maxWidth: '90vw',
+            position: 'relative',
+            textAlign: 'center',
+            fontFamily: 'inherit',
+            border: '2px solid #f7c8ff',
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            left: '0',
+            right: '0',
+            margin: '0 auto',
+            transform: 'none',
+          }}>
+            <button
+              onClick={handleCloseDialog}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 16,
+                background: 'none',
+                border: 'none',
+                fontSize: 28,
+                color: '#888',
+                cursor: 'pointer',
+                fontWeight: 600,
+                lineHeight: 1,
+              }}
+              aria-label="Close dialog"
+            >
+              &times;
+            </button>
+            <h3 style={{
+              marginBottom: 12,
+              color: '#2d2d2d',
+              fontWeight: 700,
+              fontSize: 22,
+              letterSpacing: 0.2,
+            }}>
+              Drop your bookings to our admin:
+            </h3>
+            <div style={{
+              background: '#f7f7fa',
+              borderRadius: 10,
+              padding: '1.2rem 1rem',
+              marginBottom: 18,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              display: 'inline-block',
+              minWidth: 260,
+            }}>
+              <div style={{ fontWeight: 600, fontSize: 18, color: '#3a3a3a', marginBottom: 4 }}>
+                Aadarsha Babu Dhakal
+              </div>
+              <div style={{ fontSize: 15, color: '#444', marginBottom: 2 }}>
+                <span style={{ fontWeight: 500 }}>Email:</span> <a href="mailto:aadarsha12345@gmail.com" style={{ color: '#2d6cdf', textDecoration: 'none' }}>aadarsha12345@gmail.com</a>
+              </div>
+              <div style={{ fontSize: 15, color: '#444' }}>
+                <span style={{ fontWeight: 500 }}>Contact:</span> <a href="tel:9800000000" style={{ color: '#2d6cdf', textDecoration: 'none' }}>9800000000</a>
+              </div>
+            </div>
+            <div style={{ color: '#555', fontSize: 15, marginTop: 2, marginBottom: 0 }}>
+              Our team will get in touch with you to confirm your booking and discuss further details.<br/>
+              <span style={{ color: '#2d6cdf', fontWeight: 500 }}>Thank you for choosing us for your special occasion!</span>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

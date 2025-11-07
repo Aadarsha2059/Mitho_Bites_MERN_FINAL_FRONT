@@ -8,10 +8,10 @@ import heroImage from '../assets/images/hero.png';
 import momo from '../assets/images/momo.png';
 import selRoti from '../assets/images/sel_roti.png';
 import yomari from '../assets/images/yomari.png';
+import dalBhat from '../assets/images/dal_bhat.png';
+import chatamari from '../assets/images/chatamari.png';
+import gundruk from '../assets/images/gundruk.png';
 import bajekosekuwa from '../assets/bajekosekuwa.png';
-import featured1 from '../assets/images/featured/featured1.png';
-import featured2 from '../assets/images/featured/featured2.png';
-import featured3 from '../assets/images/featured/featured3.png';
 import testimonial1 from '../assets/aadarshaaaaaaaa.png';
 import testimonial2 from '../assets/images/customers/customer1.png';
 import testimonial3 from '../assets/images/customers/customer2.png';
@@ -53,43 +53,55 @@ const featuredDishes = [
     title: 'Classic Nepali Momo',
     image: momo,
     price: 180,
-    badge: 'Best in the Town',
+    badge: 'Most Popular',
   },
   {
-    title: 'Sel Roti',
+    title: 'Traditional Sel Roti',
     image: selRoti,
     price: 60,
   },
   {
-    title: 'Yomari',
+    title: 'Sweet Yomari',
     image: yomari,
     price: 120,
   },
   {
-    title: 'Chef\'s Special',
-    image: featured1,
-    price: 350,
+    title: 'Dal Bhat Power',
+    image: dalBhat,
+    price: 250,
   },
   {
-    title: 'Spicy Treat',
-    image: featured2,
-    price: 220,
+    title: 'Newari Chatamari',
+    image: chatamari,
+    price: 200,
   },
   {
-    title: 'Sweet Delight',
-    image: featured3,
+    title: 'Gundruk Soup',
+    image: gundruk,
     price: 150,
   },
 ];
 
 const foodCategories = [
   {
-    name: 'Indian',
-    image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80', // Fresh vegetables
+    name: 'Nepali Cuisine',
+    image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=400&q=80',
+    description: 'Authentic traditional dishes'
   },
   {
-    name: 'Nepali',
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80', // Chicken roast
+    name: 'Indian Delights',
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=400&q=80',
+    description: 'Spicy and flavorful curries'
+  },
+  {
+    name: 'Chinese Fusion',
+    image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?auto=format&fit=crop&w=400&q=80',
+    description: 'Noodles, fried rice & more'
+  },
+  {
+    name: 'Fast Food',
+    image: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=400&q=80',
+    description: 'Burgers, pizza & sandwiches'
   },
 ];
 
@@ -97,7 +109,7 @@ const testimonials = [
   {
     name: 'Aadarsha Babu',
     image: testimonial1,
-    text: 'Mitho Bites brings authentic Nepali taste to my home. The service is fast and the food is always fresh!',
+    text: 'BhokBhoj brings authentic Nepali taste to my home. The service is fast and the food is always fresh!',
     rating: 5,
   },
   {
@@ -121,18 +133,8 @@ const testimonials = [
 ];
 
 export default function HomepageBody() {
-  const [currentHero, setCurrentHero] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [search, setSearch] = useState('');
-  const [heroTextClass, setHeroTextClass] = useState('animated-text fade-in-up');
-
-  // Hero carousel auto-advance every 4 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleHeroNext();
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [currentHero]);
 
   // Testimonial slider auto-advance every 4 seconds
   useEffect(() => {
@@ -142,68 +144,66 @@ export default function HomepageBody() {
     return () => clearInterval(interval);
   }, [currentTestimonial]);
 
-  const handleHeroChange = (newIndex) => {
-    setHeroTextClass('animated-text fade-out-down');
-    setTimeout(() => {
-      setCurrentHero(newIndex);
-      setHeroTextClass('animated-text fade-in-up');
-    }, 500);
-  };
-
-  const handleHeroNext = () => {
-    const newIndex = (currentHero + 1) % heroSlides.length;
-    handleHeroChange(newIndex);
-  };
-
-  const handleHeroPrev = () => {
-    const newIndex = (currentHero - 1 + heroSlides.length) % heroSlides.length;
-    handleHeroChange(newIndex);
-  };
-
   return (
     <div className="homepage-animated-bg">
-      {/* Hero Section */}
-      <section
-        className="hero-body-section advanced-hero"
-        style={{ backgroundImage: `url(${heroSlides[currentHero].src})` }}
-      >
-        <div className="hero-body-overlay">
-          <div className="hero-body-content">
-            <h1 className="fade-in-down">Welcome to Mitho Bites</h1>
-            <p className={heroTextClass}>{heroSlides[currentHero].text}</p>
-            <div className="search-bar-container animated-search">
-              <input
-                type="text"
-                className="search-bar"
-                placeholder="Explore best restaurants & cafes..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-              <FaSearch className="search-icon" />
+      {/* Hero Section - Split Layout */}
+      <section className="hero-body-section split-hero">
+        <div className="hero-left-content">
+          <h1 className="fade-in-down">Welcome to BhokBhoj</h1>
+          <h2 className="hero-tagline fade-in-up">Kathmandu's Premier Food Delivery Platform</h2>
+          
+          <div className="hero-description fade-in">
+            <p className="desc-main">
+              <strong>BhokBhoj</strong> connects you with the finest restaurants, cafes, and party palaces across Kathmandu Valley. 
+              Experience authentic Nepali cuisine and international flavors delivered fresh to your doorstep.
+            </p>
+            
+            <div className="hero-features">
+              <div className="feature-item">
+                <span className="feature-icon">🍽️</span>
+                <span className="feature-text">500+ Restaurants</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">⚡</span>
+                <span className="feature-text">Fast Delivery</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">🎉</span>
+                <span className="feature-text">Party Catering</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">💯</span>
+                <span className="feature-text">Quality Assured</span>
+              </div>
             </div>
+
+            <p className="desc-secondary">
+              From traditional momo and sel roti to gourmet international dishes, BhokBhoj brings Kathmandu's 
+              diverse culinary scene right to your home. Order now and taste the difference!
+            </p>
+          </div>
+
+          <div className="search-bar-container animated-search">
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Search restaurants, cuisines, or dishes..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <FaSearch className="search-icon" />
           </div>
         </div>
-        <div className="hero-carousel-controls">
-          <button
-            className="carousel-btn"
-            onClick={handleHeroPrev}
-            aria-label="Previous slide"
-          >
-            <FaChevronLeft />
-          </button>
-          <button
-            className="carousel-btn"
-            onClick={handleHeroNext}
-            aria-label="Next slide"
-          >
-            <FaChevronRight />
-          </button>
+
+        <div className="hero-right-image" style={{ backgroundImage: `url(${heroImage})` }}>
+          <div className="image-overlay"></div>
         </div>
       </section>
 
-      {/* Best in the Town Section */}
+      {/* Most Popular Section */}
       <section className="featured-section">
-        <h2 className="section-title fade-in-up">Best in the Town</h2>
+        <h2 className="section-title fade-in-up">Customer Favorite</h2>
+        <p className="section-subtitle">The dish everyone in Kathmandu is ordering</p>
         <div className="featured-cards">
           <div className="featured-card-anim" style={{ animationDelay: `0s` }}>
             <FoodCard title={featuredDishes[0].title} image={featuredDishes[0].image} price={featuredDishes[0].price} />
@@ -214,11 +214,18 @@ export default function HomepageBody() {
 
       {/* Food Categories Section */}
       <section className="featured-section">
-        <h2 className="section-title fade-in-up">Food Categories</h2>
-        <div className="featured-cards">
+        <h2 className="section-title fade-in-up">Explore Food Categories</h2>
+        <p className="section-subtitle">Discover diverse cuisines from across Kathmandu Valley</p>
+        <div className="category-grid">
           {foodCategories.map((cat, idx) => (
-            <div className="featured-card-anim" key={cat.name + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
-              <FoodCard title={cat.name} image={cat.image} price={''} />
+            <div className="category-card-modern" key={cat.name + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
+              <div className="category-img-wrap" style={{ backgroundImage: `url(${cat.image})` }}>
+                <div className="category-overlay"></div>
+              </div>
+              <div className="category-info">
+                <h3 className="category-name">{cat.name}</h3>
+                <p className="category-desc">{cat.description}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -226,7 +233,8 @@ export default function HomepageBody() {
 
       {/* Explore Restaurants and Party Palaces Section */}
       <section className="featured-section">
-        <h2 className="section-title fade-in-up">Explore Restaurants and Party Palaces</h2>
+        <h2 className="section-title fade-in-up">Top Restaurants & Party Venues</h2>
+        <p className="section-subtitle">Premium dining and celebration destinations in Kathmandu</p>
         <div className="explore-grid">
           {/* Restaurants */}
           <div className="explore-card">
@@ -259,17 +267,122 @@ export default function HomepageBody() {
 
       {/* Featured Dishes Section - More Attractive Cards */}
       <section className="featured-section">
-        <h2 className="section-title fade-in-up">Featured Dishes</h2>
+        <h2 className="section-title fade-in-up">Authentic Nepali Specialties</h2>
+        <p className="section-subtitle">Traditional flavors that define Kathmandu's food culture</p>
         <div className="featured-cards attractive-food-cards">
           {featuredDishes.slice(1).map((dish, idx) => (
             <div className="featured-card-anim food-card-modern" key={dish.title + idx} style={{ animationDelay: `${0.1 * idx}s` }}>
               <div className="food-card-img-wrap">
                 <img src={dish.image} alt={dish.title} className="food-card-img" />
-                <span className="food-card-price">₹{dish.price}</span>
+                <span className="food-card-price">Rs. {dish.price}</span>
               </div>
               <div className="food-card-title">{dish.title}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* About BhokBhoj Section */}
+      <section className="about-bhokbhoj-section">
+        <div className="about-container">
+          <h2 className="section-title fade-in-up">Why Choose BhokBhoj?</h2>
+          <p className="section-subtitle">Your trusted food delivery partner in Kathmandu</p>
+          
+          <div className="about-intro">
+            <p className="about-intro-text">
+              At <strong>BhokBhoj</strong>, we're revolutionizing food delivery in Kathmandu Valley. 
+              Whether you're craving authentic Nepali momo, spicy Indian curry, or international cuisine, 
+              we bring the best restaurants right to your doorstep. With our commitment to quality, speed, 
+              and customer satisfaction, we've become the go-to platform for food lovers across the city.
+            </p>
+          </div>
+          
+          <div className="about-grid">
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=400&q=80" 
+                  alt="Fast Delivery" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">🚀</div>
+              <h3>Lightning Fast Delivery</h3>
+              <p>Experience the fastest food delivery in Kathmandu! Our efficient delivery network ensures your food arrives hot and fresh within 30-45 minutes. We use real-time GPS tracking so you know exactly when your meal will arrive. Rain or shine, we're committed to getting your food to you on time.</p>
+            </div>
+            
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=400&q=80" 
+                  alt="Premium Quality" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">🏆</div>
+              <h3>Premium Quality Assured</h3>
+              <p>Quality is our top priority. We partner exclusively with verified restaurants that meet our strict hygiene and food safety standards. Every restaurant undergoes thorough inspection and regular quality checks. From preparation to packaging, we ensure every meal meets the highest standards of excellence.</p>
+            </div>
+            
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=400&q=80" 
+                  alt="Best Prices" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">💰</div>
+              <h3>Best Prices Guaranteed</h3>
+              <p>Enjoy delicious food without breaking the bank! We offer competitive pricing with regular discounts, seasonal offers, and loyalty rewards. No hidden charges or surprise fees - what you see is what you pay. Plus, get exclusive deals and cashback offers on your favorite restaurants.</p>
+            </div>
+            
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" 
+                  alt="Wide Selection" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">🎯</div>
+              <h3>Endless Food Choices</h3>
+              <p>Explore over 500+ restaurants and thousands of dishes! From traditional Nepali delicacies like momo and dal bhat to international cuisines including Chinese, Indian, Continental, and more. Whether you're vegetarian, vegan, or have specific dietary needs, we have something for everyone.</p>
+            </div>
+            
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=400&q=80" 
+                  alt="Easy Ordering" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">📱</div>
+              <h3>Seamless Ordering Experience</h3>
+              <p>Order food in seconds with our user-friendly platform! Browse menus, customize your order, and checkout in just a few clicks. Track your delivery in real-time with live updates. Save your favorite restaurants and reorder with one tap. Multiple payment options including cash, card, and digital wallets.</p>
+            </div>
+            
+            <div className="about-card">
+              <div className="about-card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=400&q=80" 
+                  alt="Party Catering" 
+                  className="about-img"
+                />
+              </div>
+              <div className="about-icon">🎉</div>
+              <h3>Event & Party Catering</h3>
+              <p>Planning a celebration? We've got you covered! Connect with Kathmandu's best party palaces and catering services for birthdays, weddings, corporate events, and more. From intimate gatherings to grand celebrations, we help you find the perfect venue and menu to make your event unforgettable.</p>
+            </div>
+          </div>
+          
+          <div className="about-cta">
+            <p className="about-cta-text">
+              Join thousands of satisfied customers who trust BhokBhoj for their daily meals. 
+              Download our app or order online now and experience the difference!
+            </p>
+          </div>
         </div>
       </section>
 
@@ -320,3 +433,4 @@ export default function HomepageBody() {
     </div>
   );
 }
+

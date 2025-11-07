@@ -1,0 +1,279 @@
+.business-rise-flows-container {
+  background: rgba(255,255,255,0.92);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(90,63,215,0.10), 0 2px 8px rgba(44,62,80,0.06);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  margin: 2.5rem auto;
+  max-width: 1400px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  animation: fadeIn 0.7s;
+  border: 1.5px solid #e9eaf3;
+  backdrop-filter: blur(8px);
+}
+
+.business-rise-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #4c51bf;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px #e2e8f0;
+}
+
+.business-rise-dropdown-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2.2rem;
+}
+
+.business-rise-dropdown-wrapper label {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1.1rem;
+}
+
+.business-rise-select {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #e2e8f0;
+  font-size: 1.08rem;
+  background: #f7fafc;
+  color: #2d3748;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(44, 62, 80, 0.04);
+}
+
+.business-rise-select:focus {
+  border-color: #4c51bf;
+  box-shadow: 0 0 0 2px #667eea33;
+}
+
+.business-rise-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(90deg, #f4f6fb 60%, #e9eaf3 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px #5a3fd71a;
+  padding: 2rem 3rem;
+  margin-bottom: 2.5rem;
+  min-width: 260px;
+  width: 100%;
+  max-width: 500px;
+  justify-content: flex-start;
+  animation: fadeIn 0.7s;
+  border: 1.5px solid #e9eaf3;
+  backdrop-filter: blur(6px);
+}
+
+.business-rise-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px #e2e8f0;
+  width: 64px;
+  height: 64px;
+  animation: popIn 0.7s;
+}
+
+.business-rise-summary-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.business-rise-summary-label {
+  font-size: 1.2rem;
+  color: #4c51bf;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.business-rise-summary-value {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #2d3748;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #e2e8f0;
+}
+
+.business-rise-chart-wrapper {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+  border-radius: 1rem;
+  box-shadow: 0 1px 8px rgba(44, 62, 80, 0.06);
+  padding: 2rem 0.5rem 1.5rem 0.5rem;
+  animation: slideInUp 0.7s;
+}
+
+.business-rise-chart-wrapper .error {
+  color: #f56565;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.business-rise-chart-wrapper .no-data {
+  color: #718096;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.business-rise-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.business-rise-section {
+  background: rgba(255,255,255,0.97);
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 32px #5a3fd71a;
+  padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  min-height: 420px;
+  max-width: 100%;
+  width: 100%;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1.5px solid #e9eaf3;
+  backdrop-filter: blur(4px);
+}
+
+.business-rise-section:hover {
+  box-shadow: 0 12px 40px #5a3fd733;
+  transform: translateY(-4px) scale(1.02);
+}
+
+.business-rise-section h3 {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #4c51bf;
+  margin-bottom: 1.7rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.business-rise-section canvas {
+  width: 98% !important;
+  min-width: 480px !important;
+  max-width: 900px !important;
+  height: 320px !important;
+  margin: 0 auto;
+}
+
+.business-rise-total {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.business-rise-pie-totals {
+  margin-top: 1.1rem;
+  font-size: 1.05rem;
+  color: #4c51bf;
+  font-weight: 600;
+  text-align: center;
+}
+
+.business-rise-pie-totals span {
+  margin-right: 0.7rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.7s;
+}
+
+.animate-slide-in {
+  animation: slideInUp 0.7s;
+}
+
+@media (max-width: 1100px) {
+  .business-rise-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .business-rise-section canvas {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .business-rise-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .business-rise-section {
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    min-height: 260px;
+  }
+  .business-rise-flows-container {
+    padding: 1rem;
+    max-width: 98vw;
+  }
+  .business-rise-summary-card {
+    padding: 1rem 1rem;
+    min-width: 180px;
+    max-width: 98vw;
+  }
+  .business-rise-chart-wrapper {
+    min-height: 180px;
+    padding: 1rem 0.2rem 1rem 0.2rem;
+  }
+  .business-rise-section canvas {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+.business-rise-section .chartjs-render-monitor {
+  font-size: 1.1rem !important;
+} 
+
+

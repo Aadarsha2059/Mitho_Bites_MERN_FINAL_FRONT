@@ -34,3 +34,4 @@ export const getBackendImageUrl = (imagePath) => {
     return finalUrl;
 }
 
+

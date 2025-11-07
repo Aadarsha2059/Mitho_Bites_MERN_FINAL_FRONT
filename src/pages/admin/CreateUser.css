@@ -13,7 +13,7 @@
   font-weight: 700;
   font-size: 1.8rem;
   margin-bottom: 1.8rem;
-  color: #2563eb; /* Blue-600 */
+  color: #008B8B; /* BhokBhoj Teal */
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
@@ -45,9 +45,9 @@
 
 .form-input:focus,
 .form-textarea:focus {
-  border-color: #2563eb; /* Blue-600 */
+  border-color: #008B8B; /* BhokBhoj Teal */
   outline: none;
-  box-shadow: 0 0 6px rgba(37, 99, 235, 0.5);
+  box-shadow: 0 0 6px rgba(0, 139, 139, 0.5);
 }
 
 .form-error {
@@ -57,26 +57,55 @@
   font-weight: 600;
 }
 
-.submit-btn {
-  width: 100%;
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancel-btn {
+  flex: 1;
   padding: 0.75rem 0;
-  background-color: #2563eb;
+  background-color: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  color: #475569;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.submit-btn {
+  flex: 1;
+  padding: 0.75rem 0;
+  background: linear-gradient(135deg, #008B8B, #FFA500);
   border: none;
   border-radius: 10px;
   color: white;
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0, 139, 139, 0.3);
 }
 
 .submit-btn:disabled {
-  background-color: #94a3b8; /* Slate-400 */
+  background: #94a3b8;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background-color: #1e40af; /* Blue-800 */
+  background: linear-gradient(135deg, #006666, #FF8C00);
+  box-shadow: 0 8px 24px rgba(0, 139, 139, 0.4);
+  transform: translateY(-2px);
 }
+
+
+

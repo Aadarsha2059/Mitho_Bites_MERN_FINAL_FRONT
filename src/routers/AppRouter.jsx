@@ -39,6 +39,8 @@ import KhanaKhajan from '../pages/client/KhanaKhajan';
 import UpdateProfile from '../pages/client/UpdateProfile';
 import TransactionHistory from '../pages/admin/TransactionHistory';
 import TransactionDetails from '../pages/admin/TransactionDetails';
+import BusinessRiseFlows from '../pages/admin/BusinessRiseFlows';
+import AdminLayout from '../layouts/AdminLayout';
 
 export default function AppRouter() {
   return (
@@ -82,28 +84,26 @@ export default function AppRouter() {
         <Route path="/more/update-profile" element={<UpdateProfile />} />
 
         {/* Protected Admin Routes */}
-        <Route path="/admin/*" element={<AdminRoute>{
-          <Routes>
-            <Route path="adminpage" element={<AdminPage />} />
-            <Route path="product" element={<ProductManagement />} />
-            <Route path="product/:id/edit" element={<UpdateProduct />} />
-            <Route path="users" element={<UserManagement />} />
-            <Route path="category/create" element={<CreateCategory />} />
-            <Route path="users/create" element={<CreateUser />} />
-            <Route path="category" element={<CategoryManagement />} />
-            <Route path="category/:id" element={<ViewCategory />} />
-            <Route path="category/:id/edit" element={<UpdateCategory />} />
-            <Route path="users/:id/edit" element={<UpdateUser />} />
-            <Route path="adminsettings" element={<AdminSettingsPage />} />
-            <Route path="restaurant/create" element={<CreateRestaurant />} />
-            <Route path="restaurant" element={<RestaurantManagement />} />
-            <Route path="restaurant/:id" element={<ViewRestaurant />} />
-            <Route path="restaurant/:id/edit" element={<UpdateRestaurant />} />
-            <Route path="transaction-history" element={<TransactionHistory />} />
-            <Route path="transaction-details/:id" element={<TransactionDetails />} />
-          </Routes>
-        }</AdminRoute>} />
+        <Route path="/admin/adminpage" element={<AdminRoute><AdminPage /></AdminRoute>} />
+        <Route path="/admin/product" element={<AdminRoute><ProductManagement /></AdminRoute>} />
+        <Route path="/admin/product/:id/edit" element={<AdminRoute><UpdateProduct /></AdminRoute>} />
+        <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+        <Route path="/admin/category/create" element={<AdminRoute><CreateCategory /></AdminRoute>} />
+        <Route path="/admin/users/create" element={<AdminRoute><CreateUser /></AdminRoute>} />
+        <Route path="/admin/category" element={<AdminRoute><CategoryManagement /></AdminRoute>} />
+        <Route path="/admin/category/:id" element={<AdminRoute><ViewCategory /></AdminRoute>} />
+        <Route path="/admin/category/:id/edit" element={<AdminRoute><UpdateCategory /></AdminRoute>} />
+        <Route path="/admin/users/:id/edit" element={<AdminRoute><UpdateUser /></AdminRoute>} />
+        <Route path="/admin/adminsettings" element={<AdminRoute><AdminSettingsPage /></AdminRoute>} />
+        <Route path="/admin/restaurant/create" element={<AdminRoute><CreateRestaurant /></AdminRoute>} />
+        <Route path="/admin/restaurant" element={<AdminRoute><RestaurantManagement /></AdminRoute>} />
+        <Route path="/admin/restaurant/:id" element={<AdminRoute><ViewRestaurant /></AdminRoute>} />
+        <Route path="/admin/restaurant/:id/edit" element={<AdminRoute><UpdateRestaurant /></AdminRoute>} />
+        <Route path="/admin/transaction-history" element={<AdminRoute><TransactionHistory /></AdminRoute>} />
+        <Route path="/admin/transaction-details/:id" element={<AdminRoute><TransactionDetails /></AdminRoute>} />
+        <Route path="/admin/business-rise-flows" element={<AdminRoute><BusinessRiseFlows /></AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );
 }
+

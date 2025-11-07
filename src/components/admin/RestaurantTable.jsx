@@ -124,12 +124,6 @@ export default function RestaurantTable() {
                             const hasImageError = imageErrors.has(restaurant._id);
                             const isImageLoaded = loadedImages.has(restaurant._id);
                             
-                            console.log(`Rendering restaurant ${restaurant.name}:`, {
-                                image: restaurant.image,
-                                hasError: hasImageError,
-                                isLoaded: isImageLoaded
-                            });
-                            
                             return (
                                 <tr key={restaurant._id} className="restaurant-row">
                                     <td>{restaurant.name}</td>

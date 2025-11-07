@@ -26,3 +26,4 @@ export const updateOneCategoryApi= (id,data) =>
 
    export const deleteOneCategoryApi=(id) =>
     axios.delete("/admin/category/"+ id)
+

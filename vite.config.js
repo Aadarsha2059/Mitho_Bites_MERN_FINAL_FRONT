@@ -21,5 +21,10 @@ export default defineConfig({
       '**/test-utils/**',
       '**/setup.js',
     ]
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5050'
+    }
   }
 })

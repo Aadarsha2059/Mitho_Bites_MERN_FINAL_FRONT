@@ -46,7 +46,7 @@ const LoginTest = () => {
   return (
     <div className="login-page" style={{ backgroundImage: `url(${background})` }}>
       <div className="login-wrapper">
-        <img src={logo} alt="Mitho Bites Logo" className="login-logo" />
+        <img src={logo} alt="BhokBhoj Logo" className="login-logo" />
         <div className="login-card">
           <h2>Login Test Page</h2>
           <p className="login-subtitle">Simulated Login Process</p>
@@ -97,3 +97,5 @@ const LoginTest = () => {
 };
 
 export default LoginTest;
+
+

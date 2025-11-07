@@ -59,7 +59,7 @@ export default function About() {
           <div className="about-header">
             <div className="about-title-wrapper">
               <FaRocket className="about-title-icon" />
-              <h1 className="about-title">About Mitho Bites</h1>
+              <h1 className="about-title">About BhokBhoj</h1>
             </div>
             <p className="about-subtitle">Bringing Kathmandu's authentic flavors to your fingertips</p>
           </div>
@@ -69,7 +69,7 @@ export default function About() {
             <div className="hero-content">
               <FaUtensils className="hero-icon" />
               <p className="hero-description">
-                <strong>Mitho Bites</strong> is a modern and user-friendly eFood web platform tailored specifically for the vibrant culinary culture of <span className="highlight">Kathmandu, Nepal</span>. Whether you're a food lover looking to taste traditional dishes or a restaurant seeking to connect with local customers, Mitho Bites serves as the ultimate digital solution.
+                <strong>BhokBhoj</strong> is a modern and user-friendly eFood web platform tailored specifically for the vibrant culinary culture of <span className="highlight">Kathmandu, Nepal</span>. Whether you're a food lover looking to taste traditional dishes or a restaurant seeking to connect with local customers, BhokBhoj serves as the ultimate digital solution.
               </p>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function About() {
               </div>
               <h3 className="feature-title">Focused Location</h3>
               <p className="feature-description">
-                Currently serving the bustling heart of <strong>Kathmandu</strong>, Mitho Bites bridges the gap between local food providers and foodies through an accessible and elegant online experience.
+                Currently serving the bustling heart of <strong>Kathmandu</strong>, BhokBhoj bridges the gap between local food providers and foodies through an accessible and elegant online experience.
               </p>
             </div>
 
@@ -165,3 +165,5 @@ export default function About() {
     </div>
   );
 }
+
+

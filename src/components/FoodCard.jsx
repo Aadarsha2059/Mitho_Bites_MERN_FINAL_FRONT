@@ -22,3 +22,4 @@ const FoodCard = ({ title, image, price }) => {
 };
 
 export default FoodCard;
+

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { FaCog, FaBookOpen, FaUserCircle, FaSignOutAlt, FaTimes, FaMedal, FaLock, FaGift, FaBoxOpen, FaStar, FaLeaf, FaAppleAlt, FaDrumstickBite, FaThList, FaLightbulb } from "react-icons/fa";
+import { FaCog, FaBookOpen, FaUserCircle, FaSignOutAlt, FaTimes, FaMedal, FaLock, FaGift, FaBoxOpen, FaStar, FaLeaf, FaAppleAlt, FaDrumstickBite, FaThList, FaLightbulb, FaChartLine } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Settings from "../Settings";
 import "../Dashboard.css";
 import OrdersSection from "./OrdersSection";
 import ReactDOM from 'react-dom';
+import MyPurchaseTrend from '../moreoptions/MyPurchaseTrend';
 
 const options = [
   { id: 'settings', label: 'Settings', icon: <FaCog />, route: '/settings' },
   { id: 'khana', label: 'Khana Khajan', icon: <FaBookOpen />, route: '/more/khanakhajan' },
+  { id: 'trend', label: 'My Purchase Trend', icon: <FaChartLine />, action: 'purchaseTrend' },
   { id: 'mithoPoints', label: 'Mitho Points', icon: <FaMedal />, action: 'mithoPoints' },
   { id: 'profile', label: 'Profile', icon: <FaUserCircle />, route: '/more/profile' },
 ];
@@ -130,6 +132,7 @@ const MoreOptionsSection = () => {
   const [showKhanaDialog, setShowKhanaDialog] = useState(false);
   const [selectedKhanaCategory, setSelectedKhanaCategory] = useState(0);
   const [showFacts, setShowFacts] = useState(false);
+  const [showPurchaseTrend, setShowPurchaseTrend] = useState(false);
 
   const fetchMithoPoints = async () => {
     setLoading(true);
@@ -165,6 +168,8 @@ const MoreOptionsSection = () => {
       setShowMithoDialog(true);
     } else if (opt.id === 'khana') {
       setShowKhanaDialog(true);
+    } else if (opt.action === 'purchaseTrend') {
+      setShowPurchaseTrend(true);
     } else if (opt.route) {
       navigate(opt.route);
     }
@@ -340,6 +345,12 @@ const MoreOptionsSection = () => {
     )
   );
 
+  const PurchaseTrendDialog = () => (
+    ReactDOM.createPortal(
+      <MyPurchaseTrend onClose={() => setShowPurchaseTrend(false)} />, document.body
+    )
+  );
+
   return (
     <section className="section">
       <h2 className="section-title glow-text">More Options</h2>
@@ -360,6 +371,7 @@ const MoreOptionsSection = () => {
       </div>
       {showMithoDialog && <MithoPointsDialog />}
       {showKhanaDialog && <KhanaKhajanDialog />}
+      {showPurchaseTrend && <PurchaseTrendDialog />}
     </section>
   );
 };

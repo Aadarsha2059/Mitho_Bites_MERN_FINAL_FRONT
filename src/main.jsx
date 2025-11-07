@@ -5,8 +5,10 @@ import AppRouter from './routers/AppRouter.jsx'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Slide, ToastContainer } from 'react-toastify'
-import AuthContextProvider from './auth/authProvider.jsx'
+import AuthContextProvider from './auth/AuthProvider.jsx'
 import { CartProvider } from './pages/client/CartContext'
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 const queryClient= new QueryClient() 
 
 createRoot(document.getElementById('root')).render(
@@ -31,3 +33,4 @@ createRoot(document.getElementById('root')).render(
   
   </StrictMode>,
 )
+

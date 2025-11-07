@@ -22,7 +22,7 @@ export default function RegisterForm() {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       await register(values);  
-      toast.success("Registration successful! Welcome to Mitho Bites! 🎉");
+      toast.success("Registration successful! Welcome to BhokBhoj! 🎉");
       resetForm();
     } catch (error) {
       toast.error("Registration failed. Please try again.");
@@ -38,7 +38,7 @@ export default function RegisterForm() {
         <div className="signup-icon">
           <span role="img" aria-label="welcome">🎉</span>
         </div>
-        <h3 className="signup-subtitle">Join the Mitho Bites family!</h3>
+        <h3 className="signup-subtitle">Join the BhokBhoj family!</h3>
       </div>
 
       <Formik
@@ -231,3 +231,4 @@ export default function RegisterForm() {
     </div>
   );
 }
+

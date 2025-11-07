@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useCart } from "./CartContext";
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
@@ -28,7 +28,7 @@ import { useFoodCategories } from "../../hooks/useFoodCategories";
 import { useFoodProducts } from "../../hooks/useFoodProducts";
 import { getBackendImageUrl } from "../../utils/backend-image";
 import "./Dashboard.css";
-import { AuthContext } from "../../auth/authProvider";
+import { AuthContext } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const SIDEBAR_OPTIONS = [
@@ -53,6 +53,28 @@ const Dashboard = () => {
   const mainContentRef = useRef(null);
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [latestAdditions, setLatestAdditions] = useState(null);
+  const [showLatest, setShowLatest] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchActive, setSearchActive] = useState(false);
+
+  useEffect(() => {
+    async function fetchLatest() {
+      try {
+        // Use window.location.hostname for dynamic base URL
+        let baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5051' : `http://${window.location.hostname}:5051`;
+        const res = await fetch(`${baseUrl}/api/dashboard/latest-additions`);
+        const data = await res.json();
+        if (data.success && data.data) {
+          setLatestAdditions(data.data);
+          setShowLatest(true);
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    fetchLatest();
+  }, []);
 
   // Fetch real data from backend
   const { categories, isLoading: categoriesLoading } = useFoodCategories();
@@ -110,14 +132,20 @@ const Dashboard = () => {
     setView('restaurant-detail');
   };
 
-  // Filter products for selected category
+  // Filter products for selected category and search term
   const filteredProducts = selectedCategory
     ? products.filter((p) => {
-        // Convert both to strings for comparison
         const productCategoryId = p.categoryId?._id || p.categoryId;
-        return productCategoryId?.toString() === selectedCategory._id?.toString();
+        const matchesCategory = productCategoryId?.toString() === selectedCategory._id?.toString();
+        const matchesSearch = p.name?.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && (!searchTerm || matchesSearch);
       })
-    : [];
+    : searchTerm
+      ? products.filter((p) => p.name?.toLowerCase().includes(searchTerm.toLowerCase()))
+      : [];
+
+  // Show HomeSection (recent orders, dashboard options) when search is active or has text
+  const showHomeSection = searchActive || !!searchTerm;
 
   // Debug logging
   console.log('Categories:', categories);
@@ -277,13 +305,56 @@ const Dashboard = () => {
     // Navigation to homepage is now handled by the Sidebar component
   };
 
+  // Professional search box above main content
   return (
     <div className="dashboard-container fancy-bg">
-      <Sidebar options={SIDEBAR_OPTIONS} onNavigate={handleSidebarNav} onLogout={handleLogout} />
-      <div className="sidebar-icon">
-        <span className="icon-circle">🍽️</span>
-        <span className="icon-label">Mitho Bites</span>
-      </div>
+      {/* Latest Additions Notification */}
+      {latestAdditions && showLatest && (
+        <div className="dashboard-notification" style={{
+          background: 'rgba(255,255,255,0.55)',
+          backdropFilter: 'blur(12px)',
+          border: '2.5px solid #ffe0b2',
+          boxShadow: '0 8px 32px #ff6b3522, 0 2px 12px #0001',
+          color: '#b71c1c',
+          fontWeight: 700,
+          fontSize: '1.08rem',
+          borderRadius: '1.7rem',
+          padding: '14px 28px',
+          margin: '18px auto',
+          maxWidth: 440,
+          minWidth: 260,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          position: 'relative',
+          zIndex: 1000,
+          overflow: 'hidden',
+        }}>
+          <span style={{fontSize:'1.7rem',marginRight:10,filter:'drop-shadow(0 2px 8px #ffe082)'}} role="img" aria-label="new">🎉</span>
+          <span style={{fontWeight:900,letterSpacing:'0.5px',color:'#ff6f00',fontSize:'1.13rem',marginRight:6}}>New on BhokBhoj!</span>
+          <span style={{color:'#b71c1c',fontWeight:700}}>
+            {latestAdditions.restaurant && (<span>🍽️ <b>{latestAdditions.restaurant}</b>&nbsp;|&nbsp;</span>)}
+            {latestAdditions.category && (<span>📂 <b>{latestAdditions.category}</b>&nbsp;|&nbsp;</span>)}
+            {latestAdditions.food && (<span>🍲 <b>{latestAdditions.food}</b></span>)}
+          </span>
+          <button onClick={()=>setShowLatest(false)} style={{marginLeft:'auto',background:'rgba(255,255,255,0.7)',border:'none',fontSize:'1.5rem',color:'#ff6f00',cursor:'pointer',borderRadius:'50%',width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 2px 8px #ffe08255',transition:'background 0.2s'}} aria-label="Close notification">×</button>
+          {/* Confetti effect */}
+          <span style={{position:'absolute',top:0,left:0,fontSize:'1.5rem',opacity:0.7,transform:'rotate(-15deg)'}}>✨</span>
+          <span style={{position:'absolute',top:0,right:0,fontSize:'1.5rem',opacity:0.7,transform:'rotate(15deg)'}}>✨</span>
+          <span style={{position:'absolute',bottom:0,left:0,fontSize:'1.5rem',opacity:0.7,transform:'rotate(10deg)'}}>✨</span>
+          <span style={{position:'absolute',bottom:0,right:0,fontSize:'1.5rem',opacity:0.7,transform:'rotate(-10deg)'}}>✨</span>
+        </div>
+      )}
+      {/* Sidebar is only for user dashboard, not admin pages */}
+      {window.location.pathname === '/dashboard' && (
+        <>
+          <Sidebar options={SIDEBAR_OPTIONS} onNavigate={handleSidebarNav} onLogout={handleLogout} />
+          <div className="sidebar-icon">
+            <span className="icon-circle">🍽️</span>
+            <span className="icon-label">BhokBhoj</span>
+          </div>
+        </>
+      )}
       
       {/* Floating Cart Icon */}
       <div className={`floating-cart-icon ${cartAnimation ? 'cart-added' : ''}`} onClick={() => setCartModalOpen(true)}>
@@ -297,6 +368,19 @@ const Dashboard = () => {
       </div>
       
       <main className="main-content">
+        {/* Professional Search Box */}
+        <div style={{ width: '100%', maxWidth: 500, margin: '0 auto 24px auto', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: '10px 18px' }}>
+          <input
+            type="text"
+            placeholder="Search for food products..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            onFocus={() => setSearchActive(true)}
+            onBlur={() => setTimeout(() => setSearchActive(false), 200)}
+            style={{ flex: 1, border: 'none', outline: 'none', fontSize: 17, background: 'transparent', color: '#111', fontWeight: 500 }}
+          />
+          <span style={{ color: '#1976d2', fontSize: 22, marginLeft: 10 }} role="img" aria-label="search">🔍</span>
+        </div>
         <div className="dashboard-header-wrapper">
           <Header />
           <div className="cart-icon" onClick={() => setCartModalOpen(true)}>
@@ -309,7 +393,19 @@ const Dashboard = () => {
           key={view}
           ref={mainContentRef}
         >
-          {SectionComponent}
+          {showHomeSection ? (
+            <HomeSection 
+              onViewAllOrders={() => handleSidebarNav('orders')}
+              onCategoryClick={() => handleSidebarNav('categories')}
+              onRestaurantClick={() => handleSidebarNav('restaurants')}
+              categories={categories}
+              restaurants={[]}
+              searchTerm={searchTerm}
+              products={products}
+            />
+          ) : (
+            SectionComponent
+          )}
         </div>
         {/* Cart Modal */}
         <DeleteModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} title="Your Cart" wide>
@@ -325,3 +421,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

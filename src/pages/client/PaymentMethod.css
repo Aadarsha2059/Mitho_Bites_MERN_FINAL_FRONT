@@ -104,7 +104,7 @@
   border-radius: 1rem;
   box-shadow: 0 8px 20px #a18cd144;
   text-align: center;
-  color: #e53935;
+  color: #8B0000;
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .dialog-box h2 {
@@ -137,7 +137,7 @@
   background: none;
   border: none;
   font-size: 2rem;
-  color: #e53935;
+  color: #8B0000;
   cursor: pointer;
   z-index: 10;
   transition: color 0.2s;
@@ -189,7 +189,7 @@
 .payment-title {
   font-size: 2rem;
   font-weight: 800;
-  color: #e53935;
+  color: #8B0000;
   margin-bottom: 0.5rem;
 }
 .payment-desc {
@@ -265,7 +265,7 @@
 .payment-summary-card .summary-row.total {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #e53935;
+  color: #8B0000;
   border-top: 2px solid #f8b500;
   margin-top: 0.5rem;
   padding-top: 0.75rem;
@@ -289,3 +289,88 @@
   height: 60px;
   margin-bottom: 1rem;
 }
+
+.festive-bg {
+  background: linear-gradient(120deg, #fceabb 0%, #f8b500 40%, #f76d6d 100%);
+  position: relative;
+  overflow: hidden;
+}
+.festive-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="6" fill="%23f8b500" opacity="0.18"/><circle cx="80" cy="60" r="8" fill="%23f76d6d" opacity="0.13"/><circle cx="200" cy="120" r="10" fill="%23a18cd1" opacity="0.12"/><circle cx="300" cy="80" r="7" fill="%23e53935" opacity="0.15"/><circle cx="400" cy="200" r="12" fill="%23fceabb" opacity="0.10"/></svg>');
+  background-repeat: repeat;
+  z-index: 0;
+  border-radius: 1.2rem;
+  animation: festive-float 8s linear infinite;
+}
+@keyframes festive-float {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 60px; }
+}
+
+.festive-dialog-box {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0b2 60%, #f8b500 100%);
+  border: 3px solid #f8b500;
+  box-shadow: 0 8px 32px #f8b50033, 0 0 0 8px #fffbe6;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  position: relative;
+  overflow: visible;
+  animation: festive-pop 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes festive-pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.festive-title {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: #8B0000;
+  margin-bottom: 1.1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #f8b50033;
+}
+.festive-message {
+  font-size: 1.18rem;
+  color: #2d2346;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.7;
+  text-align: center;
+}
+.decorative-header, .decorative-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 0.7rem;
+  font-size: 2.1rem;
+  animation: confetti-bounce 1.2s infinite alternate;
+}
+.decorative-footer {
+  margin-top: 1.2rem;
+  margin-bottom: 0;
+  font-size: 1.7rem;
+  animation-delay: 0.5s;
+}
+@keyframes confetti-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+.confetti {
+  filter: drop-shadow(0 2px 4px #f8b50044);
+  animation: confetti-spin 2.5s linear infinite;
+}
+.confetti:nth-child(2) { animation-delay: 0.7s; }
+.confetti:nth-child(3) { animation-delay: 1.2s; }
+@keyframes confetti-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(12deg) scale(1.15); }
+  100% { transform: rotate(-8deg) scale(1); }
+}
+
+
+

@@ -90,7 +90,7 @@ const HomepageBody = () => {
       <section className="features-section">
         <div className="container">
           <div className="section-header">
-            <h2>Why Choose MithoBites?</h2>
+            <h2>Why Choose BhokBhoj?</h2>
             <p>We provide the best food delivery experience</p>
           </div>
           

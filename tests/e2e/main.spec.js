@@ -70,3 +70,6 @@ test.describe('Mitho Bites E2E Tests', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 }); 
+
+
+// 

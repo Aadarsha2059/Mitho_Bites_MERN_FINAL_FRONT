@@ -25,13 +25,13 @@
 }
 
 .search-input-wrapper:focus-within {
-    border-color: #FF8C00;
-    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+    border-color: #FFA500;
+    box-shadow: 0 4px 16px rgba(255, 165, 0, 0.3);
     transform: translateY(-2px);
 }
 
 .search-icon {
-    color: #FF8C00;
+    color: #FFA500;
     font-size: 18px;
     margin-left: 16px;
     margin-right: 12px;
@@ -79,12 +79,12 @@
 }
 
 .filter-group:hover {
-    border-color: #FF8C00;
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+    border-color: #FFA500;
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.2);
 }
 
 .filter-icon {
-    color: #FF8C00;
+    color: #FFA500;
     font-size: 16px;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .sort-icon {
-    color: #FF8C00;
+    color: #FFA500;
     font-size: 16px;
 }
 
@@ -141,16 +141,16 @@
 }
 
 .sort-btn:hover {
-    border-color: #FF8C00;
-    background: rgba(255, 140, 0, 0.1);
+    border-color: #FFA500;
+    background: rgba(255, 165, 0, 0.1);
     transform: translateY(-2px);
 }
 
 .sort-btn.active {
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #FFA500, #FFA500);
     color: white;
-    border-color: #FF8C00;
-    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+    border-color: #FFA500;
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
 }
 
 .sort-btn:disabled {
@@ -184,7 +184,7 @@
 
 .filter-tag {
     background: linear-gradient(135deg, #FFE4B5, #FFF8DC);
-    border: 1px solid #FF8C00;
+    border: 1px solid #FFA500;
     border-radius: 20px;
     padding: 6px 12px;
     font-size: 13px;
@@ -197,7 +197,7 @@
 }
 
 .remove-filter-btn {
-    background: #FF8C00;
+    background: #FFA500;
     color: white;
     border: none;
     border-radius: 50%;
@@ -304,3 +304,5 @@
         align-items: flex-start;
     }
 } 
+
+

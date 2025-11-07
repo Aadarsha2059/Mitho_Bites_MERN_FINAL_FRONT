@@ -28,7 +28,7 @@ body, html, #root {
 
 .cart-items-container h2 {
   margin-bottom: 20px;
-  color: #FF6B35;
+  color: #008B8B;
   font-weight: 700;
   font-size: 1.8rem;
 }
@@ -61,7 +61,7 @@ body, html, #root {
 .item-details h3 {
   margin: 0 0 6px 0;
   font-weight: 700;
-  color: #FF6B35;
+  color: #008B8B;
   font-size: 1.3rem;
 }
 
@@ -81,7 +81,7 @@ body, html, #root {
 
 .category {
   background: #FFE3D1;
-  color: #FF6B35;
+  color: #008B8B;
   padding: 3px 9px;
   border-radius: 5px;
   font-weight: 600;
@@ -144,7 +144,7 @@ body, html, #root {
 }
 
 .quantity-controls button {
-  background: #FF6B35;
+  background: #008B8B;
   border: none;
   color: white;
   width: 30px;
@@ -213,10 +213,10 @@ body, html, #root {
 
 .order-summary-container h2 {
   margin: 0 0 12px 0;
-  color: #FF6B35;
+  color: #008B8B;
   font-weight: 800;
   font-size: 1.7rem;
-  border-bottom: 2px solid #FF6B35;
+  border-bottom: 2px solid #008B8B;
   padding-bottom: 6px;
 }
 
@@ -250,7 +250,7 @@ body, html, #root {
 
 /* Proceed button */
 .proceed-btn {
-  background: #FF6B35;
+  background: #008B8B;
   border: none;
   color: white;
   font-weight: 800;
@@ -357,7 +357,7 @@ body, html, #root {
   background: none;
   border: none;
   font-size: 2rem;
-  color: #e53935;
+  color: #8B0000;
   cursor: pointer;
   z-index: 10;
   transition: color 0.2s;
@@ -415,3 +415,6 @@ body, html, #root {
     padding: 18px 8px;
   }
 }
+
+
+

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../auth/authProvider';
+import { AuthContext } from '../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
-const Header = ({ onSearch }) => {
+const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   const { user, isAdmin } = useContext(AuthContext) || {};
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -18,21 +18,13 @@ const Header = ({ onSearch }) => {
   };
 
   return (
-    <header className="header dashboard-header">
-      <div className="dashboard-header-title">
+    <header className="header dashboard-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 32 }}>
+      <div className="dashboard-header-title" style={{ flex: '0 0 auto', marginRight: 32 }}>
         <span className="namaste-icon" role="img" aria-label="namaste">🙏</span>
-        Mitho Bites <span className="dashboard-header-year">2025</span>
+        BhokBhoj <span className="dashboard-header-year">2025</span>
       </div>
-      <div className="dashboard-header-search">
-        <input
-          type="text"
-          className="dashboard-search-input"
-          placeholder="Search foods, restaurants..."
-          value={search}
-          onChange={handleSearch}
-        />
-      </div>
-      <div className="dashboard-header-user">
+      {/* Removed search box */}
+      <div className="dashboard-header-user" style={{ flex: '1 1 0', minWidth: 0, justifyContent: 'flex-start', marginLeft: 32 }}>
         {user && user.username ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span className="welcome-text">
@@ -68,9 +60,13 @@ const Header = ({ onSearch }) => {
                 🛠️ Admin Panel
               </button>
             )}
+            {/* Removed App Tour (onboarding) button */}
           </div>
         ) : (
-          <span className="welcome-text">Welcome, Foodie!</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span className="welcome-text">Welcome, Foodie!</span>
+            {/* Removed App Tour (onboarding) button */}
+          </div>
         )}
       </div>
     </header>
@@ -78,3 +74,4 @@ const Header = ({ onSearch }) => {
 };
 
 export default Header;
+
