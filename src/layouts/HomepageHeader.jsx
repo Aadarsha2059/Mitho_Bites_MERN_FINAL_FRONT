@@ -13,7 +13,7 @@ export default function HomepageHeader({ onLoginClick, onShowOnboarding }) {
         </Link>
       </div>
       <nav className="homepage-nav-links">
-        <Link to="/menu" className="homepage-nav-link cooking-link">What's Cooking?</Link>
+        <Link to="/menu" className="homepage-nav-link cooking-link">Menu</Link>
         <button
           className="onboarding-btn homepage-nav-link"
           onClick={onShowOnboarding}

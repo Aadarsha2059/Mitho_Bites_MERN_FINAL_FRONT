@@ -1,4 +1,4 @@
-/* ===== ADMIN PAGE - PROFESSIONAL STYLING ===== */
+/* ===== BHOKBHOJ ADMIN PANEL - MODERN PROFESSIONAL DESIGN ===== */
 
 /* Base Container */
 .admin-container {
@@ -6,291 +6,254 @@
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #008B8B 0%, #006666 100%);
-  color: #2d3748;
-  position: relative;
+  background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 100%);
+  color: #1a1a1a;
 }
 
-/* Color Variables - BhokBhoj Theme */
-:root {
-  --primary-color: #008B8B;
-  --primary-light: #20B2AA;
-  --primary-dark: #006666;
-  --secondary-color: #FFA500;
-  --success-color: #48bb78;
-  --danger-color: #8B0000;
-  --warning-color: #FFA500;
-  --info-color: #008B8B;
-  
-  --bg-white: #ffffff;
-  --bg-gray-50: #f4f6fb;
-  --bg-gray-100: #e9eaf3;
-  --bg-gray-200: #d6d8e7;
-  
-  --text-primary: #2d1e5f;
-  --text-secondary: #4a5568;
-  --text-muted: #7c7c9a;
-  
-  --border-color: #e2e8f0;
-  --border-focus: #5a3fd7;
-  
-  --shadow-sm: 0 1px 2px 0 rgba(90, 63, 215, 0.05);
-  --shadow-md: 0 4px 12px -1px rgba(90, 63, 215, 0.10), 0 2px 8px -1px rgba(44, 62, 80, 0.06);
-  --shadow-lg: 0 10px 24px -3px rgba(90, 63, 215, 0.13), 0 4px 12px -2px rgba(44, 62, 80, 0.08);
-  --shadow-xl: 0 20px 40px -5px rgba(90, 63, 215, 0.13), 0 10px 20px -5px rgba(44, 62, 80, 0.08);
-  
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-}
-
-/* Header */
+/* Header - Modern Design */
 .admin-header {
-  background: linear-gradient(90deg, #5a3fd7 60%, #7c5dfa 100%);
-  color: #fff;
-  padding: 2.2rem 2.5rem 1.7rem 2.5rem;
-  font-size: 2.2rem;
-  font-weight: 900;
+  background: linear-gradient(135deg, #008B8B 0%, #20B2AA 100%);
+  color: white;
+  padding: 25px 40px;
+  font-size: 1.8rem;
+  font-weight: 800;
   text-align: center;
-  box-shadow: var(--shadow-lg);
-  border-bottom: 0.5px solid #e9eaf3;
-  letter-spacing: 1.2px;
-  border-radius: 0 0 2.2rem 2.2rem;
-  position: relative;
-  z-index: 10;
-  text-shadow: 0 2px 12px #4c51bf33, 0 1px 2px #2d1e5f22;
+  box-shadow: 0 4px 20px rgba(0, 139, 139, 0.2);
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
 /* Body Layout */
 .admin-body {
   flex: 1;
   display: flex;
-  background: linear-gradient(120deg, #f4f6fb 60%, #e9eaf3 100%);
+  background: #F5F7FA;
   min-height: calc(100vh - 100px);
 }
 
-/* Sidebar */
+/* Sidebar - Modern Card Style */
 .admin-sidebar {
-  width: 290px;
-  background: #fff;
-  border-right: 1.5px solid #e9eaf3;
-  padding: 2.2rem 1.7rem;
+  width: 280px;
+  background: white;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-  z-index: 5;
-  border-radius: 1.5rem 0 0 1.5rem;
+  gap: 10px;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
 }
 
+/* Profile Card */
 .admin-profile-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: var(--bg-gray-50);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  margin-bottom: 2rem;
+  gap: 15px;
+  padding: 20px;
+  background: linear-gradient(135deg, #E0F7FA, #B2EBF2);
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 139, 139, 0.1);
 }
 
 .admin-profile-avatar {
-  width: 48px;
-  height: 48px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--primary-color);
+  border: 3px solid #008B8B;
+  box-shadow: 0 4px 10px rgba(0, 139, 139, 0.2);
 }
 
 .admin-profile-info {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
 }
 
 .admin-profile-name {
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #1a1a1a;
+  margin-bottom: 3px;
 }
 
 .admin-profile-role {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  font-weight: 500;
+  font-size: 0.85rem;
+  color: #008B8B;
+  font-weight: 600;
 }
 
+/* Sidebar Buttons - Modern Style */
 .admin-sidebar button {
-  background: linear-gradient(90deg, #f4f6fb 80%, #e9eaf3 100%);
-  border: 1.5px solid transparent;
-  padding: 1rem 1.2rem;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
+  background: transparent;
+  border: none;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
   font-weight: 600;
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
-  gap: 0.85rem;
-  transition: all 0.18s;
+  color: #555;
+  gap: 12px;
+  transition: all 0.3s;
   cursor: pointer;
   text-align: left;
-  box-shadow: 0 1px 4px #5a3fd70a;
+  position: relative;
 }
 
 .admin-sidebar button:hover {
-  background: linear-gradient(90deg, #e9eaf3 80%, #f4f6fb 100%);
-  color: var(--primary-color);
-  border-color: var(--primary-light);
-  box-shadow: 0 2px 12px #5a3fd71a;
+  background: #F0F9F9;
+  color: #008B8B;
+  transform: translateX(5px);
 }
 
 .admin-sidebar button svg {
-  font-size: 1.125rem;
-  color: var(--text-muted);
-  transition: color 0.2s ease;
+  font-size: 1.1rem;
+  transition: transform 0.3s;
 }
 
 .admin-sidebar button:hover svg {
-  color: var(--primary-color);
+  transform: scale(1.1);
 }
 
 .admin-sidebar .active {
-  background: linear-gradient(90deg, #5a3fd7 80%, #7c5dfa 100%);
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 4px 16px #5a3fd733;
-  border-color: #5a3fd7;
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 139, 139, 0.3);
 }
 
 .admin-sidebar .active svg {
-  color: #fff;
+  color: white;
 }
 
-/* Main Content */
+/* Main Content Area */
 .admin-main {
   flex: 1;
-  padding: 2.5rem 2.5rem 2rem 2.5rem;
-  background: linear-gradient(120deg, #f4f6fb 80%, #e9eaf3 100%);
+  padding: 30px;
   overflow-y: auto;
-  border-radius: 0 0 1.5rem 0;
-  box-shadow: 0 2px 12px #5a3fd70a;
 }
 
 .admin-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Search Section */
+/* Search Section - Modern */
 .admin-search-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
+  margin-bottom: 30px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .admin-search-form {
   display: flex;
   align-items: center;
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  background: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 50px;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   flex: 1;
-  max-width: 400px;
+  max-width: 450px;
+  transition: all 0.3s;
+}
+
+.admin-search-form:focus-within {
+  border-color: #008B8B;
+  box-shadow: 0 4px 20px rgba(0, 139, 139, 0.15);
 }
 
 .admin-search-input {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 14px 20px;
   border: none;
   outline: none;
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  background: transparent;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .admin-search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.admin-search-input:focus {
-  box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.1);
+  color: #999;
 }
 
 .admin-search-btn {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
   color: white;
   border: none;
-  padding: 0.75rem 1rem;
+  padding: 14px 25px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
 }
 
 .admin-search-btn:hover {
-  background: var(--primary-light);
+  background: linear-gradient(135deg, #006666, #008B8B);
 }
 
 .admin-fetch-btn {
-  background: var(--secondary-color);
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md);
-  font-weight: 500;
+  padding: 14px 25px;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  box-shadow: var(--shadow-sm);
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
 }
 
 .admin-fetch-btn:hover {
-  background: #dd6b20;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
 }
 
-/* Form Section */
+/* Form Section - Modern Card */
 .admin-form-section {
-  background: var(--bg-white);
-  border-radius: var(--radius-xl);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border-color);
+  background: white;
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #F0F0F0;
 }
 
 .admin-form-section h2 {
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
-  position: relative;
+  color: #1a1a1a;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.admin-form-section h2::after {
+.admin-form-section h2::before {
   content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: var(--primary-color);
-  border-radius: 2px;
+  width: 5px;
+  height: 30px;
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
+  border-radius: 10px;
 }
 
 .admin-form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
 }
 
 .form-group {
@@ -300,249 +263,228 @@
 
 .form-group label {
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 5px;
 }
 
 .form-group label::after {
   content: ' *';
-  color: var(--danger-color);
+  color: #8B0000;
+  font-weight: 700;
 }
 
 .form-group input,
 .form-group select {
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  background: var(--bg-white);
-  color: var(--text-primary);
-  transition: all 0.2s ease;
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #FAFAFA;
+  color: #333;
+  transition: all 0.3s;
   outline: none;
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.1);
+  border-color: #008B8B;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 139, 139, 0.1);
 }
 
 .form-group input[type="file"] {
-  padding: 0.5rem;
-  border: 2px dashed var(--border-color);
-  background: var(--bg-gray-50);
+  padding: 10px;
+  border: 2px dashed #008B8B;
+  background: #F0F9F9;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s;
 }
 
 .form-group input[type="file"]:hover {
-  border-color: var(--primary-color);
-  background: rgba(76, 81, 191, 0.05);
+  border-color: #20B2AA;
+  background: #E0F7FA;
 }
 
 .form-group small {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.8rem;
+  margin-top: 5px;
 }
 
-/* Submit Button */
+/* Submit Button - Modern */
 .admin-submit-btn {
   grid-column: 1 / -1;
-  background: var(--primary-color);
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
   color: white;
   border: none;
-  padding: 1rem 2rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 1rem;
+  padding: 16px 35px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
-  margin-top: 1rem;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(0, 139, 139, 0.3);
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .admin-submit-btn:hover:not(:disabled) {
-  background: var(--primary-light);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 139, 139, 0.4);
 }
 
 .admin-submit-btn:disabled {
-  background: var(--bg-gray-200);
-  color: var(--text-muted);
+  background: #CCC;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
-/* Dialog Modal */
+/* Dialog Modal - Modern */
 .admin-dialog {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
 }
 
 .admin-dialog-content {
-  background: var(--bg-white);
-  padding: 2rem;
-  border-radius: var(--radius-xl);
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
   width: 90%;
   max-width: 500px;
   text-align: center;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
-  animation: modalSlideIn 0.3s ease;
+  animation: slideUp 0.4s ease;
 }
 
 .admin-dialog-content h3 {
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  font-size: 1.25rem;
-  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .admin-dialog-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
+  top: 15px;
+  right: 15px;
+  background: #F5F5F5;
   border: none;
-  font-size: 1.5rem;
-  color: var(--text-muted);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  color: #666;
   cursor: pointer;
-  padding: 0.25rem;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .admin-dialog-close:hover {
-  background: var(--bg-gray-100);
-  color: var(--text-primary);
+  background: #E0E0E0;
+  color: #333;
+  transform: rotate(90deg);
 }
 
 .dialog-button {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
   color: white;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.875rem;
+  padding: 12px 30px;
+  font-size: 0.95rem;
   width: 100%;
   border: none;
-  border-radius: var(--radius-md);
-  margin: 0.5rem 0;
+  border-radius: 10px;
+  margin: 8px 0;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
+  transition: all 0.3s;
+  font-weight: 600;
 }
 
 .dialog-button:hover {
-  background: var(--primary-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 139, 139, 0.3);
 }
 
-/* Footer */
+/* Footer - Modern */
 .admin-footer {
-  background: linear-gradient(90deg, #5a3fd7 0%, #7c5dfa 60%, #ffb347 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #008B8B 0%, #20B2AA 100%);
+  color: white;
   text-align: center;
-  padding: 2.2rem 2.5rem 1.7rem 2.5rem;
-  border-top: 2.5px solid #e9eaf3;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.7px;
-  border-radius: 0 0 2.5rem 2.5rem;
-  box-shadow: 0 -6px 32px #5a3fd744, 0 -2px 12px #2d1e5f22;
-  text-shadow: 0 2px 12px #4c51bf33, 0 1px 2px #2d1e5f22;
-  position: relative;
-  overflow: hidden;
-}
-.admin-footer::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle at 80% 20%, #ffb34744 0%, transparent 70%),
-              radial-gradient(circle at 10% 80%, #7c5dfa33 0%, transparent 70%);
-  z-index: 0;
-  pointer-events: none;
-}
-.admin-footer > * {
-  position: relative;
-  z-index: 1;
+  padding: 25px 40px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 -4px 20px rgba(0, 139, 139, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .admin-footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 20px;
 }
 
 .admin-footer-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.admin-footer-section h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
+  gap: 15px;
 }
 
 .admin-social-links {
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
 }
 
 .admin-social-link {
-  color: var(--text-muted);
-  font-size: 1.125rem;
-  transition: color 0.2s ease;
-  padding: 0.5rem;
-  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .admin-social-link:hover {
-  color: var(--primary-color);
-  background: var(--bg-gray-100);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
 }
 
 /* Animations */
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes slideInUp {
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -568,10 +510,13 @@
   
   .admin-sidebar {
     width: 100%;
-    padding: 1rem;
+    height: auto;
+    position: relative;
+    top: 0;
+    padding: 20px;
     flex-direction: row;
     overflow-x: auto;
-    gap: 0.5rem;
+    gap: 10px;
   }
   
   .admin-sidebar button {
@@ -580,11 +525,11 @@
   }
   
   .admin-main {
-    padding: 1rem;
+    padding: 20px;
   }
   
   .admin-form-section {
-    padding: 1.5rem;
+    padding: 25px 20px;
   }
   
   .admin-search-section {
@@ -596,26 +541,69 @@
     max-width: none;
   }
   
-  .admin-footer-content {
-    flex-direction: column;
-    text-align: center;
+  .admin-header {
+    font-size: 1.4rem;
+    padding: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .admin-header {
-    font-size: 1.5rem;
-    padding: 1rem;
+    font-size: 1.2rem;
+    padding: 15px;
   }
   
   .admin-form-section {
-    padding: 1rem;
+    padding: 20px 15px;
   }
   
   .admin-dialog-content {
     width: 95%;
-    padding: 1.5rem;
+    padding: 25px 20px;
+  }
+  
+  .admin-profile-card {
+    flex-direction: column;
+    text-align: center;
   }
 }
 
+/* Loading States */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.success-message {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.error-message {
+  background: linear-gradient(135deg, #8B0000, #660000);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+}

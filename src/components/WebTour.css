@@ -1,258 +1,278 @@
-.webtour-modal, .webtour-modal-large {
-  outline: none;
-  border: 4px solid #008B8B !important;
-  max-width: 1200px;
-  min-width: 800px;
-  min-height: 500px;
-  max-height: 90vh;
-  margin: auto;
-  border-radius: 32px;
-  background: linear-gradient(135deg, #fff8f0 60%, #ffe5d0 100%) !important;
-  box-shadow: 0 8px 48px 0 rgba(255,107,53,0.18), 0 2px 8px 0 rgba(25,118,210,0.08);
-  padding: 0;
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  display: block !important;
-  opacity: 1 !important;
-  z-index: 999999 !important;
-  color: #222 !important;
-}
+/* Modern WebTour Styles */
 
-.webtour-overlay {
-  background: rgba(0,0,0,0.35) !important;
-  z-index: 999998 !important;
-}
-
-@keyframes webtour-fadein {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.webtour-close-btn {
-  position: absolute;
-  top: 24px;
-  right: 32px;
-  background: #fff0;
-  border: none;
-  font-size: 2.2rem;
-  color: #008B8B;
-  cursor: pointer;
-  z-index: 2;
-  transition: color 0.2s;
-}
-.webtour-close-btn:hover {
-  color: #d84315;
-  background: #fff3;
-  border-radius: 50%;
-}
-
-.webtour-content,
-.webtour-content-large {
-  width: 100%;
-  padding: 56px 48px 36px 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.webtour-header,
-.webtour-header-large {
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: #008B8B;
-  margin-bottom: 18px;
-  letter-spacing: 1.5px;
-  text-shadow: 0 2px 8px #ffd16655;
-}
-
-.webtour-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #1976d2;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
-}
-.webtour-desc {
-  font-size: 1.25rem;
-  color: #333;
-  margin-bottom: 8px;
-}
-.webtour-step-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #008B8B;
-  margin-bottom: 8px;
-}
-
-.webtour-body,
-.webtour-body-large {
-  font-size: 1.25rem;
-  color: #222;
-  margin-bottom: 18px;
-  min-height: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.webtour-highway-horizontal {
-  position: relative;
-  width: 95%;
-  min-width: 700px;
-  max-width: 1100px;
-  height: 110px;
-  margin: 0 auto 32px auto;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-.webtour-highway-road {
-  position: absolute;
-  left: 40px;
-  right: 40px;
-  top: 50px;
-  height: 18px;
-  background: repeating-linear-gradient(90deg, #ffd166 0 20px, #008B8B 20px 40px);
-  border-radius: 12px;
-  z-index: 1;
-  box-shadow: 0 2px 12px #ffd16655;
-  border: 2px solid #008B8B;
-}
-.webtour-highway-stop-horizontal {
-  position: absolute;
-  top: 0;
-  width: 64px;
-  text-align: center;
-  z-index: 2;
-}
-.webtour-highway-busstop {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 3px solid #bbb;
-  margin: 0 auto 4px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  box-shadow: 0 2px 8px #ffd16633;
-  transition: border-color 0.3s, background 0.3s;
-}
-.webtour-highway-icon-horizontal {
-  font-size: 1.8rem;
-  transition: opacity 0.3s;
-}
-.webtour-highway-label-horizontal {
-  font-size: 1.1rem;
-  margin-top: 2px;
-  transition: color 0.3s, font-weight 0.3s;
-  white-space: nowrap;
-}
-.webtour-highway-car-horizontal {
-  position: absolute;
-  top: 18px;
-  z-index: 3;
-  transition: left 0.5s cubic-bezier(.4,2,.6,1);
-  filter: drop-shadow(0 4px 12px #008B8Baa);
-}
-.webtour-highway-smoke {
-  position: absolute;
-  z-index: 2;
-  font-size: 2.2rem;
-  pointer-events: none;
-  animation: webtour-smoke-move 0.7s infinite alternate;
-  opacity: 0.7;
-}
-@keyframes webtour-smoke-move {
-  from { transform: translateY(0) scale(1); opacity: 0.7; }
-  to { transform: translateY(-12px) scale(1.2); opacity: 0.3; }
-}
-
-.webtour-nav-row,
-.webtour-nav-row-large {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 32px;
-}
-.webtour-nav-btn,
-.webtour-nav-btn-large {
-  font-size: 1.35rem;
-  font-weight: 700;
-  padding: 14px 36px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(90deg, #008B8B 0%, #ffd166 100%);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(255,107,53,0.10);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  margin: 0 8px;
-  outline: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.webtour-nav-btn:disabled,
-.webtour-nav-btn-large:disabled {
-  background: #eee;
-  color: #bbb;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.webtour-nav-btn.webtour-nav-finish,
-.webtour-nav-btn-large.webtour-nav-finish {
-  background: linear-gradient(90deg, #1976d2 0%, #64b5f6 100%);
-  color: #fff;
-}
-
-.webtour-nav-spacer {
-  flex: 1;
-}
-
-.webtour-crows-bg {
-  position: absolute;
+.modern-webtour-overlay {
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modern-webtour-modal {
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+  outline: none;
+}
+
+.modern-webtour-container {
+  position: relative;
+  padding: 40px;
+}
+
+.modern-webtour-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f5f5f5;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modern-webtour-close:hover {
+  background: #e0e0e0;
+  color: #333;
+  transform: rotate(90deg);
+}
+
+.modern-webtour-progress-bar {
   width: 100%;
-  height: 220px;
-  pointer-events: none;
-  z-index: 0;
-}
-.webtour-crow {
-  position: absolute;
-  font-size: 2.2rem;
-  opacity: 0.7;
-  animation: webtour-crow-fly 7s linear infinite;
-  z-index: 0;
-  user-select: none;
-}
-@keyframes webtour-crow-fly {
-  0% { left: -80px; opacity: 0.7; transform: scaleX(1) rotate(-10deg); }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { left: 100vw; opacity: 0.7; transform: scaleX(1.1) rotate(10deg); }
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 40px;
 }
 
-.webtour-drop {
-  position: absolute;
-  top: -40px;
-  font-size: 2.2rem;
-  opacity: 0.7;
-  animation: webtour-drop-fall 2.5s linear infinite;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
+.modern-webtour-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #008B8B, #20B2AA);
+  transition: width 0.4s ease;
+  border-radius: 10px;
 }
-@keyframes webtour-drop-fall {
-  0% { top: -40px; opacity: 0.7; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 220px; opacity: 0.2; }
-} 
 
+.modern-webtour-content {
+  text-align: center;
+  padding: 20px 0;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
+.modern-webtour-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s ease;
+}
+
+.modern-webtour-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  animation: fadeInUp 0.5s ease 0.1s backwards;
+}
+
+.modern-webtour-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  max-width: 450px;
+  margin: 0 auto 30px;
+  animation: fadeInUp 0.5s ease 0.2s backwards;
+}
+
+.modern-webtour-steps {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.modern-webtour-step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.modern-webtour-step-dot.active {
+  background: #008B8B;
+  width: 30px;
+  border-radius: 10px;
+}
+
+.modern-webtour-step-dot.completed {
+  background: #20B2AA;
+}
+
+.modern-webtour-step-dot:hover {
+  transform: scale(1.2);
+}
+
+.modern-webtour-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  gap: 20px;
+}
+
+.modern-webtour-btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modern-webtour-btn-prev {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.modern-webtour-btn-prev:hover:not(:disabled) {
+  background: #e0e0e0;
+  transform: translateX(-3px);
+}
+
+.modern-webtour-btn-prev:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.modern-webtour-btn-next {
+  background: linear-gradient(135deg, #008B8B, #20B2AA);
+  color: white;
+}
+
+.modern-webtour-btn-next:hover {
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(0, 139, 139, 0.3);
+}
+
+.modern-webtour-btn-finish {
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
+  color: white;
+}
+
+.modern-webtour-btn-finish:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+}
+
+.modern-webtour-counter {
+  font-size: 0.95rem;
+  color: #999;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modern-webtour-container {
+    padding: 30px 20px;
+  }
+
+  .modern-webtour-icon {
+    font-size: 4rem;
+  }
+
+  .modern-webtour-title {
+    font-size: 1.6rem;
+  }
+
+  .modern-webtour-description {
+    font-size: 1rem;
+  }
+
+  .modern-webtour-navigation {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .modern-webtour-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modern-webtour-counter {
+    order: -1;
+  }
+}
