@@ -1,6 +1,6 @@
 import { registerUserApi } from "../api/authApi";
 import { loginUserApi } from "../api/authApi";
-import { forgotPasswordApi, resetPasswordApi } from "../api/authApi";
+import { forgotPasswordApi, resetPasswordApi, changePasswordApi, verifyOTPApi } from "../api/authApi";
 import { updateUserProfileApi } from "../api/authApi";
 
 export const registerUserService=async (formData) =>{
@@ -49,6 +49,24 @@ export const updateUserProfileService=async(userId,formData) => {
         throw err?.response?.data || {message:"Profile update failed"}
     }
 }
+
+export const changePasswordService = async ({ oldPassword, newPassword }) => {
+    try {
+        const response = await changePasswordApi({ oldPassword, newPassword });
+        return response.data;
+    } catch (err) {
+        throw err.response?.data || { message: "Failed to change password" };
+    }
+};
+
+export const verifyOTPService = async ({ userId, otp }) => {
+    try {
+        const response = await verifyOTPApi({ userId, otp });
+        return response.data;
+    } catch (err) {
+        throw err.response?.data || { message: "OTP verification failed" };
+    }
+};
 
 
 

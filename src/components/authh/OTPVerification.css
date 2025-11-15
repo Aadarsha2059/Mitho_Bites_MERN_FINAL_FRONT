@@ -1,0 +1,304 @@
+.otp-verification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.otp-verification-modal {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.otp-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.otp-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.otp-title {
+  color: #0f766e;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.otp-subtitle {
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.otp-subtitle strong {
+  color: #14b8a6;
+  font-weight: 600;
+}
+
+.otp-form {
+  width: 100%;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.otp-digit-input {
+  width: 56px;
+  height: 64px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: #0f766e;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.otp-digit-input:focus {
+  outline: none;
+  border-color: #14b8a6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+  transform: scale(1.05);
+}
+
+.otp-digit-input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.otp-error {
+  color: #DC143C;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(220, 20, 60, 0.1);
+  border-radius: 10px;
+  border-left: 3px solid #DC143C;
+}
+
+.otp-timer {
+  text-align: center;
+  margin: 20px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #0f766e;
+  font-weight: 500;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.otp-timer strong {
+  color: #14b8a6;
+  font-weight: 700;
+}
+
+.expired-text {
+  color: #DC143C;
+  font-weight: 600;
+}
+
+.otp-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.otp-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(20, 184, 166, 0.4);
+}
+
+.otp-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.otp-submit-btn:disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.otp-help {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.otp-help p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #14b8a6;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resend-btn:hover:not(:disabled) {
+  color: #0d9488;
+}
+
+.resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .otp-verification-modal {
+    padding: 32px 24px;
+  }
+  
+  .otp-icon {
+    font-size: 56px;
+  }
+  
+  .otp-title {
+    font-size: 24px;
+  }
+  
+  .otp-subtitle {
+    font-size: 14px;
+  }
+  
+  .otp-inputs {
+    gap: 8px;
+  }
+  
+  .otp-digit-input {
+    width: 48px;
+    height: 56px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .otp-verification-modal {
+    padding: 28px 20px;
+  }
+  
+  .otp-icon {
+    font-size: 48px;
+  }
+  
+  .otp-title {
+    font-size: 22px;
+  }
+  
+  .otp-subtitle {
+    font-size: 13px;
+  }
+  
+  .otp-inputs {
+    gap: 6px;
+  }
+  
+  .otp-digit-input {
+    width: 42px;
+    height: 50px;
+    font-size: 22px;
+  }
+  
+  .otp-submit-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}

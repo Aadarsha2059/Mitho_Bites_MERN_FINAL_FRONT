@@ -384,3 +384,87 @@
 
 
 
+
+
+/* Lockout Warning Styles */
+.lockout-warning {
+  background: linear-gradient(135deg, #8B0000, #660000);
+  color: white;
+  padding: 18px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+  animation: shake 0.5s ease;
+}
+
+.lockout-warning span[role="img"] {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.lockout-warning strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.lockout-warning p {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+/* Attempt Warning Styles */
+.attempt-warning {
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
+  color: white;
+  padding: 15px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+  animation: pulse 2s ease infinite;
+}
+
+.attempt-warning span[role="img"] {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.attempt-warning p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Disabled Input Styles */
+.login-input:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.login-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}

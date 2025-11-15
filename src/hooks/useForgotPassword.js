@@ -13,14 +13,16 @@ export const useForgotPassword = () => {
       if (data.resetUrl) {
         toast.success("Password reset link generated! Check the console for the reset URL.");
         console.log('Reset URL:', data.resetUrl);
-        // You can also copy this URL to clipboard or show it in a modal
       } else {
-        toast.success("If an account with this email exists, you will receive a password reset link.");
+        toast.success("Password reset link sent! Please check your email.");
       }
     },
     onError: (err) => {
       console.log("Forgot password error:", err);
-      toast.error(err.message || "Failed to send reset email. Please try again.");
+      // Don't show toast for email not found - let the component handle it with modal
+      if (!err.emailNotFound) {
+        toast.error(err.message || "Failed to send reset email. Please try again.");
+      }
     }
   });
 }; 
