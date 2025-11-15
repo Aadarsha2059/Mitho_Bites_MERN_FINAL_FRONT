@@ -1,14 +1,12 @@
 import React from 'react';
 import './ResetPasswordPage.css';
 import background from '../assets/images/categories/category2.png';
-import logo from '../assets/images/logo/logo.png';
 import ResetPassword from '../components/authh/ResetPassword';
 
 function ResetPasswordPage() {
   return (
     <div className="reset-password-page" style={{ backgroundImage: `url(${background})` }}>
       <div className="reset-password-wrapper">
-        <img src={logo} alt="BhokBhoj Logo" className="reset-password-logo" />
         <ResetPassword />
       </div>
     </div>
