@@ -3,12 +3,15 @@
   display: flex;
   height: 100vh;
   width: 100vw;
+  max-width: 100%;
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   background: linear-gradient(120deg, #fbc2eb 0%, #fff0f5 60%, #a18cd1 100%);
   background-size: 400% 400%;
   animation: gradientShift 20s ease infinite;
+  box-sizing: border-box;
 }
 
 /* === Sidebar (expect in Sidebar.jsx) === */
@@ -52,30 +55,34 @@
 
 /* === Main Content Area === */
 .main-content {
-  margin-left: 260px;
-  margin-top: 60px;
+  margin-left: 280px;
+  margin-top: 80px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 60px);
-  overflow: hidden;
+  min-height: calc(100vh - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
-  max-width: 100vw;
-  padding: 24px 24px;
-  border-left: 1px solid #ffab91;
+  max-width: calc(100vw - 280px);
+  width: calc(100vw - 280px);
+  padding: 24px;
 }
 
 /* === Scrollable Area === */
 .dashboard-scroll-area {
   flex-grow: 1;
+  overflow-x: hidden;
   overflow-y: auto;
-  padding: 32px 48px;
+  padding: 32px;
   background: #fff9fdcc;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(6px);
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
   transition: transform 0.5s cubic-bezier(0.77,0,0.175,1), opacity 0.4s;
   will-change: transform, opacity;
 }
@@ -142,31 +149,19 @@
 /* === Grid Cards (Categories) === */
 .categories-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-bottom: 30px;
+  width: 100%;
 }
 
-/* Responsive grid - 4 items per row on large screens */
-@media (min-width: 1400px) {
-  .categories-row {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 1100px) and (max-width: 1399px) {
-  .categories-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 800px) and (max-width: 1099px) {
+@media (max-width: 1024px) {
   .categories-row {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 799px) {
+@media (max-width: 768px) {
   .categories-row {
     grid-template-columns: 1fr;
   }

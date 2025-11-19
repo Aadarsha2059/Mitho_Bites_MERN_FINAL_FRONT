@@ -12,11 +12,24 @@ const instance =axios.create(
 )       
 instance.interceptors.request.use((config)=>{
     const token=localStorage.getItem("token")
+    console.log('API Request:', config.url, 'Token:', token ? 'Present' : 'Missing');
     if(token){
         config.headers.Authorization="Bearer " + token
     }
     return config
 })
+
+instance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            console.error('Authentication error:', error.response.data);
+            // Optionally redirect to login
+            // window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+)
 
 export default instance
        

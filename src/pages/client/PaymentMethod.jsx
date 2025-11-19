@@ -134,11 +134,13 @@ function PaymentMethod({ onClose }) {
                 <span className="confetti">✨</span>
                 <span className="confetti">🍽️</span>
               </div>
-              <h2 className="festive-title">Order Placed Successfully!</h2>
+              <h2 className="festive-title">🎊 Order Placed Successfully! 🎊</h2>
               <p className="festive-message">
-                Your items successfully on orders place.<br/>
-                <span style={{color:'#f76d6d', fontWeight:'bold'}}>We are making foods for you with love and hygiene.</span><br/>
-                <span style={{color:'#f8b500'}}>Please visit email inbox and orders history. Stay updated!</span>
+                <span style={{color:'#8B0000', fontWeight:'bold', fontSize:'1.25rem'}}>Your delicious food is on its way!</span><br/><br/>
+                <span style={{color:'#f76d6d', fontWeight:'bold'}}>We are preparing your order with love and hygiene. 💝</span><br/><br/>
+                <span style={{color:'#2d2346', fontWeight:'600'}}>📧 Check your email inbox for order confirmation</span><br/>
+                <span style={{color:'#2d2346', fontWeight:'600'}}>📦 Visit your Order History to track your order</span><br/>
+                <span style={{color:'#f8b500', fontWeight:'bold', fontSize:'1.15rem'}}>✅ Mark as "Received" after you get your product!</span>
               </p>
               <div className="decorative-footer">
                 <span className="confetti">💌</span>

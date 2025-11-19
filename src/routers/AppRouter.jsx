@@ -37,6 +37,7 @@ import Profile from '../pages/client/Profile';
 import GKFood from '../pages/client/GKFood';
 import KhanaKhajan from '../pages/client/KhanaKhajan';
 import UpdateProfile from '../pages/client/UpdateProfile';
+import Orders from '../pages/client/orders';
 import TransactionHistory from '../pages/admin/TransactionHistory';
 import TransactionDetails from '../pages/admin/TransactionDetails';
 import BusinessRiseFlows from '../pages/admin/BusinessRiseFlows';
@@ -77,6 +78,7 @@ export default function AppRouter() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/paymentmethod" element={<PaymentMethod />} />
         <Route path="/cart" element={<CartDialog/>} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/more/settings" element={<Settings />} />
         <Route path="/more/profile" element={<Profile />} />
         <Route path="/more/gkfood" element={<GKFood />} />

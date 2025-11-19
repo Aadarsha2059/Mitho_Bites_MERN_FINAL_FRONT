@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowRight, FaClock, FaMapMarkerAlt, FaStar, FaUsers, FaFire } from 'react-icons/fa';
+import { AuthContext } from '../../../auth/AuthProvider';
 import loved1 from "../../../assets/item_1.png";
 import loved2 from "../../../assets/item_2.png";
 import loved3 from "../../../assets/item_3.png";
@@ -10,6 +11,7 @@ import momo from "../../../assets/images/momo.png";
 import chowmein from "../../../assets/cat_4.png";
 import thakali from "../../../assets/cat_sri.png";
 import "../Dashboard.css";
+import "./DashboardWelcome.css";
 
 const muchLovedDishes = [
   { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Nepali", restaurant: "Momo House" },
@@ -80,6 +82,9 @@ const HomeSection = ({
   categories,
   restaurants 
 }) => {
+  const { user } = useContext(AuthContext);
+  const userName = user?.fullname || user?.username || 'Foodie';
+  
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -166,10 +171,25 @@ const HomeSection = ({
   try {
     return (
       <div className="home-section">
-        {/* Welcome Section */}
-        <div className="welcome-section">
-          <h1 className="welcome-title">Welcome to BhokBhoj</h1>
-          <p className="welcome-subtitle">Discover the best food from the best restaurants</p>
+        {/* Attractive Welcome Heading */}
+        <div className="dashboard-welcome-banner">
+          <div className="welcome-content">
+            <div className="welcome-icon-wrapper">
+              <span className="welcome-emoji">👋</span>
+            </div>
+            <div className="welcome-text-content">
+              <h1 className="dashboard-greeting">
+                Hello, <span className="username-highlight">{userName}</span>!
+              </h1>
+              <p className="dashboard-tagline">
+                <span className="tagline-icon">🍽️</span>
+                Let's enjoy your food journey together
+                <span className="tagline-icon">✨</span>
+              </p>
+            </div>
+          </div>
+          <div className="welcome-decoration welcome-decoration-1"></div>
+          <div className="welcome-decoration welcome-decoration-2"></div>
         </div>
 
         {/* Recent Orders */}

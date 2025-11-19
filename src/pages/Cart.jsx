@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaArrowLeft, FaTrash, FaMinus, FaPlus, FaShoppingBag } from 'react-icons/fa';
 import { useCart } from '../hooks/useCart';
-import { useOrders } from '../hooks/useOrders';
+import { useCreateOrder } from '../hooks/useOrders';
 import './Cart.css';
 
 export default function Cart() {
@@ -18,7 +18,7 @@ export default function Cart() {
         isClearingCart
     } = useCart();
 
-    const { createOrder, isCreatingOrder } = useOrders();
+    const createOrderMutation = useCreateOrder();
 
     const [deliveryAddress, setDeliveryAddress] = useState({
         street: '',
@@ -50,7 +50,7 @@ export default function Cart() {
             paymentMethod
         };
 
-        createOrder(orderData);
+        createOrderMutation.mutate(orderData);
     };
 
     if (isLoading) {
@@ -257,10 +257,10 @@ export default function Cart() {
                     {/* Checkout Button */}
                     <button
                         onClick={handleCheckout}
-                        disabled={isCreatingOrder || itemCount === 0}
+                        disabled={createOrderMutation.isPending || itemCount === 0}
                         className="checkout-btn"
                     >
-                        {isCreatingOrder ? 'Placing Order...' : `Place Order - ₹${cart.totalAmount + 50}`}
+                        {createOrderMutation.isPending ? 'Placing Order...' : `Place Order - ₹${cart.totalAmount + 50}`}
                     </button>
                 </div>
             </div>

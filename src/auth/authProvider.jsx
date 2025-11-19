@@ -17,7 +17,17 @@ const AuthContextProvider=({children}) =>{
     };
 
     const login=(userData,token) =>{
+        console.log('=== AuthProvider Login ===');
+        console.log('User data:', userData);
+        console.log('Token:', token);
+        
         setLoading(true)
+        
+        if (!token || !userData) {
+            console.error('Login failed: Missing token or user data');
+            setLoading(false);
+            return;
+        }
         
         // Check if this is an admin user
         const isAdmin = isAdminUser(userData);
@@ -29,10 +39,15 @@ const AuthContextProvider=({children}) =>{
             role: isAdmin ? 'admin' : 'user'
         };
         
+        console.log('Storing token in localStorage:', token);
+        console.log('Storing user in localStorage:', userWithRole);
+        
         localStorage.setItem("token",token)
         localStorage.setItem("user",JSON.stringify(userWithRole))
         setUser(userWithRole)
         setLoading(false)
+        
+        console.log('Login complete. Token stored:', localStorage.getItem('token') ? 'Yes' : 'No');
     }
     
     const logout=()=>{

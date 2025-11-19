@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
+import './HeaderElegant.css';
 
 const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   const { user, isAdmin } = useContext(AuthContext) || {};
@@ -18,56 +19,63 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   };
 
   return (
-    <header className="header dashboard-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 32 }}>
-      <div className="dashboard-header-title" style={{ flex: '0 0 auto', marginRight: 32 }}>
-        <span className="namaste-icon" role="img" aria-label="namaste">🙏</span>
-        BhokBhoj <span className="dashboard-header-year">2025</span>
-      </div>
-      {/* Removed search box */}
-      <div className="dashboard-header-user" style={{ flex: '1 1 0', minWidth: 0, justifyContent: 'flex-start', marginLeft: 32 }}>
-        {user && user.username ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span className="welcome-text">
-              Welcome, {user.username}
+    <header className="header dashboard-header elegant-header">
+      <div className="header-content">
+        {/* Brand Logo */}
+        <div className="dashboard-header-title elegant-brand">
+          <span className="brand-icon">🍽️</span>
+          <div className="brand-text">
+            <span className="brand-name">BhokBhoj</span>
+            <span className="brand-tagline">Food Paradise</span>
+          </div>
+        </div>
+        
+        {/* Navigation */}
+        <nav className="header-nav elegant-nav">
+          <button onClick={() => navigate('/menu')} className="nav-btn">
+            <span className="nav-icon">🏠</span>
+            <span className="nav-label">Home</span>
+          </button>
+          <button onClick={() => navigate('/cart')} className="nav-btn">
+            <span className="nav-icon">🛒</span>
+            <span className="nav-label">Cart</span>
+          </button>
+          <button onClick={() => navigate('/orders')} className="nav-btn">
+            <span className="nav-icon">📦</span>
+            <span className="nav-label">Orders</span>
+          </button>
+        </nav>
+
+        {/* User Section */}
+        <div className="dashboard-header-user elegant-user">
+          {user && user.username ? (
+            <div className="user-info">
+              <div className="user-avatar">
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+              <div className="user-details">
+                <span className="user-greeting">Welcome back,</span>
+                <span className="user-name">{user.username}</span>
+              </div>
               {isAdmin && (
-                <span style={{ 
-                  marginLeft: '8px', 
-                  backgroundColor: '#ff6b35', 
-                  color: 'white', 
-                  padding: '2px 8px', 
-                  borderRadius: '12px', 
-                  fontSize: '10px',
-                  fontWeight: 'bold'
-                }}>
-                  👑 ADMIN
-                </span>
+                <>
+                  <span className="admin-badge">
+                    <span className="admin-icon">👑</span>
+                    ADMIN
+                  </span>
+                  <button onClick={handleAdminClick} className="admin-panel-btn">
+                    <span>🛠️</span>
+                    Admin Panel
+                  </button>
+                </>
               )}
-            </span>
-            {isAdmin && (
-              <button 
-                onClick={handleAdminClick}
-                style={{
-                  backgroundColor: '#1976d2',
-                  color: 'white',
-                  border: 'none',
-                  padding: '6px 12px',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '12px',
-                  fontWeight: '500'
-                }}
-              >
-                🛠️ Admin Panel
-              </button>
-            )}
-            {/* Removed App Tour (onboarding) button */}
-          </div>
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span className="welcome-text">Welcome, Foodie!</span>
-            {/* Removed App Tour (onboarding) button */}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div className="user-info">
+              <span className="welcome-text">Welcome, Foodie! 🍕</span>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

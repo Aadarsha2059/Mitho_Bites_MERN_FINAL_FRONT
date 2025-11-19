@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Menu from './pages/Menu';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Cart from './pages/Cart';
+import Orders from './pages/client/orders';
 import Joyride from 'react-joyride';
 
 function App() {
@@ -83,6 +85,8 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="/" element={<Menu />} /> {/* Default route */}
       </Routes>
     </Router>

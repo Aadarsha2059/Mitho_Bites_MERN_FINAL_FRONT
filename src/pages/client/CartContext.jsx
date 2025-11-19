@@ -125,7 +125,11 @@ export function CartProvider({ children }) {
   };
 
   const getCartTotal = () => {
-    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return cart.reduce((sum, item) => {
+      const price = item.price || (item.productId?.price) || 0;
+      const quantity = item.quantity || 0;
+      return sum + (price * quantity);
+    }, 0);
   };
 
   const getCartItemCount = () => {

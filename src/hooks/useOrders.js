@@ -8,18 +8,19 @@ import {
 import { toast } from "react-toastify";
 
 export const useOrders = () => {
-  return useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['orders'],
     queryFn: getUserOrdersService,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      console.log('useOrders - Success:', data);
-    },
-    onError: (error) => {
-      console.error('useOrders - Error:', error);
-    }
+    refetchOnWindowFocus: false
   });
+
+  return {
+    orders: data?.data || [],
+    isLoading,
+    error,
+    refetch
+  };
 };
 
 export const useCreateOrder = () => {
@@ -29,7 +30,12 @@ export const useCreateOrder = () => {
     mutationFn: createOrderService,
     onSuccess: () => {
       queryClient.invalidateQueries(['orders']);
-      toast.success('Order created successfully!');
+      queryClient.invalidateQueries(['cart']);
+      toast.success('Order placed successfully!');
+      // Redirect to orders page after 1 second
+      setTimeout(() => {
+        window.location.href = '/orders';
+      }, 1000);
     },
     onError: (error) => {
       console.error('Create order error:', error);
@@ -50,6 +56,25 @@ export const useCancelOrder = () => {
     onError: (error) => {
       console.error('Cancel order error:', error);
       toast.error(error.message || 'Failed to cancel order');
+    }
+  });
+};
+
+export const useMarkOrderReceived = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (orderId) => {
+      const axios = require('../api/api').default;
+      return axios.put(`/orders/${orderId}/received`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['orders']);
+      toast.success('Order marked as received! Bill sent to your email.');
+    },
+    onError: (error) => {
+      console.error('Mark order received error:', error);
+      toast.error(error.message || 'Failed to mark order as received');
     }
   });
 };

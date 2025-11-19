@@ -28,6 +28,7 @@ import { useFoodCategories } from "../../hooks/useFoodCategories";
 import { useFoodProducts } from "../../hooks/useFoodProducts";
 import { getBackendImageUrl } from "../../utils/backend-image";
 import "./Dashboard.css";
+import "./DashboardEnhanced.css";
 import { AuthContext } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 

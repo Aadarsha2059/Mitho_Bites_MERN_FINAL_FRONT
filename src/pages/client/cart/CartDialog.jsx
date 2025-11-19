@@ -20,9 +20,9 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
     }, 1000);
   };
 
-  const handleQuantity = (id, qty) => {
-    if (qty < 1) removeFromCart(id);
-    else if (updateQuantity) updateQuantity(id, qty);
+  const handleQuantity = (productId, qty) => {
+    if (qty < 1) removeFromCart(productId);
+    else if (updateQuantity) updateQuantity(productId, qty);
   };
 
   if (cart.length === 0) {
@@ -43,15 +43,32 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
         <h2>Your Order ({cart.length} items)</h2>
         {cart.map(item => {
           // Handle both backend cart structure and local cart structure
-          const product = item.productId || item;
-          const productName = product.name || 'Unknown Product';
-          const productImage = product.filepath || product.image || '/placeholder-food.jpg';
-          const productPrice = item.price || product.price || 0;
+          // Backend returns: { _id, productId: { populated product }, quantity, price }
+          const product = item.productId || item.product || item;
+          
+          // Get product details with fallbacks
+          const productName = product?.name || product?.productName || 'Unknown Product';
+          const productImage = product?.filepath || product?.image || '/placeholder-food.jpg';
+          const productPrice = item.price || product?.price || 0;
           const productQuantity = item.quantity || 1;
-          const productId = item._id || product._id;
+          
+          // Use product._id for cart operations (backend expects productId)
+          const productIdForOps = product?._id || item?.productId;
+          // Use item._id as unique key for React
+          const itemKey = item._id || productIdForOps || Math.random();
+          
+          // Extract category and restaurant information
+          // Check if categoryId/restaurantId are populated objects or just IDs
+          const category = typeof product?.categoryId === 'object' ? product.categoryId : null;
+          const restaurant = typeof product?.restaurantId === 'object' ? product.restaurantId : null;
+          
+          const categoryName = category?.name || 'Unknown Category';
+          const restaurantName = restaurant?.name || 'Unknown Restaurant';
+          const restaurantLocation = restaurant?.location || 'Location not available';
+          const productType = product?.type || 'Unknown Type';
           
           return (
-            <div key={productId} className="cart-item">
+            <div key={itemKey} className="cart-item">
               <img 
                 src={productImage ? getBackendImageUrl(productImage) : '/placeholder-food.jpg'} 
                 alt={productName} 
@@ -63,22 +80,22 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
               <div className="item-details">
                 <h3>{productName}</h3>
                 <div className="item-meta">
-                  <span className="category">📂 {product.categoryId?.name || 'Unknown Category'}</span>
-                  <span className="restaurant">🏪 {product.restaurantId?.name || 'Unknown Restaurant'}</span>
-                  <span className="location">📍 {product.restaurantId?.location || 'Location not available'}</span>
-                  <span className="type">{product.type || 'Unknown Type'}</span>
+                  <span className="category">📂 {categoryName}</span>
+                  <span className="restaurant">🏪 {restaurantName}</span>
+                  <span className="location">📍 {restaurantLocation}</span>
+                  <span className="type">{productType}</span>
                 </div>
               </div>
               <div className="item-controls">
                 <div className="quantity-controls">
-                  <button onClick={() => handleQuantity(productId, productQuantity - 1)}>-</button>
+                  <button onClick={() => handleQuantity(productIdForOps, productQuantity - 1)}>-</button>
                   <span>{productQuantity}</span>
-                  <button onClick={() => handleQuantity(productId, productQuantity + 1)}>+</button>
+                  <button onClick={() => handleQuantity(productIdForOps, productQuantity + 1)}>+</button>
                 </div>
                 <div className="price-remove">
                   <span className="item-price">NRS {productPrice * productQuantity}</span>
                   <button
-                    onClick={() => removeFromCart(productId)}
+                    onClick={() => removeFromCart(productIdForOps)}
                     className="remove-btn"
                     aria-label={`Remove ${productName}`}
                     title="Remove item"

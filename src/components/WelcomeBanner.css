@@ -1,0 +1,358 @@
+/* ===================================
+   MAGICAL WELCOME BANNER
+   =================================== */
+
+.magical-banner {
+  position: relative;
+  background: linear-gradient(135deg, 
+    #FFA500 0%, 
+    #FF6B35 50%, 
+    #FFD700 100%
+  );
+  border-radius: 25px;
+  padding: 40px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  box-shadow: 
+    0 10px 40px rgba(255, 165, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: bannerEntrance 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bannerEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animated Background */
+.banner-bg-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(255, 107, 53, 0.2) 0%, transparent 50%);
+  animation: bgWave 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bgWave {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.5; 
+  }
+  50% { 
+    transform: scale(1.2) rotate(5deg); 
+    opacity: 0.8; 
+  }
+}
+
+/* Banner Content */
+.banner-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Icon Container */
+.banner-icon-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.banner-icon-circle {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  animation: iconFloat 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-icon-circle::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 165, 0, 0.3) 50%,
+    transparent 70%
+  );
+  animation: iconShine 3s linear infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-10px) rotate(10deg); 
+  }
+}
+
+@keyframes iconShine {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.banner-icon {
+  font-size: 40px;
+  color: #FF6B35;
+  filter: drop-shadow(0 4px 8px rgba(255, 107, 53, 0.3));
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Sparkles */
+.banner-sparkle {
+  position: absolute;
+  font-size: 20px;
+  animation: sparkleFloat 2s ease-in-out infinite;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+}
+
+.banner-sparkle-1 {
+  top: -10px;
+  left: -10px;
+  animation-delay: 0s;
+}
+
+.banner-sparkle-2 {
+  top: -10px;
+  right: -10px;
+  animation-delay: 0.7s;
+}
+
+.banner-sparkle-3 {
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 1.4s;
+}
+
+@keyframes sparkleFloat {
+  0%, 100% { 
+    opacity: 0; 
+    transform: translateY(0) scale(0.5) rotate(0deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: translateY(-20px) scale(1) rotate(180deg); 
+  }
+}
+
+/* Banner Text */
+.banner-text {
+  flex: 1;
+}
+
+.banner-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 10px 0;
+  text-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.2),
+    0 4px 20px rgba(139, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+  animation: titleSlide 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+@keyframes titleSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.banner-username {
+  background: linear-gradient(135deg, #FFD700 0%, #FFF 50%, #FFD700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 100%;
+  animation: usernameShine 3s linear infinite;
+  font-weight: 900;
+  text-shadow: none;
+}
+
+@keyframes usernameShine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.banner-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: subtitleSlide 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+}
+
+@keyframes subtitleSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.banner-subtitle-icon {
+  font-size: 16px;
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+.banner-subtitle-icon:first-child {
+  animation-delay: 0s;
+}
+
+.banner-subtitle-icon:last-child {
+  animation-delay: 1s;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.2); }
+}
+
+/* Decorative Elements */
+.banner-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+  animation: decorationFloat 6s ease-in-out infinite;
+}
+
+.banner-decoration-1 {
+  width: 150px;
+  height: 150px;
+  top: -50px;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.banner-decoration-2 {
+  width: 100px;
+  height: 100px;
+  bottom: -30px;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+.banner-decoration-3 {
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  right: -20px;
+  animation-delay: 4s;
+}
+
+@keyframes decorationFloat {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+    opacity: 0.3; 
+  }
+  50% { 
+    transform: translate(20px, -20px) scale(1.2); 
+    opacity: 0.6; 
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .magical-banner {
+    padding: 25px;
+    border-radius: 20px;
+  }
+
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .banner-icon-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .banner-icon {
+    font-size: 30px;
+  }
+
+  .banner-title {
+    font-size: 26px;
+  }
+
+  .banner-subtitle {
+    font-size: 16px;
+    justify-content: center;
+  }
+
+  .banner-sparkle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .magical-banner {
+    padding: 20px;
+  }
+
+  .banner-title {
+    font-size: 22px;
+  }
+
+  .banner-subtitle {
+    font-size: 14px;
+  }
+
+  .banner-icon-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .banner-icon {
+    font-size: 24px;
+  }
+}
