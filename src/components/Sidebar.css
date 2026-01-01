@@ -24,7 +24,7 @@
   position: relative;
 }
 
-/* Animated Background */
+/* Animated Background - Reduced opacity to not interfere with text */
 .sidebar-bg-animation {
   position: absolute;
   top: 0;
@@ -32,15 +32,16 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
   animation: bgPulse 8s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes bgPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.05); }
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.02); }
 }
 
 /* Logo Section */
@@ -112,36 +113,38 @@
   50% { transform: scale(1.1); }
 }
 
-/* Sparkles */
+/* Sparkles - Reduced and positioned to not interfere with text */
 .sidebar-sparkle {
   position: absolute;
-  font-size: 16px;
-  animation: sparkleFloat 2s ease-in-out infinite;
+  font-size: 12px;
+  animation: sparkleFloat 3s ease-in-out infinite;
   opacity: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .sidebar-sparkle-1 {
-  top: 0;
-  left: 0;
+  top: -10px;
+  left: -10px;
   animation-delay: 0s;
 }
 
 .sidebar-sparkle-2 {
-  top: 0;
-  right: 0;
-  animation-delay: 0.7s;
+  top: -10px;
+  right: -10px;
+  animation-delay: 1s;
 }
 
 .sidebar-sparkle-3 {
-  bottom: 0;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  animation-delay: 1.4s;
+  animation-delay: 2s;
 }
 
 @keyframes sparkleFloat {
-  0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
-  50% { opacity: 1; transform: translateY(-20px) scale(1); }
+  0%, 100% { opacity: 0; transform: translateY(0) scale(0.3); }
+  50% { opacity: 0.6; transform: translateY(-15px) scale(0.8); }
 }
 
 /* Heading */
@@ -230,21 +233,22 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 24px;
-  padding: 16px 24px;
-  border-radius: 16px;
+  gap: 16px;
+  padding: 14px 20px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: #000000;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   overflow: visible;
   opacity: 0;
   animation: slideInLeft 0.5s ease forwards;
   font-family: 'Segoe UI', 'Poppins', sans-serif;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   border: 1px solid transparent;
-  min-height: 56px;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 @keyframes slideInLeft {
@@ -311,20 +315,21 @@
 }
 
 .sidebar-icon {
-  font-size: 24px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px;
-  max-width: 40px;
-  width: 40px;
-  height: 40px;
+  min-width: 32px;
+  max-width: 32px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   transition: all 0.3s ease;
   color: #1565C0;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  margin-right: 4px;
 }
 
 .sidebar-link:hover .sidebar-icon {
@@ -347,16 +352,18 @@
 
 .sidebar-label {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   letter-spacing: 0.5px;
   font-weight: 700;
   text-shadow: none;
   transition: all 0.3s ease;
   flex: 1;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: clip;
   color: #000000;
+  font-size: 14px;
+  margin-left: 8px;
 }
 
 .sidebar-link:hover .sidebar-label {
@@ -371,13 +378,14 @@
 
 .sidebar-active-indicator {
   position: relative;
-  font-size: 18px;
+  font-size: 14px;
   color: #1976D2;
   animation: sparkle 1.5s ease-in-out infinite;
   flex-shrink: 0;
   margin-left: auto;
-  z-index: 2;
+  z-index: 3;
   filter: drop-shadow(0 2px 4px rgba(25, 118, 210, 0.4));
+  opacity: 0.8;
 }
 
 @keyframes sparkle {
@@ -397,13 +405,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  padding: 16px 24px;
+  gap: 16px;
+  padding: 14px 20px;
   background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
   color: #000000;
   border: 2px solid rgba(144, 202, 249, 0.6);
-  border-radius: 16px;
-  font-size: 15px;
+  border-radius: 12px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -412,19 +420,20 @@
   box-shadow: 
     0 4px 16px rgba(100, 181, 246, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   font-family: 'Segoe UI', 'Poppins', sans-serif;
   text-shadow: none;
-  min-height: 56px;
+  min-height: 48px;
 }
 
 .magical-logout-btn .sidebar-icon {
-  font-size: 22px;
-  min-width: 28px;
-  max-width: 28px;
-  width: 28px;
-  height: 28px;
+  font-size: 18px;
+  min-width: 24px;
+  max-width: 24px;
+  width: 24px;
+  height: 24px;
   color: #0D47A1;
+  margin-right: 4px;
 }
 
 .magical-logout-btn .sidebar-label {
@@ -468,32 +477,33 @@
   transform: translateY(0);
 }
 
-/* Decorative Elements */
+/* Decorative Elements - Reduced and positioned to not interfere */
 .sidebar-decoration {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 165, 0, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.1) 0%, transparent 70%);
   pointer-events: none;
-  animation: decorationFloat 6s ease-in-out infinite;
+  animation: decorationFloat 8s ease-in-out infinite;
+  z-index: 1;
 }
 
 .sidebar-decoration-1 {
-  top: 30%;
-  right: -50px;
+  top: 40%;
+  right: -30px;
   animation-delay: 0s;
 }
 
 .sidebar-decoration-2 {
-  bottom: 20%;
-  left: -50px;
-  animation-delay: 3s;
+  bottom: 30%;
+  left: -30px;
+  animation-delay: 4s;
 }
 
 @keyframes decorationFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-  50% { transform: translate(20px, -20px) scale(1.2); opacity: 0.6; }
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+  50% { transform: translate(15px, -15px) scale(1.1); opacity: 0.4; }
 }
 
 /* Responsive Design */

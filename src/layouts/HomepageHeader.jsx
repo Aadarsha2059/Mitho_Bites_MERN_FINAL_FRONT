@@ -9,7 +9,11 @@ export default function HomepageHeader({ onLoginClick, onShowOnboarding }) {
     <header className="homepage-header">
       <div className="homepage-logo-container">
         <Link to="/">
-          <img src={logo} alt="BhokBhoj Logo" className="homepage-logo" />
+          {/* Removed the logo image and replaced with attractive BhokBhoj text */}
+          <div className="bhokbhoj-brand">
+            <h1 className="bhokbhoj-name">BHOKBHOJ</h1>
+            <p className="bhokbhoj-slogan">Authentic Flavors, Fast Delivery</p>
+          </div>
         </Link>
       </div>
       <nav className="homepage-nav-links">

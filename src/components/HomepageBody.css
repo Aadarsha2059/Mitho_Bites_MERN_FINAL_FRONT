@@ -540,7 +540,7 @@
 /* ===== CTA SECTION ===== */
 .cta-section {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #008B8B, #20B2AA);
+  background: linear-gradient(135deg, #f5ce98, #B0E0E6); /* Light blue gradient */
   text-align: center;
 }
 

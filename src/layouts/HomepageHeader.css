@@ -105,6 +105,37 @@
   display: none;
 }
 
+/* BhokBhoj Brand Styling */
+.bhokbhoj-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.bhokbhoj-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #FF6B35;
+  margin: 0;
+  letter-spacing: 1px;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(45deg, #FF6B35, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bhokbhoj-slogan {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .homepage-header {

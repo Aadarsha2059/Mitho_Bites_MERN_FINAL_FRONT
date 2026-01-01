@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../auth/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import './HeaderElegant.css';
 
@@ -8,6 +8,7 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   const { user, isAdmin } = useContext(AuthContext) || {};
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -17,6 +18,9 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   const handleAdminClick = () => {
     navigate('/admin/adminpage');
   };
+
+  // Check if we're on the dashboard page
+  const isDashboard = location.pathname === '/dashboard';
 
   return (
     <header className="header dashboard-header elegant-header">
@@ -30,21 +34,23 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
           </div>
         </div>
         
-        {/* Navigation */}
-        <nav className="header-nav elegant-nav">
-          <button onClick={() => navigate('/menu')} className="nav-btn">
-            <span className="nav-icon">🏠</span>
-            <span className="nav-label">Home</span>
-          </button>
-          <button onClick={() => navigate('/cart')} className="nav-btn">
-            <span className="nav-icon">🛒</span>
-            <span className="nav-label">Cart</span>
-          </button>
-          <button onClick={() => navigate('/orders')} className="nav-btn">
-            <span className="nav-icon">📦</span>
-            <span className="nav-label">Orders</span>
-          </button>
-        </nav>
+        {/* Navigation - Only show on non-dashboard pages */}
+        {!isDashboard && (
+          <nav className="header-nav elegant-nav">
+            <button onClick={() => navigate('/menu')} className="nav-btn">
+              <span className="nav-icon">🏠</span>
+              <span className="nav-label">Home</span>
+            </button>
+            <button onClick={() => navigate('/cart')} className="nav-btn">
+              <span className="nav-icon">🛒</span>
+              <span className="nav-label">Cart</span>
+            </button>
+            <button onClick={() => navigate('/orders')} className="nav-btn">
+              <span className="nav-icon">📦</span>
+              <span className="nav-label">Orders</span>
+            </button>
+          </nav>
+        )}
 
         {/* User Section */}
         <div className="dashboard-header-user elegant-user">
