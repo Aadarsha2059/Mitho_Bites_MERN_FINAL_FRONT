@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import momo from '../../assets/images/momo.png';
 import './ProductTable.css';
 
@@ -47,46 +46,34 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
 
   return (
     <div className="product-table-container">
-      <div className="table-header">
-        <h2>Products Management</h2>
-        <button className="add-btn" onClick={onAdd}>
-          <FaPlus /> Add Product
-        </button>
-      </div>
+      <h3 className="table-title">Product Table</h3>
 
-      <div className="table-wrapper">
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Category</th>
-              <th>Restaurant</th>
-              <th>Type</th>
-              <th>Available</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products
-              .filter(product => product.categoryName !== 'Thakali Khana items')
-              .map((product) => {
-              console.log('Rendering product in admin table:', product);
-              console.log('Product image field:', product.image);
-              console.log('Product category name:', product.categoryName);
-              console.log('Product restaurant name:', product.restaurantName);
-              
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Restaurant</th>
+            <th>Type</th>
+            <th>Available</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products
+            .filter(product => product.categoryName !== 'Thakali Khana items')
+            .map((product) => {
               return (
-                <tr key={product._id}>
+                <tr key={product._id} className="product-row">
                   <td>
                     <img
                       src={product.image || momo}
                       alt={product.name}
                       className="product-thumbnail"
                       onError={(e) => {
-                        console.log('Product image failed to load, using fallback');
                         e.target.src = momo;
                       }}
                     />
@@ -95,44 +82,40 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
                   <td className="description-cell">
                     {product.description?.length > 50 
                       ? `${product.description.substring(0, 50)}...` 
-                      : product.description}
+                      : product.description || 'N/A'}
                   </td>
                   <td>₹{product.price}</td>
                   <td>{product.categoryName || 'N/A'}</td>
                   <td>{product.restaurantName || 'N/A'}</td>
-                  <td>{product.type}</td>
+                  <td>{product.type || 'N/A'}</td>
                   <td>
                     <span className={`status ${product.isAvailable ? 'available' : 'unavailable'}`}>
                       {product.isAvailable ? 'Yes' : 'No'}
                     </span>
                   </td>
-                  <td>
-                    <div className="action-buttons">
-                      {/* Only render edit button if not Thakali Khana items */}
-                      {product.categoryName !== 'Thakali Khana items' && (
-                        <button
-                          className="edit-btn"
-                          onClick={() => onEdit(product)}
-                          title="Edit Product"
-                        >
-                          <FaEdit />
-                        </button>
-                      )}
+                  <td className="actions-cell">
+                    {product.categoryName !== 'Thakali Khana items' && (
                       <button
-                        className="delete-btn"
-                        onClick={() => onDelete(product._id)}
-                        title="Delete Product"
+                        className="btn edit-btn"
+                        onClick={() => onEdit(product)}
+                        title="Edit Product"
                       >
-                        <FaTrash />
+                        Edit
                       </button>
-                    </div>
+                    )}
+                    <button
+                      className="btn delete-btn"
+                      onClick={() => onDelete(product._id)}
+                      title="Delete Product"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
             })}
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
 
       {products.length === 0 && (
         <div className="no-data">

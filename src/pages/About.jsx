@@ -41,7 +41,7 @@ export default function About() {
               <p>
                 We started with a handful of local restaurants and a passion for connecting food lovers 
                 with the best culinary experiences in the valley. Today, we're proud to partner with over 
-                500 restaurants, serving 50,000+ happy customers across Kathmandu.
+                10 restaurants, serving 50+ happy customers across Kathmandu.
               </p>
               <p>
                 From traditional Nepali delicacies to international cuisines, we bring the entire food 
@@ -113,11 +113,11 @@ export default function About() {
         <div className="about-container">
           <div className="about-stats-grid">
             <div className="about-stat-card">
-              <div className="stat-number">500+</div>
+              <div className="stat-number">10+</div>
               <div className="stat-label">Partner Restaurants</div>
             </div>
             <div className="about-stat-card">
-              <div className="stat-number">50k+</div>
+              <div className="stat-number">50+</div>
               <div className="stat-label">Happy Customers</div>
             </div>
             <div className="about-stat-card">

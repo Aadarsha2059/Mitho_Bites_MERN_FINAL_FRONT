@@ -70,7 +70,7 @@ export default function HomepageBody() {
               <span className="highlight-text">Delivered Fast</span>
             </h1>
             <p className="hero-description">
-              Order from 500+ restaurants across Kathmandu Valley. 
+              Order from 10+ restaurants across Kathmandu Valley. 
               Fresh, hot, and delivered to your doorstep in 30 minutes.
             </p>
             
@@ -88,11 +88,11 @@ export default function HomepageBody() {
 
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-number">500+</div>
+                <div className="stat-number">10+</div>
                 <div className="stat-label">Restaurants</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">50k+</div>
+                <div className="stat-number">50+</div>
                 <div className="stat-label">Happy Customers</div>
               </div>
               <div className="stat-item">
@@ -139,7 +139,7 @@ export default function HomepageBody() {
             <div className="feature-icon-box">
               <FaUtensils />
             </div>
-            <h3>500+ Options</h3>
+            <h3>10+ Options</h3>
             <p>Endless variety</p>
           </div>
           <div className="feature-box">
@@ -195,7 +195,7 @@ export default function HomepageBody() {
             <div className="step-number">1</div>
             <div className="step-icon">🔍</div>
             <h3>Choose Your Food</h3>
-            <p>Browse from 500+ restaurants and thousands of dishes</p>
+            <p>Browse from 10+ restaurants and hundreds of dishes</p>
           </div>
           <div className="step-arrow">→</div>
           <div className="step-card">
@@ -259,7 +259,7 @@ export default function HomepageBody() {
       <section className="cta-section">
         <div className="cta-content">
           <h2>Ready to Order?</h2>
-          <p>Join 50,000+ happy customers enjoying delicious food delivered fast</p>
+          <p>Join 50+ happy customers enjoying delicious food delivered fast</p>
           <button className="cta-button">
             Browse Menu <FaArrowRight />
           </button>

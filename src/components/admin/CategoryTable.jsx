@@ -60,50 +60,6 @@ export default function CategoryTable() {
     const [deleteId, setDeleteId] = useState(null)
     const [imageErrors, setImageErrors] = useState(new Set())
     const [loadedImages, setLoadedImages] = useState(new Set())
-    const [backendStatus, setBackendStatus] = useState('checking')
-
-    // Test backend connectivity
-    useEffect(() => {
-        const testBackend = async () => {
-            try {
-                const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5050";
-                const response = await fetch(`${baseURL}/`);
-                if (response.ok) {
-                    setBackendStatus('connected');
-                    console.log('Backend is accessible');
-                } else {
-                    setBackendStatus('error');
-                    console.error('Backend responded with error:', response.status);
-                }
-            } catch (err) {
-                setBackendStatus('error');
-                console.error('Backend connection failed:', err);
-            }
-        };
-        
-        testBackend();
-    }, []);
-
-    // Debug logging
-    console.log('=== CATEGORY TABLE DEBUG ===');
-    console.log('Backend status:', backendStatus);
-    console.log('Categories data:', categories);
-    console.log('Categories loading:', isPending);
-    console.log('Categories error:', error);
-    console.log('Image errors:', Array.from(imageErrors));
-    console.log('Loaded images:', Array.from(loadedImages));
-    
-    if (categories && categories.length > 0) {
-        console.log('Category filepaths:');
-        categories.forEach(cat => {
-            const imageUrl = getBackendImageUrl(cat.filepath);
-            console.log(`- ${cat.name}:`, {
-                originalFilepath: cat.filepath,
-                generatedImageUrl: imageUrl,
-                hasFilepath: !!cat.filepath
-            });
-        });
-    }
 
     const handleDelete = () => {
         deleteOneCategoryHook.mutate(
@@ -153,29 +109,14 @@ export default function CategoryTable() {
 
     return (
         <div className="category-table-container">
-            {/* <Welcome name="Aadarsha" />
-            <NameComponent name="Aadarshaa" username="aadarsha2059" /> */}
             <DeleteModal
-                isOpen={deleteId}
+                isOpen={!!deleteId}
                 onClose={() => setDeleteId(null)}
                 onConfirm={handleDelete}
                 title="Delete Confirmation"
                 description="Are you sure you want to delete?"
             />
             <h3 className="table-title">Category Table</h3>
-            {/* Backend status indicator */}
-            <div style={{ 
-                background: backendStatus === 'connected' ? '#e8f5e8' : backendStatus === 'error' ? '#ffeaea' : '#fff3cd',
-                color: backendStatus === 'connected' ? '#2e7d32' : backendStatus === 'error' ? '#d32f2f' : '#856404',
-                padding: '8px 12px', 
-                margin: '10px 0', 
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: '500'
-            }}>
-                <strong>Backend Status:</strong> {backendStatus === 'connected' ? '✅ Connected' : backendStatus === 'error' ? '❌ Connection Failed' : '⏳ Checking...'}
-            </div>
-            {/* Debug info removed for clean UI */}
             
             <table className='category-table'>
                 <thead>

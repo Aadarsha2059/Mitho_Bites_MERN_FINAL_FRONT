@@ -89,6 +89,19 @@
   text-decoration: underline;
 }
 
+.footer-link-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.footer-link-button:hover {
+  text-decoration: underline;
+}
+
 .social-icons {
   display: flex;
   gap: 15px;

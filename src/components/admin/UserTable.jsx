@@ -187,12 +187,12 @@ export default function UserTable() {
     if (canNextPage) setPageNumber((prev) => prev + 1);
   };
 
-  if (isPending) return <div>Loading users...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isPending) return <div className="loading">Loading users...</div>;
+  if (error) return <div className="error">Error: {error.message}</div>;
 
   return (
     <div className="user-table-container">
-      <h2 style={{ textAlign: 'center', fontWeight: 700, fontSize: '2rem', margin: '1.5rem 0', color: '#4c51bf', letterSpacing: '0.5px' }}>BhokBhoj - User Table</h2>
+      <h3 className="table-title">User Table</h3>
 
       {/* Delete Confirmation Modal */}
       <DeleteModal
@@ -222,12 +222,12 @@ export default function UserTable() {
       </div>
 
       {/* Table */}
-      <table className="min-w-full table-auto">
+      <table className="user-table">
         <thead>
           <tr>
             <th>Full Name</th>
             <th>Username</th>
-            <th>Password</th>
+            <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
             <th>Actions</th>
@@ -235,17 +235,17 @@ export default function UserTable() {
         </thead>
         <tbody>
           {users.map((row) => (
-            <tr key={row._id}>
+            <tr key={row._id} className="user-row">
               <td>{row.fullname}</td>
               <td>{row.username}</td>
-              <td>{row.password}</td>
+              <td>{row.email || 'N/A'}</td>
               <td>{row.phone}</td>
               <td>{row.address}</td>
-              <td className="flex gap-2">
+              <td className="actions-cell">
                 <Link to={`/admin/users/${row._id}/edit`}>
-                  <button className="edit-btn">Edit</button>
+                  <button className="btn edit-btn">Edit</button>
                 </Link>
-                <button onClick={() => setDeleteId(row._id)} className="delete-btn">
+                <button onClick={() => setDeleteId(row._id)} className="btn delete-btn">
                   Delete
                 </button>
               </td>
@@ -255,7 +255,7 @@ export default function UserTable() {
       </table>
 
       {/* Pagination */}
-      <div className="pagination-controls mt-4 flex items-center justify-between">
+      <div className="pagination-controls">
         <button onClick={handlePrev} disabled={!canPreviousPage}>
           Back
         </button>

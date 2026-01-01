@@ -155,13 +155,12 @@ const TransactionTable = () => {
 
   return (
     <div className="transaction-table-container">
-      <div className="table-header">
-        <h2>Transaction History</h2>
-        <div className="header-actions">
-          <button className="export-btn" onClick={handleExportData}>
-            <FaDownload /> Export Data
-          </button>
-        </div>
+      <h3 className="table-title">Transaction Table</h3>
+      
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+        <button className="export-btn" onClick={handleExportData}>
+          <FaDownload /> Export Data
+        </button>
       </div>
 
       {/* Summary Cards */}
@@ -211,8 +210,7 @@ const TransactionTable = () => {
         </div>
       </div>
 
-      <div className="table-wrapper">
-        <table className="transaction-table">
+      <table className="transaction-table">
           <thead>
             <tr>
               <th>Transaction ID</th>
@@ -226,7 +224,7 @@ const TransactionTable = () => {
           </thead>
           <tbody>
             {filteredTransactions.map((transaction) => (
-              <tr key={transaction._id}>
+              <tr key={transaction._id} className="transaction-row">
                 <td className="transaction-id">{transaction._id.slice(-8)}</td>
                 <td className="food-items">{transaction.food}</td>
                 <td>{transaction.quantity}</td>
@@ -239,29 +237,26 @@ const TransactionTable = () => {
                 <td>
                   {new Date(transaction.createdAt || Date.now()).toLocaleDateString()}
                 </td>
-                <td>
-                  <div className="action-buttons">
-                    <button
-                      className="view-btn"
-                      onClick={() => handleViewDetails(transaction)}
-                      title="View Details"
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(transaction._id)}
-                      title="Delete Transaction"
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
+                <td className="actions-cell">
+                  <button
+                    className="btn view-btn"
+                    onClick={() => handleViewDetails(transaction)}
+                    title="View Details"
+                  >
+                    View
+                  </button>
+                  <button
+                    className="btn delete-btn"
+                    onClick={() => handleDelete(transaction._id)}
+                    title="Delete Transaction"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
 
       {filteredTransactions.length === 0 && (
         <div className="no-data">

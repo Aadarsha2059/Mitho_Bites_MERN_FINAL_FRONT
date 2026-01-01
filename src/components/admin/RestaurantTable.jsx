@@ -100,7 +100,7 @@ export default function RestaurantTable() {
     return (
         <div className="restaurant-table-container">
             <DeleteModal
-                isOpen={deleteId}
+                isOpen={!!deleteId}
                 onClose={() => setDeleteId(null)}
                 onConfirm={handleDelete}
                 title="Delete Confirmation"

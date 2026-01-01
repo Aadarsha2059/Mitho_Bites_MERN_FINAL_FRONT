@@ -11,7 +11,7 @@ const tourPages = [
   { 
     title: 'Browse & Search', 
     icon: '🔍', 
-    content: 'Explore 500+ restaurants and thousands of dishes. Use our smart search to find exactly what you\'re craving - from traditional Nepali to international cuisines.' 
+    content: 'Explore 10+ restaurants and hundreds of dishes. Use our smart search to find exactly what you\'re craving - from traditional Nepali to international cuisines.' 
   },
   { 
     title: 'Create Account', 
