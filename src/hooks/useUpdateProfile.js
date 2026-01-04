@@ -6,7 +6,7 @@ export const useUpdateProfile = (user, setUser) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (formData) => updateUserProfileService(user?._id, formData),
+        mutationFn: (formData) => updateUserProfileService(null, formData),
         mutationKey: ["update_profile"],
         onSuccess: (data, _variables, context) => {
             console.log('Profile update response:', data);

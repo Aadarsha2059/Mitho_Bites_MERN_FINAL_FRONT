@@ -1,6 +1,6 @@
 import React from "react";
 import { FaMapMarkerAlt, FaPhoneAlt, FaStar, FaClock, FaArrowRight } from "react-icons/fa";
-import { useAdminRestaurant } from "../../../hooks/admin/useAdminRestaurant";
+import { useRestaurants } from "../../../hooks/useRestaurants";
 import { getBackendImageUrl } from "../../../utils/backend-image";
 import "../Dashboard.css";
 
@@ -162,10 +162,13 @@ const sampleRestaurants = [
 const RestaurantsSection = ({ onRestaurantClick }) => {
   console.log('RestaurantsSection rendered');
   
-  // Use the same hook as admin restaurant management
-  const { restaurants, isLoading, error } = useAdminRestaurant();
+  // ✅ FIXED: Use public restaurants hook instead of admin hook
+  const { data, isLoading, error } = useRestaurants();
   
-  console.log('Restaurants hook data:', { restaurants, isLoading, error });
+  // Extract restaurants from API response
+  const restaurants = data?.data || [];
+  
+  console.log('Restaurants hook data:', { restaurants, isLoading, error, data });
   
   // Use backend data if available, otherwise use sample data for demonstration
   const displayRestaurants = restaurants && restaurants.length > 0 ? restaurants : sampleRestaurants;

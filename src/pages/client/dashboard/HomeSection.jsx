@@ -171,26 +171,7 @@ const HomeSection = ({
   try {
     return (
       <div className="home-section">
-        {/* Attractive Welcome Heading */}
-        <div className="dashboard-welcome-banner">
-          <div className="welcome-content">
-            <div className="welcome-icon-wrapper">
-              <span className="welcome-emoji">👋</span>
-            </div>
-            <div className="welcome-text-content">
-              <h1 className="dashboard-greeting">
-                Hello, <span className="username-highlight">{userName}</span>!
-              </h1>
-              <p className="dashboard-tagline">
-                <span className="tagline-icon">🍽️</span>
-                Let's enjoy your food journey together
-                <span className="tagline-icon">✨</span>
-              </p>
-            </div>
-          </div>
-          <div className="welcome-decoration welcome-decoration-1"></div>
-          <div className="welcome-decoration welcome-decoration-2"></div>
-        </div>
+        {/* Welcome section removed - now shown only once in Dashboard.jsx */}
 
         {/* Recent Orders */}
         {!loading && orders && orders.length > 0 && (

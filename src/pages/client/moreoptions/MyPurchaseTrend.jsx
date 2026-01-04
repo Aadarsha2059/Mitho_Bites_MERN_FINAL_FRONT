@@ -7,12 +7,23 @@ import "./KhanaKhajan.css";
 
 const fetchTrendData = async () => {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:5050/api/orders/trend", {
+  let apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
+  // Remove trailing slash and /api if present to avoid double /api/api/
+  apiUrl = apiUrl.replace(/\/api\/?$/, '').replace(/\/$/, '');
+  // Ensure we don't have double /api/ in the URL
+  const url = `${apiUrl}/api/orders/trend`;
+  console.log('Fetching trend data from:', url);
+  const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('Trend API error:', res.status, errorText);
+    throw new Error(`Failed to fetch trend data: ${res.status} ${res.statusText}`);
+  }
   const data = await res.json();
   if (data.success) return data.data;
-  throw new Error("Failed to fetch trend data");
+  throw new Error(data.message || "Failed to fetch trend data");
 };
 
 const chartOptions = (label, color, maxY) => ({
@@ -47,7 +58,10 @@ const MyPurchaseTrend = ({ onClose }) => {
   useEffect(() => {
     fetchTrendData()
       .then(setTrend)
-      .catch(() => setError("Could not load trend data."))
+      .catch((err) => {
+        console.error('Error fetching trend data:', err);
+        setError(err.message || "Could not load trend data.");
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -78,7 +92,18 @@ const MyPurchaseTrend = ({ onClose }) => {
         maxHeight:'82vh',
         border:'2.5px solid #e0c3fc',
       }}>
-        <button onClick={onClose} style={{position:'absolute',top:22,right:38,background:'none',border:'none',fontSize:'2.3rem',color:'#e53935',cursor:'pointer',zIndex:3200}}><FaTimes/></button>
+        <button onClick={onClose} style={{position:'absolute',top:22,right:38,background:'#fff',border:'2px solid #e53935',fontSize:'2.3rem',color:'#e53935',cursor:'pointer',zIndex:3200,width:'45px',height:'45px',display:'flex',alignItems:'center',justifyContent:'center',borderRadius:'50%',transition:'all 0.2s ease',boxShadow:'0 2px 8px rgba(229,57,53,0.3)'}}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#e53935';
+            e.currentTarget.style.color = '#fff';
+            e.currentTarget.style.transform = 'scale(1.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#fff';
+            e.currentTarget.style.color = '#e53935';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        ><FaTimes/></button>
         <div style={{display:'flex',alignItems:'center',gap:'18px',marginBottom:'28px',justifyContent:'center'}}>
           <FaChartLine style={{fontSize:'2.7rem',color:'#7b1fa2'}}/>
           <h2 style={{margin:0,fontWeight:800,fontSize:'2.3rem',color:'#7b1fa2',letterSpacing:'1.2px'}}>My Purchase Trend</h2>

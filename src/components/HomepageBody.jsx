@@ -20,7 +20,8 @@ const featuredDishes = [
   { title: 'Dal Bhat Set', image: dalBhat, price: 250, rating: 4.9, orders: '3.1k+' },
 ];
 
-const testimonials = [
+// Fallback testimonials if API fails
+const fallbackTestimonials = [
   {
     name: 'Aadarsha Babu',
     image: testimonial1,
@@ -50,13 +51,56 @@ const testimonials = [
 export default function HomepageBody() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [search, setSearch] = useState('');
+  const [testimonials, setTestimonials] = useState(fallbackTestimonials);
+  const [loadingFeedbacks, setLoadingFeedbacks] = useState(true);
+
+  // ✅ Fetch real feedbacks from API
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+        const response = await fetch(`${apiUrl}/api/feedbacks`);
+        const data = await response.json();
+        
+        if (data.success && data.data && data.data.length > 0) {
+          // Transform feedbacks to testimonials format
+          const transformedFeedbacks = data.data.slice(0, 8).map((feedback, index) => {
+            const userName = feedback.userId?.username || feedback.userId?.name || feedback.userId?.email?.split('@')[0] || 'Customer';
+            const userImage = feedback.userId?.image || [testimonial1, testimonial2, testimonial3, testimonial4][index % 4];
+            
+            return {
+              name: userName,
+              image: userImage,
+              text: feedback.comment || 'Great food and service!',
+              rating: feedback.rating || 5,
+              productName: feedback.productId?.name || '',
+            };
+          });
+          
+          // Use real feedbacks if available, otherwise use fallback
+          if (transformedFeedbacks.length > 0) {
+            setTestimonials(transformedFeedbacks);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching feedbacks:', error);
+        // Keep fallback testimonials on error
+      } finally {
+        setLoadingFeedbacks(false);
+      }
+    };
+
+    fetchFeedbacks();
+  }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    if (testimonials.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [testimonials]);
 
   return (
     <div className="bhokbhoj-homepage">

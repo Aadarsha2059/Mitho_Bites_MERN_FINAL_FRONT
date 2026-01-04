@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FaArrowLeft, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaLock, FaEye, FaEyeSlash, FaUserCircle, FaSave, FaCheck, FaEdit } from 'react-icons/fa';
+import { FaArrowLeft, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaLock, FaEye, FaEyeSlash, FaUserCircle, FaSave, FaCheck, FaEdit, FaUserEdit } from 'react-icons/fa';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +41,7 @@ const UpdateProfileSchema = Yup.object().shape({
     }),
 });
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ onClose }) => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const { mutate: updateProfile, isPending } = useUpdateProfile(user, setUser);
@@ -127,75 +127,258 @@ const UpdateProfile = () => {
   console.log('Rendering UpdateProfile with user:', user);
 
   return (
-    <div className="update-profile-page-full update-profile-floating-bg">
-      <div className="update-profile-background">
-        <div className="update-profile-background-overlay"></div>
-      </div>
-      <div className="update-profile-floating-container">
-        <div className="update-profile-content">
-          <h2 className="update-profile-title">Update Profile</h2>
-          <p className="update-profile-subtitle">Edit your information one field at a time</p>
-          <div className="update-profile-fields-list">
+    <div style={{
+      width: '100%',
+      padding: '20px',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #fff3e0 100%)',
+      borderRadius: '1.5rem',
+      minHeight: '400px'
+    }}>
+      <div style={{
+        background: '#fff',
+        borderRadius: '1.5rem',
+        padding: '32px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '14px',
+          marginBottom: '24px',
+          justifyContent: 'center'
+        }}>
+          <FaUserEdit style={{ fontSize: '2rem', color: '#ff9800' }} />
+          <h2 style={{
+            margin: 0,
+            fontWeight: 800,
+            fontSize: '2rem',
+            color: '#ff9800',
+            letterSpacing: '1px'
+          }}>Update Profile</h2>
+        </div>
+        <p style={{
+          textAlign: 'center',
+          color: '#666',
+          fontSize: '1.1rem',
+          marginBottom: '28px',
+          fontWeight: 500
+        }}>Edit your information one field at a time</p>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px'
+        }}>
             {['fullname', 'username', 'email', 'phone', 'address', 'password'].map((field) => (
-              <div className="update-profile-field-row" key={field}>
-                <span className="update-profile-field-label">
-                  {field === 'fullname' && <FaUserCircle />} 
-                  {field === 'username' && <FaUser />} 
-                  {field === 'email' && <FaEnvelope />} 
-                  {field === 'phone' && <FaPhone />} 
-                  {field === 'address' && <FaMapMarkerAlt />} 
-                  {field === 'password' && <FaLock />} 
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </span>
-                {editingField === field ? (
-                  <form className="update-profile-inline-form" onSubmit={handleSubmit}>
-                    {field !== 'password' ? (
-                      <input
-                        type={field === 'email' ? 'email' : 'text'}
-                        value={fieldValue}
-                        onChange={e => setFieldValue(e.target.value)}
-                        className="update-profile-inline-input"
-                        required
-                      />
-                    ) : (
+              <div key={field} style={{
+                background: '#f8f9fa',
+                borderRadius: '12px',
+                padding: '20px',
+                border: '1px solid #e0e0e0',
+                transition: 'all 0.2s ease'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: editingField === field ? '16px' : '0'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    flex: 1
+                  }}>
+                    <span style={{ color: '#ff9800', fontSize: '1.2rem' }}>
+                      {field === 'fullname' && <FaUserCircle />} 
+                      {field === 'username' && <FaUser />} 
+                      {field === 'email' && <FaEnvelope />} 
+                      {field === 'phone' && <FaPhone />} 
+                      {field === 'address' && <FaMapMarkerAlt />} 
+                      {field === 'password' && <FaLock />}
+                    </span>
+                    <span style={{ fontWeight: 700, fontSize: '1rem', color: '#666', minWidth: '100px' }}>
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                    </span>
+                  </div>
+                  {editingField !== field && (
+                    <>
+                      <span style={{
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: '#333',
+                        flex: 1,
+                        textAlign: 'right',
+                        marginRight: '12px'
+                      }}>
+                        {field === 'password' ? '••••••••' : user[field] || 'Not provided'}
+                      </span>
+                      <button
+                        onClick={() => handleEdit(field)}
+                        style={{
+                          background: '#ff9800',
+                          border: 'none',
+                          color: '#fff',
+                          padding: '8px 16px',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '0.9rem',
+                          fontWeight: 600,
+                          transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#ff6f00';
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = '#ff9800';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        <FaEdit /> Edit
+                      </button>
+                    </>
+                  )}
+                </div>
+                {editingField === field && (
+                  <form onSubmit={handleSubmit} style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                    marginTop: '12px'
+                  }}>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      {field !== 'password' ? (
+                        <input
+                          type={field === 'email' ? 'email' : 'text'}
+                          value={fieldValue}
+                          onChange={e => setFieldValue(e.target.value)}
+                          style={{
+                            flex: 1,
+                            padding: '12px 16px',
+                            borderRadius: '8px',
+                            border: '2px solid #e0e0e0',
+                            fontSize: '1rem',
+                            outline: 'none',
+                            minWidth: '200px'
+                          }}
+                          required
+                        />
+                      ) : (
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          value={fieldValue}
+                          onChange={e => setFieldValue(e.target.value)}
+                          style={{
+                            flex: 1,
+                            padding: '12px 16px',
+                            borderRadius: '8px',
+                            border: '2px solid #e0e0e0',
+                            fontSize: '1rem',
+                            outline: 'none',
+                            minWidth: '200px'
+                          }}
+                          required
+                          placeholder="New Password"
+                        />
+                      )}
                       <input
                         type={showPassword ? 'text' : 'password'}
-                        value={fieldValue}
-                        onChange={e => setFieldValue(e.target.value)}
-                        className="update-profile-inline-input"
+                        value={currentPassword}
+                        onChange={e => setCurrentPassword(e.target.value)}
+                        style={{
+                          flex: 1,
+                          padding: '12px 16px',
+                          borderRadius: '8px',
+                          border: '2px solid #e0e0e0',
+                          fontSize: '1rem',
+                          outline: 'none',
+                          minWidth: '200px'
+                        }}
                         required
-                        placeholder="New Password"
+                        placeholder="Current Password"
                       />
-                    )}
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      value={currentPassword}
-                      onChange={e => setCurrentPassword(e.target.value)}
-                      className="update-profile-inline-input"
-                      required
-                      placeholder="Current Password"
-                      style={{marginLeft:8}}
-                    />
-                    <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </button>
-                    <button type="submit" className="update-profile-inline-save"><FaSave /></button>
-                    <button type="button" className="update-profile-inline-cancel" onClick={handleCancel}>Cancel</button>
+                      {field === 'password' && (
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          style={{
+                            padding: '12px 16px',
+                            background: '#f0f0f0',
+                            border: '2px solid #e0e0e0',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            color: '#666'
+                          }}
+                        >
+                          {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                      <button
+                        type="button"
+                        onClick={handleCancel}
+                        style={{
+                          padding: '10px 20px',
+                          background: '#f0f0f0',
+                          border: '2px solid #e0e0e0',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          color: '#666',
+                          fontWeight: 600
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isPending}
+                        style={{
+                          padding: '10px 20px',
+                          background: isPending ? '#ccc' : '#ff9800',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: isPending ? 'not-allowed' : 'pointer',
+                          color: '#fff',
+                          fontWeight: 600,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
+                      >
+                        <FaSave /> {isPending ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
                   </form>
-                ) : (
-                  <>
-                    <span className="update-profile-field-value">
-                      {field === 'password' ? '••••••••' : user[field] || 'Not provided'}
-                    </span>
-                    <button className="update-profile-inline-edit" onClick={() => handleEdit(field)}><FaEdit /></button>
-                  </>
                 )}
               </div>
             ))}
-            {successMsg && <div className="update-profile-success-msg">{successMsg}</div>}
-            {errorMsg && <div className="update-profile-error-msg">{errorMsg}</div>}
+            {successMsg && (
+              <div style={{
+                background: '#d4edda',
+                color: '#155724',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                border: '1px solid #c3e6cb',
+                marginTop: '16px',
+                fontWeight: 600
+              }}>{successMsg}</div>
+            )}
+            {errorMsg && (
+              <div style={{
+                background: '#f8d7da',
+                color: '#721c24',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                border: '1px solid #f5c6cb',
+                marginTop: '16px',
+                fontWeight: 600
+              }}>{errorMsg}</div>
+            )}
           </div>
-        </div>
       </div>
     </div>
   );

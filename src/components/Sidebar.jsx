@@ -11,6 +11,27 @@ const Sidebar = ({ options = [], onNavigate, onLogout }) => {
   const handleClick = (id) => {
     setActive(id);
     if (onNavigate) onNavigate(id);
+    
+    // Handle navigation for admin routes
+    if (id === 'place-order') {
+      navigate('/admin/place-order');
+    } else if (id === 'adminpage') {
+      navigate('/admin/adminpage');
+    } else if (id === 'product') {
+      navigate('/admin/product');
+    } else if (id === 'users') {
+      navigate('/admin/users');
+    } else if (id === 'category') {
+      navigate('/admin/category');
+    } else if (id === 'restaurant') {
+      navigate('/admin/restaurant');
+    } else if (id === 'transaction-history') {
+      navigate('/admin/transaction-history');
+    } else if (id === 'business-rise-flows') {
+      navigate('/admin/business-rise-flows');
+    } else if (id === 'adminsettings') {
+      navigate('/admin/adminsettings');
+    }
   };
 
   const handleLogout = () => {

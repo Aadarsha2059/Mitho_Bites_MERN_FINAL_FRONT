@@ -52,7 +52,7 @@ const Dashboard = () => {
   const [slideDirection, setSlideDirection] = useState('right');
   const [cartAnimation, setCartAnimation] = useState(false);
   const mainContentRef = useRef(null);
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [latestAdditions, setLatestAdditions] = useState(null);
   const [showLatest, setShowLatest] = useState(true);
@@ -88,6 +88,9 @@ const Dashboard = () => {
     setPrevView(view);
     setView(option);
     setSelectedCategory(null);
+    // Clear search when switching views to avoid confusion
+    setSearchTerm('');
+    setSearchActive(false);
   };
 
   // Determine slide direction based on option order
@@ -145,8 +148,6 @@ const Dashboard = () => {
       ? products.filter((p) => p.name?.toLowerCase().includes(searchTerm.toLowerCase()))
       : [];
 
-  // Show HomeSection (recent orders, dashboard options) when search is active or has text
-  const showHomeSection = searchActive || !!searchTerm;
 
   // Debug logging
   console.log('Categories:', categories);
@@ -369,19 +370,123 @@ const Dashboard = () => {
       </div>
       
       <main className="main-content">
+        {/* Professional Dashboard Header with Greeting - Single Instance */}
+        <div style={{
+          textAlign: 'center',
+          padding: '40px 20px',
+          marginBottom: '40px',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+          borderRadius: '16px',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
+          boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
+        }}>
+          <h1 style={{
+            fontSize: '2.2rem',
+            fontWeight: '700',
+            color: '#1a1a1a',
+            margin: '0 0 12px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            flexWrap: 'wrap',
+            letterSpacing: '-0.5px'
+          }}>
+            <span style={{ fontSize: '2rem' }}>👋</span>
+            <span>Hello, {user?.fullname || user?.username || 'Foodie'}!</span>
+            <span style={{ fontSize: '2rem' }}>🍽️</span>
+          </h1>
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#666',
+            margin: '0',
+            fontWeight: '400',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            flexWrap: 'wrap'
+          }}>
+            <span>Let's enjoy your food journey together</span>
+            <span>✨</span>
+          </p>
+        </div>
+
         {/* Professional Search Box */}
-        <div style={{ width: '100%', maxWidth: 500, margin: '0 auto 24px auto', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', padding: '10px 18px' }}>
+        <div style={{ 
+          width: '100%', 
+          maxWidth: 700, 
+          margin: '0 auto 40px auto', 
+          display: 'flex', 
+          alignItems: 'center', 
+          background: '#ffffff', 
+          borderRadius: '12px', 
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)', 
+          padding: '16px 24px',
+          border: '1px solid rgba(0, 0, 0, 0.1)',
+          transition: 'all 0.2s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.12)';
+          e.currentTarget.style.borderColor = 'rgba(255, 111, 0, 0.3)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+          e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+        }}
+        >
+          <span style={{ color: '#ff6f00', fontSize: 20, marginRight: 12 }} role="img" aria-label="search">🔍</span>
           <input
             type="text"
-            placeholder="Search for food products..."
+            placeholder="Search for food products, categories, restaurants..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             onFocus={() => setSearchActive(true)}
             onBlur={() => setTimeout(() => setSearchActive(false), 200)}
-            style={{ flex: 1, border: 'none', outline: 'none', fontSize: 17, background: 'transparent', color: '#111', fontWeight: 500 }}
+            style={{ 
+              flex: 1, 
+              border: 'none', 
+              outline: 'none', 
+              fontSize: 16, 
+              background: 'transparent', 
+              color: '#1a1a1a', 
+              fontWeight: 400 
+            }}
           />
-          <span style={{ color: '#1976d2', fontSize: 22, marginLeft: 10 }} role="img" aria-label="search">🔍</span>
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                fontSize: 18,
+                color: '#999',
+                cursor: 'pointer',
+                padding: '0 8px',
+                marginLeft: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 24,
+                height: 24,
+                borderRadius: '50%',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#f5f5f5';
+                e.currentTarget.style.color = '#666';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#999';
+              }}
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          )}
         </div>
+
         <div className="dashboard-header-wrapper">
           <Header />
           <div className="cart-icon" onClick={() => setCartModalOpen(true)}>
@@ -394,19 +499,7 @@ const Dashboard = () => {
           key={view}
           ref={mainContentRef}
         >
-          {showHomeSection ? (
-            <HomeSection 
-              onViewAllOrders={() => handleSidebarNav('orders')}
-              onCategoryClick={() => handleSidebarNav('categories')}
-              onRestaurantClick={() => handleSidebarNav('restaurants')}
-              categories={categories}
-              restaurants={[]}
-              searchTerm={searchTerm}
-              products={products}
-            />
-          ) : (
-            SectionComponent
-          )}
+          {SectionComponent}
         </div>
         {/* Cart Modal */}
         <DeleteModal isOpen={cartModalOpen} onClose={() => setCartModalOpen(false)} title="Your Cart" wide>

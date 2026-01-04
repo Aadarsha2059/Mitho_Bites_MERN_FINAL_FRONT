@@ -32,6 +32,7 @@ import UpdateCategory from '../pages/admin/UpdateCategory';
 import UpdateUser from '../pages/admin/UpdateUser';
 import PaymentMethod from '../pages/client/PaymentMethod';
 import AdminRoute from '../components/AdminRoute';
+import ProtectedRoute from '../components/ProtectedRoute';
 import Settings from '../pages/client/Settings';
 import Profile from '../pages/client/Profile';
 import GKFood from '../pages/client/GKFood';
@@ -41,6 +42,7 @@ import Orders from '../pages/client/orders';
 import TransactionHistory from '../pages/admin/TransactionHistory';
 import TransactionDetails from '../pages/admin/TransactionDetails';
 import BusinessRiseFlows from '../pages/admin/BusinessRiseFlows';
+import OrderManagement from '../pages/admin/OrderManagement';
 import AdminLayout from '../layouts/AdminLayout';
 
 export default function AppRouter() {
@@ -74,16 +76,18 @@ export default function AppRouter() {
 
         {/* Other Routes */}
         <Route path="/login-test" element={<LoginTest />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/paymentmethod" element={<PaymentMethod />} />
-        <Route path="/cart" element={<CartDialog/>} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/more/settings" element={<Settings />} />
-        <Route path="/more/profile" element={<Profile />} />
-        <Route path="/more/gkfood" element={<GKFood />} />
-        <Route path="/more/khanakhajan" element={<KhanaKhajan />} />
-        <Route path="/more/update-profile" element={<UpdateProfile />} />
+        
+        {/* Protected User Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/paymentmethod" element={<ProtectedRoute><PaymentMethod /></ProtectedRoute>} />
+        <Route path="/cart" element={<ProtectedRoute><CartDialog /></ProtectedRoute>} />
+        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+        <Route path="/more/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/more/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/more/gkfood" element={<ProtectedRoute><GKFood /></ProtectedRoute>} />
+        <Route path="/more/khanakhajan" element={<ProtectedRoute><KhanaKhajan /></ProtectedRoute>} />
+        <Route path="/more/update-profile" element={<ProtectedRoute><UpdateProfile /></ProtectedRoute>} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/adminpage" element={<AdminRoute><AdminPage /></AdminRoute>} />
@@ -104,6 +108,7 @@ export default function AppRouter() {
         <Route path="/admin/transaction-history" element={<AdminRoute><TransactionHistory /></AdminRoute>} />
         <Route path="/admin/transaction-details/:id" element={<AdminRoute><TransactionDetails /></AdminRoute>} />
         <Route path="/admin/business-rise-flows" element={<AdminRoute><BusinessRiseFlows /></AdminRoute>} />
+        <Route path="/admin/place-order" element={<AdminRoute><OrderManagement /></AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );

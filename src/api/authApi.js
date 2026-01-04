@@ -8,7 +8,7 @@ export const forgotPasswordApi=(data) =>axios.post("/auth/forgot-password",data)
 
 export const resetPasswordApi=(token, data) =>axios.post(`/auth/reset-password/${token}`,data)
 
-export const updateUserProfileApi=(userId,data) =>axios.put(`/auth/update/${userId}`,data)
+export const updateUserProfileApi=(userId,data) =>axios.put(`/auth/update`,data)
 
 export const changePasswordApi=(data) =>axios.post("/auth/change-password",data)
 

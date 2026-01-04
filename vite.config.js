@@ -23,11 +23,21 @@ export default defineConfig({
     ]
   },
   server: {
-    host: '0.0.0.0', // ✅ Allow external connections (Burp Suite)
+    host: '0.0.0.0', // ✅ Allow external connections (Burp Suite embedded browser)
     port: 5173,
     strictPort: false, // ✅ Allow port fallback
     cors: true, // ✅ Enable CORS in dev server
-    proxy: {
+    // ✅ BURP SUITE: Allow access from Burp Suite embedded browser
+    hmr: {
+      host: 'localhost',
+      port: 5173,
+      protocol: 'ws'
+    },
+    // ✅ BURP SUITE FIX: Disable proxy by default to allow Burp Suite interception
+    // The frontend API is configured to use direct backend URL (http://localhost:5050/api)
+    // This ensures all API requests go through Burp Suite when browser proxy is configured
+    // Set VITE_ENABLE_PROXY=true in .env to enable proxy for normal development
+    proxy: process.env.VITE_ENABLE_PROXY === 'true' ? {
       '/api': {
         target: 'http://localhost:5050',
         changeOrigin: true, // ✅ Important for CORS
@@ -45,6 +55,6 @@ export default defineConfig({
           });
         },
       }
-    }
+    } : {} // Empty proxy object - requests go directly to backend
   }
 })

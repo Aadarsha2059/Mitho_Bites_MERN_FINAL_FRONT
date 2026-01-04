@@ -123,14 +123,17 @@ const TransactionTable = () => {
 
   // Filter transactions based on search term and payment mode
   const filteredTransactions = transactions.filter(transaction => {
-    const matchesSearch = transaction.food.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         transaction.paymentmode.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesPaymentMode = filterPaymentMode === 'all' || transaction.paymentmode === filterPaymentMode
+    // ✅ FIX: Add null/undefined checks to prevent toLowerCase error
+    const food = transaction.food || ''
+    const paymentmode = transaction.paymentmode || ''
+    const matchesSearch = food.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         paymentmode.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesPaymentMode = filterPaymentMode === 'all' || paymentmode === filterPaymentMode
     return matchesSearch && matchesPaymentMode
   })
 
-  // Calculate summary statistics
-  const totalRevenue = transactions.reduce((sum, t) => sum + t.totalprice, 0)
+  // Calculate summary statistics (with null checks)
+  const totalRevenue = transactions.reduce((sum, t) => sum + (t.totalprice || 0), 0)
   const totalTransactions = transactions.length
   const onlinePayments = transactions.filter(t => t.paymentmode === 'online').length
   const codPayments = transactions.filter(t => t.paymentmode === 'cod').length
@@ -155,9 +158,11 @@ const TransactionTable = () => {
 
   return (
     <div className="transaction-table-container">
-      <h3 className="table-title">Transaction Table</h3>
-      
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+      <div className="transaction-header">
+        <div>
+          <h1 className="table-title">💳 Transaction History</h1>
+          <p>View and manage all payment transactions</p>
+        </div>
         <button className="export-btn" onClick={handleExportData}>
           <FaDownload /> Export Data
         </button>
@@ -225,13 +230,13 @@ const TransactionTable = () => {
           <tbody>
             {filteredTransactions.map((transaction) => (
               <tr key={transaction._id} className="transaction-row">
-                <td className="transaction-id">{transaction._id.slice(-8)}</td>
-                <td className="food-items">{transaction.food}</td>
-                <td>{transaction.quantity}</td>
-                <td className="price">₹{transaction.totalprice}</td>
+                <td className="transaction-id">{transaction._id ? transaction._id.slice(-8) : 'N/A'}</td>
+                <td className="food-items">{transaction.food || 'N/A'}</td>
+                <td>{transaction.quantity || 0}</td>
+                <td className="price">NPR {transaction.totalprice || 0}</td>
                 <td>
-                  <span className={`payment-mode ${transaction.paymentmode}`}>
-                    {transaction.paymentmode}
+                  <span className={`payment-mode ${transaction.paymentmode || 'unknown'}`}>
+                    {transaction.paymentmode || 'N/A'}
                   </span>
                 </td>
                 <td>

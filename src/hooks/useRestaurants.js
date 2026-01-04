@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const fetchRestaurants = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/restaurant`);
+    // ✅ FIXED: Use public endpoint instead of admin endpoint
+    const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5050'}/api/restaurants`);
     return response.data;
   } catch (error) {
     console.error('Error fetching restaurants:', error);

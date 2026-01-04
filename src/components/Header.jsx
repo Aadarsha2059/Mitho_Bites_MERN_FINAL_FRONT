@@ -25,14 +25,16 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
   return (
     <header className="header dashboard-header elegant-header">
       <div className="header-content">
-        {/* Brand Logo */}
-        <div className="dashboard-header-title elegant-brand">
-          <span className="brand-icon">🍽️</span>
-          <div className="brand-text">
-            <span className="brand-name">BhokBhoj</span>
-            <span className="brand-tagline">Food Paradise</span>
+        {/* Brand Logo - Hide on dashboard */}
+        {!isDashboard && (
+          <div className="dashboard-header-title elegant-brand">
+            <span className="brand-icon">🍽️</span>
+            <div className="brand-text">
+              <span className="brand-name">BhokBhoj</span>
+              <span className="brand-tagline">Food Paradise</span>
+            </div>
           </div>
-        </div>
+        )}
         
         {/* Navigation - Only show on non-dashboard pages */}
         {!isDashboard && (
@@ -52,36 +54,38 @@ const Header = ({ onSearch, onShowOnboarding = () => {} }) => {
           </nav>
         )}
 
-        {/* User Section */}
-        <div className="dashboard-header-user elegant-user">
-          {user && user.username ? (
-            <div className="user-info">
-              <div className="user-avatar">
-                {user.username.charAt(0).toUpperCase()}
+        {/* User Section - Hidden on dashboard for cleaner look */}
+        {!isDashboard && (
+          <div className="dashboard-header-user elegant-user">
+            {user && user.username ? (
+              <div className="user-info">
+                <div className="user-avatar">
+                  {user.username.charAt(0).toUpperCase()}
+                </div>
+                <div className="user-details">
+                  <span className="user-greeting">Welcome back,</span>
+                  <span className="user-name">{user.username}</span>
+                </div>
+                {isAdmin && (
+                  <>
+                    <span className="admin-badge">
+                      <span className="admin-icon">👑</span>
+                      ADMIN
+                    </span>
+                    <button onClick={handleAdminClick} className="admin-panel-btn">
+                      <span>🛠️</span>
+                      Admin Panel
+                    </button>
+                  </>
+                )}
               </div>
-              <div className="user-details">
-                <span className="user-greeting">Welcome back,</span>
-                <span className="user-name">{user.username}</span>
+            ) : (
+              <div className="user-info">
+                <span className="welcome-text">Welcome, Foodie! 🍕</span>
               </div>
-              {isAdmin && (
-                <>
-                  <span className="admin-badge">
-                    <span className="admin-icon">👑</span>
-                    ADMIN
-                  </span>
-                  <button onClick={handleAdminClick} className="admin-panel-btn">
-                    <span>🛠️</span>
-                    Admin Panel
-                  </button>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="user-info">
-              <span className="welcome-text">Welcome, Foodie! 🍕</span>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );

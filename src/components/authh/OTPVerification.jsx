@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useVerifyOTP } from '../../hooks/useVerifyOTP';
 import './OTPVerification.css';
 
-export default function OTPVerification({ userId, email, onClose, onSuccess }) {
+export default function OTPVerification({ userId, email, onClose, onSuccess, otp: providedOtp, previewUrl, emailProvider }) {
   const { mutate, isPending } = useVerifyOTP();
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
@@ -40,9 +40,10 @@ export default function OTPVerification({ userId, email, onClose, onSuccess }) {
 
   const formik = useFormik({
     initialValues: {
-      otp: '',
+      otp: '', // ✅ Always start empty - don't autofill OTP
     },
     validationSchema,
+    enableReinitialize: false, // ✅ Don't reinitialize with provided OTP
     onSubmit: (values) => {
       mutate(
         { userId, otp: values.otp },
@@ -99,8 +100,33 @@ export default function OTPVerification({ userId, email, onClose, onSuccess }) {
           </div>
           <h2 className="otp-title">Enter Verification Code</h2>
           <p className="otp-subtitle">
-            We've sent a 6-digit code to <strong>{email}</strong>
+            Enter the 6-digit code sent to <strong>{email}</strong>
           </p>
+          {previewUrl && (
+            <div style={{
+              marginTop: '8px', 
+              padding: '6px 10px', 
+              background: '#f0fdf4', 
+              borderRadius: '6px', 
+              border: '1px solid #14b8a6',
+              fontSize: '12px',
+              display: 'inline-block'
+            }}>
+              <span style={{color: '#0f766e', marginRight: '6px'}}>📧</span>
+              <a 
+                href={previewUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  color: '#14b8a6',
+                  textDecoration: 'none',
+                  fontSize: '12px'
+                }}
+              >
+                View OTP Email
+              </a>
+            </div>
+          )}
         </div>
 
         <form onSubmit={formik.handleSubmit} className="otp-form">

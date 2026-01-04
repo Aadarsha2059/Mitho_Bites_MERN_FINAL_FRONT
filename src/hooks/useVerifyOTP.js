@@ -12,12 +12,19 @@ export const useVerifyOTP = () => {
     mutationKey: ['verifyOTP'],
     onSuccess: (data) => {
       console.log('OTP verification successful:', data);
-      login(data?.user, data?.token);
-      toast.success("Login successful! Welcome to BHOKBHOJ! 🎉");
+      // Login the user
+      if (data?.user && data?.token) {
+        login(data.user, data.token);
+        toast.success("Login successful! Welcome to BHOKBHOJ! 🎉");
+      } else {
+        console.error('Missing user or token in OTP verification response:', data);
+        toast.error("Login successful but user data missing. Please refresh.");
+      }
     },
     onError: (err) => {
       console.error('OTP verification error:', err);
-      toast.error(err?.message || "Invalid OTP. Please try again.");
+      const errorMessage = err?.response?.data?.message || err?.message || "Invalid OTP. Please try again.";
+      toast.error(errorMessage);
     }
   });
 };

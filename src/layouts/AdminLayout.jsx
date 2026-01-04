@@ -9,6 +9,7 @@ const adminOptions = [
   { id: 'users', label: 'Users', icon: '👤' },
   { id: 'category', label: 'Categories', icon: '📂' },
   { id: 'restaurant', label: 'Restaurants', icon: '🏪' },
+  { id: 'place-order', label: 'Place Order', icon: '📦' },
   { id: 'transaction-history', label: 'Transactions', icon: '💳' },
   { id: 'business-rise-flows', label: 'Business Trends', icon: '📈' },
   { id: 'adminsettings', label: 'Settings', icon: '⚙️' },

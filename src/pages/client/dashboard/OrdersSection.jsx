@@ -3,6 +3,7 @@ import { FaStar, FaComment, FaClock, FaMapMarkerAlt, FaTimes, FaCheck, FaHistory
 import momo from '../../../assets/images/momo.png';
 import './OrdersSection.css';
 import BoomCongratulations from '../BoomCongratulations';
+import api from '../../../api/api';
 
 const Toast = ({ message, type, onClose }) => (
   <div className={`custom-toast ${type}`}> 
@@ -19,6 +20,7 @@ const OrdersSection = ({ onGiveFeedback }) => {
   const [feedbackProduct, setFeedbackProduct] = useState(null);
   const [feedbackOrderId, setFeedbackOrderId] = useState(null);
   const [showCongrats, setShowCongrats] = useState(false);
+  const [pendingFeedbackOrder, setPendingFeedbackOrder] = useState(null); // Store order for feedback after congrats
 
   useEffect(() => {
     fetchOrders();
@@ -27,18 +29,18 @@ const OrdersSection = ({ onGiveFeedback }) => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5050/api/orders', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.data);
+      // ✅ FIXED: Use axios instance with proper error handling
+      const response = await api.get('/orders');
+      if (response.data.success) {
+        setOrders(response.data.data);
       }
     } catch (error) {
-      //
+      console.error('Error fetching orders:', error);
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+        showToast('Cannot connect to server. Please ensure backend is running on port 5050.', 'error');
+      } else {
+        showToast('Error loading orders: ' + (error.response?.data?.message || error.message), 'error');
+      }
     } finally {
       setLoading(false);
     }
@@ -51,44 +53,67 @@ const OrdersSection = ({ onGiveFeedback }) => {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5050/api/orders/${orderId}/cancel`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      if (data.success) {
+      // ✅ FIXED: Use axios instance
+      const response = await api.put(`/orders/${orderId}/cancel`);
+      if (response.data.success) {
         showToast('Order cancelled successfully!', 'error');
         fetchOrders();
       } else {
-        showToast('Failed to cancel order: ' + data.message, 'error');
+        showToast('Failed to cancel order: ' + response.data.message, 'error');
       }
     } catch (error) {
-      showToast('Error cancelling order', 'error');
+      console.error('Cancel order error:', error);
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+        showToast('Cannot connect to server. Please ensure backend is running.', 'error');
+      } else {
+        showToast('Error cancelling order: ' + (error.response?.data?.message || error.message), 'error');
+      }
     }
   };
 
   const handleMarkReceived = async (orderId) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5050/api/orders/${orderId}/received`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      if (data.success) {
-        showToast('Order marked as received!', 'success');
+      // ✅ FIXED: Use axios instance with proper error handling
+      const response = await api.put(`/orders/${orderId}/received`);
+      if (response.data.success) {
+        showToast('Order marked as received! Bill will be sent to your email.', 'success');
         fetchOrders();
+        
+        // ✅ Store order data for feedback after congrats dialog closes
+        const order = response.data.data;
+        if (order && order.items && order.items.length > 0) {
+          // Store order info to show feedback after congrats closes
+          setPendingFeedbackOrder({ orderId, order, firstItem: order.items[0] });
+        }
+        
+        // ✅ Show congratulations dialog first (feedback will show after it closes)
         setShowCongrats(true);
       } else {
-        showToast('Failed to mark order as received: ' + data.message, 'error');
+        showToast('Failed to mark order as received: ' + response.data.message, 'error');
       }
     } catch (error) {
-      showToast('Error marking order as received', 'error');
+      console.error('Mark received error:', error);
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+        showToast('Cannot connect to server. Please ensure backend is running on port 5050.', 'error');
+      } else if (error.response?.status === 400) {
+        showToast(error.response.data.message || 'Order must be accepted by admin first.', 'error');
+      } else {
+        showToast('Error marking order as received: ' + (error.response?.data?.message || error.message), 'error');
+      }
+    }
+  };
+
+  // ✅ Handle congrats dialog close - then show feedback modal
+  const handleCongratsClose = () => {
+    setShowCongrats(false);
+    // Show feedback modal after congrats closes
+    if (pendingFeedbackOrder) {
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        setFeedbackOrderId(pendingFeedbackOrder.orderId);
+        setFeedbackProduct(pendingFeedbackOrder.firstItem);
+        setPendingFeedbackOrder(null); // Clear pending
+      }, 300);
     }
   };
 
@@ -99,29 +124,42 @@ const OrdersSection = ({ onGiveFeedback }) => {
 
   const handleFeedbackSubmit = async (feedbackData) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5050/api/feedbacks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : null,
-          productId: feedbackData.productId,
-          rating: feedbackData.rating,
-          comment: feedbackData.comment
-        })
+      const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+      
+      // ✅ FIXED: Use axios instance
+      const response = await api.post('/feedbacks', {
+        userId: user?._id || user?.id,
+        productId: feedbackData.productId,
+        rating: feedbackData.rating,
+        comment: feedbackData.comment
       });
-      const data = await response.json();
+      
+      const data = response.data;
       if (data.success) {
-        showToast('Feedback submitted successfully!', 'success');
+        showToast('Feedback submitted successfully! It will be shown on homepage.', 'success');
         setFeedbackProduct(null);
         setFeedbackOrderId(null);
+        
+        // ✅ If there are more items in the order, show feedback for next item
+        if (feedbackOrderId) {
+          const currentOrder = orders.find(o => o._id === feedbackOrderId);
+          if (currentOrder && currentOrder.items) {
+            const currentProductIndex = currentOrder.items.findIndex(
+              item => item.productId?._id === feedbackData.productId || item.productId === feedbackData.productId
+            );
+            if (currentProductIndex >= 0 && currentProductIndex < currentOrder.items.length - 1) {
+              // Show feedback for next item
+              setTimeout(() => {
+                setFeedbackProduct(currentOrder.items[currentProductIndex + 1]);
+              }, 500);
+            }
+          }
+        }
       } else {
         showToast('Failed to submit feedback: ' + data.message, 'error');
       }
     } catch (error) {
+      console.error('Feedback submit error:', error);
       showToast('Error submitting feedback', 'error');
     }
   };
@@ -129,6 +167,7 @@ const OrdersSection = ({ onGiveFeedback }) => {
   const getStatusBadge = (status) => {
     const statusConfig = {
       'pending': { color: '#ff9800', icon: <FaClock />, text: 'Pending' },
+      'accepted': { color: '#2196f3', icon: <FaCheck />, text: 'Accepted' },
       'received': { color: '#4caf50', icon: <FaCheck />, text: 'Received' },
       'cancelled': { color: '#f44336', icon: <FaTimes />, text: 'Cancelled' }
     };
@@ -155,7 +194,7 @@ const OrdersSection = ({ onGiveFeedback }) => {
       <h2 className="section-title">Order History</h2>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       {showCongrats && (
-        <BoomCongratulations onClose={() => setShowCongrats(false)} />
+        <BoomCongratulations onClose={handleCongratsClose} />
       )}
       {orders.length === 0 ? (
         <div className="no-orders">
@@ -224,20 +263,26 @@ const OrdersSection = ({ onGiveFeedback }) => {
               </div>
               <div className="order-actions">
                 {order.orderStatus === 'pending' && (
-                  <>
-                    <button
-                      className="cancel-btn"
-                      onClick={() => handleCancelOrder(order._id)}
-                    >
-                      <FaTimes /> Cancel Order
-                    </button>
-                    <button
-                      className="receive-btn"
-                      onClick={() => handleMarkReceived(order._id)}
-                    >
-                      <FaCheck /> Mark Received
-                    </button>
-                  </>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => handleCancelOrder(order._id)}
+                  >
+                    <FaTimes /> Cancel Order
+                  </button>
+                )}
+                {/* ✅ FIXED: Show "Mark as Received" button only when order is accepted by admin */}
+                {order.orderStatus === 'accepted' && (
+                  <button
+                    className="receive-btn"
+                    onClick={() => handleMarkReceived(order._id)}
+                  >
+                    <FaCheck /> Mark as Received
+                  </button>
+                )}
+                {order.orderStatus === 'received' && (
+                  <div className="received-notice">
+                    <FaCheck /> Order Received
+                  </div>
                 )}
                 {order.orderStatus === 'cancelled' && (
                   <div className="cancelled-notice">
@@ -287,8 +332,37 @@ const FeedbackForm = ({ order, product, onSubmit, onClose }) => {
       <div className="feedback-overlay-modal">
         <div className="feedback-modal-header">
           <h3>Rate Your Experience</h3>
-          <button className="feedback-close-btn" onClick={onClose}>
-            <FaTimes />
+          <button 
+            className="feedback-close-btn" 
+            onClick={onClose}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              fontSize: '32px',
+              color: '#666',
+              cursor: 'pointer',
+              padding: '4px 8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              transition: 'all 0.2s ease',
+              width: '40px',
+              height: '40px',
+              lineHeight: '1'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f5f5f5';
+              e.currentTarget.style.color = '#333';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#666';
+            }}
+            aria-label="Close feedback modal"
+            title="Close"
+          >
+            ×
           </button>
         </div>
         <div className="feedback-product-info">

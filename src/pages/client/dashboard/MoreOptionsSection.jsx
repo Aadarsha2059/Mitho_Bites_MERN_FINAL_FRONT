@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { FaCog, FaBookOpen, FaUserCircle, FaSignOutAlt, FaTimes, FaMedal, FaLock, FaGift, FaBoxOpen, FaStar, FaLeaf, FaAppleAlt, FaDrumstickBite, FaThList, FaLightbulb, FaChartLine } from "react-icons/fa";
+import { FaCog, FaBookOpen, FaUserCircle, FaSignOutAlt, FaTimes, FaMedal, FaLock, FaGift, FaBoxOpen, FaStar, FaLeaf, FaAppleAlt, FaDrumstickBite, FaThList, FaLightbulb, FaChartLine, FaUtensils } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import Settings from "../Settings";
 import "../Dashboard.css";
-import OrdersSection from "./OrdersSection";
 import ReactDOM from 'react-dom';
 import MyPurchaseTrend from '../moreoptions/MyPurchaseTrend';
+import SettingsDialog from '../moreoptions/SettingsDialog';
+import ProfileDialog from '../moreoptions/ProfileDialog';
+import MithoBitesDialog from '../moreoptions/MithoBitesDialog';
 
 const options = [
-  { id: 'settings', label: 'Settings', icon: <FaCog />, route: '/settings' },
-  { id: 'khana', label: 'Khana Khajan', icon: <FaBookOpen />, route: '/more/khanakhajan' },
+  { id: 'settings', label: 'Settings', icon: <FaCog />, action: 'settings' },
+  { id: 'khana', label: 'Khana Khajan', icon: <FaBookOpen />, action: 'khana' },
   { id: 'trend', label: 'My Purchase Trend', icon: <FaChartLine />, action: 'purchaseTrend' },
   { id: 'mithoPoints', label: 'Mitho Points', icon: <FaMedal />, action: 'mithoPoints' },
-  { id: 'profile', label: 'Profile', icon: <FaUserCircle />, route: '/more/profile' },
+  { id: 'profile', label: 'Profile', icon: <FaUserCircle />, action: 'profile' },
+  { id: 'mithoBites', label: 'BhokBhoj', icon: <FaUtensils />, action: 'mithoBites' },
 ];
 
 const LUCKY_TOKEN_THRESHOLD = 20;
@@ -133,12 +135,16 @@ const MoreOptionsSection = () => {
   const [selectedKhanaCategory, setSelectedKhanaCategory] = useState(0);
   const [showFacts, setShowFacts] = useState(false);
   const [showPurchaseTrend, setShowPurchaseTrend] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
+  const [showProfileDialog, setShowProfileDialog] = useState(false);
+  const [showMithoBitesDialog, setShowMithoBitesDialog] = useState(false);
 
   const fetchMithoPoints = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5050/api/orders', {
+      const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
+      const response = await fetch(`${apiUrl}/api/orders`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -164,82 +170,134 @@ const MoreOptionsSection = () => {
   const handleOptionClick = (opt) => {
     if (opt.action === 'mithoPoints') {
       fetchMithoPoints();
-      setShowPreview(false);
       setShowMithoDialog(true);
-    } else if (opt.id === 'khana') {
+    } else if (opt.action === 'khana') {
       setShowKhanaDialog(true);
     } else if (opt.action === 'purchaseTrend') {
+      setShowPreview(false);
       setShowPurchaseTrend(true);
+    } else if (opt.action === 'settings') {
+      setShowSettingsDialog(true);
+    } else if (opt.action === 'profile') {
+      setShowProfileDialog(true);
+    } else if (opt.action === 'mithoBites') {
+      setShowMithoBitesDialog(true);
     } else if (opt.route) {
       navigate(opt.route);
     }
   };
 
-  // Mitho Points Dialog UI (Flutter-style)
+  // Mitho Points Dialog UI (centered format)
   const MithoPointsDialog = () => {
-    const unlocked = (showPreview ? LUCKY_TOKEN_THRESHOLD : itemsReceived) >= LUCKY_TOKEN_THRESHOLD;
-    const items = showPreview ? LUCKY_TOKEN_THRESHOLD : itemsReceived;
+    const unlocked = itemsReceived >= LUCKY_TOKEN_THRESHOLD;
+    const items = itemsReceived;
+    // Generate lucky coupon code when unlocked
+    const luckyCouponCode = unlocked ? `LUCKY${Date.now().toString().slice(-6)}` : null;
+    
     return (
-      <div className="mitho-dialog-overlay" style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',background:'rgba(0,0,0,0.25)',zIndex:2000}}>
-        <div className="mitho-dialog" style={{
-          background:'#fff',
-          borderRadius:'1.5rem',
-          boxShadow:'0 8px 32px #a18cd144',
-          padding:'36px 32px',
-          minWidth:'340px',
-          maxWidth:'95vw',
-          position:'fixed',
-          top:'32px',
-          right:'48px',
-          zIndex:2100,
-          overflow:'hidden',
-          display:'flex',
-          flexDirection:'column',
-          alignItems:'center',
-        }}>
-          <button onClick={()=>setShowMithoDialog(false)} style={{position:'absolute',top:18,right:24,background:'none',border:'none',fontSize:'2rem',color:'#e53935',cursor:'pointer'}}><FaTimes/></button>
-          <div style={{display:'flex',alignItems:'center',gap:'14px',marginBottom:'18px',justifyContent:'center'}}>
-            <FaStar style={{fontSize:'2.2rem',color:'#FFD700',filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
-            <h2 style={{margin:0,fontWeight:800,fontSize:'2rem',color:'#FF6B35',letterSpacing:'1.2px'}}>Mitho Points</h2>
+      ReactDOM.createPortal(
+        <div className="mitho-dialog-overlay" style={{position:'fixed',top:0,left:0,width:'100vw',height:'100vh',background:'rgba(0,0,0,0.25)',zIndex:3000}}>
+          <div className="mitho-dialog" style={{
+            background:'linear-gradient(135deg, #f8f9fa 0%, #ffe3d1 100%)',
+            borderRadius:'2.5rem',
+            boxShadow:'0 16px 64px rgba(255,107,53,0.2), 0 2px 12px rgba(0,0,0,0.1)',
+            padding:'48px 56px',
+            minWidth:'540px',
+            maxWidth:'850px',
+            width:'92vw',
+            position:'fixed',
+            top:'56px',
+            right:'50%',
+            left:'50%',
+            transform:'translate(-50%, 0)',
+            zIndex:3100,
+            overflow:'auto',
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            maxHeight:'82vh',
+            border:'2.5px solid #ffe3d1',
+          }}>
+            <button onClick={()=>setShowMithoDialog(false)} style={{position:'absolute',top:18,right:24,background:'#fff',border:'2px solid #e53935',fontSize:'2rem',color:'#e53935',cursor:'pointer',width:'45px',height:'45px',display:'flex',alignItems:'center',justifyContent:'center',borderRadius:'50%',transition:'all 0.2s ease',zIndex:3200,boxShadow:'0 2px 8px rgba(229,57,53,0.3)'}}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#e53935';
+                e.currentTarget.style.color = '#fff';
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#fff';
+                e.currentTarget.style.color = '#e53935';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            ><FaTimes/></button>
+            <div style={{display:'flex',alignItems:'center',gap:'14px',marginBottom:'18px',justifyContent:'center'}}>
+              <FaStar style={{fontSize:'2.2rem',color:'#FFD700',filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
+              <h2 style={{margin:0,fontWeight:800,fontSize:'2rem',color:'#FF6B35',letterSpacing:'1.2px'}}>Mitho Points</h2>
+            </div>
+            {loading ? (
+              <div style={{textAlign:'center',padding:'24px 0'}}>Loading...</div>
+            ) : (
+              <>
+                <div style={{width:'100%',background:'#fff',borderRadius:'1.7rem',boxShadow:'0 2px 12px rgba(0,0,0,0.1)',padding:'28px 32px',marginBottom:'20px'}}>
+                  <div style={{fontSize:'1.5rem',fontWeight:700,color:'#388E3C',marginBottom:'15px',textAlign:'center'}}>
+                    Items Received: <span style={{color:'#FF6B35',fontSize:'2.2rem'}}>{items}</span>
+                  </div>
+                  <div style={{margin:'18px 0',display:'flex',flexDirection:'column',alignItems:'center',gap:'10px'}}>
+                    {unlocked ? (
+                      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'10px',width:'100%'}}>
+                        <div style={{position:'relative',width:'90px',height:'90px',marginBottom:'8px'}}>
+                          <div style={{position:'absolute',width:'90px',height:'90px',borderRadius:'50%',background:'conic-gradient(orange, yellow, pink, green, blue, orange)',filter:'blur(2px)',zIndex:0}}></div>
+                          <FaGift style={{fontSize:'70px',color:'#ffb300',position:'absolute',top:'10px',left:'10px',zIndex:1,filter:'drop-shadow(0 2px 8px #ffb30088)'}}/>
+                          <FaMedal style={{fontSize:'54px',color:'#FFD700',position:'absolute',top:'18px',left:'18px',zIndex:2,filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
+                        </div>
+                        <div style={{fontSize:'18px',fontWeight:'bold',color:'#388E3C',textAlign:'center'}}>
+                          Congratulations! You have received a <span style={{color:'#FF6B35'}}>Lucky Token Coin</span> for your loyalty! 🎉
+                        </div>
+                        <div style={{width:'100%',background:'linear-gradient(135deg, #fff8e1 0%, #ffe3d1 100%)',borderRadius:'1.2rem',padding:'20px',marginTop:'16px',border:'2px solid #FF6B35'}}>
+                          <div style={{fontSize:'1rem',fontWeight:700,color:'#666',marginBottom:'12px',textAlign:'center'}}>Your Lucky Coupon Code:</div>
+                          <div style={{
+                            background:'#fff',
+                            borderRadius:'12px',
+                            padding:'16px 24px',
+                            fontSize:'1.8rem',
+                            fontWeight:800,
+                            color:'#FF6B35',
+                            textAlign:'center',
+                            letterSpacing:'2px',
+                            border:'2px dashed #FF6B35',
+                            fontFamily:'monospace',
+                            boxShadow:'0 4px 12px rgba(255,107,53,0.2)'
+                          }}>
+                            {luckyCouponCode}
+                          </div>
+                          <div style={{fontSize:'0.9rem',color:'#666',marginTop:'12px',textAlign:'center',fontWeight:500}}>
+                            Use this code at checkout to redeem your gift hamper!
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'10px'}}>
+                        <div style={{position:'relative',width:'70px',height:'70px',marginBottom:'8px'}}>
+                          <FaLock style={{fontSize:'70px',color:'#e0e0e0',position:'absolute',top:0,left:0}}/>
+                          <FaMedal style={{fontSize:'54px',color:'#FFD700',position:'absolute',top:'8px',left:'8px',filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
+                        </div>
+                        <div style={{fontSize:'16px',color:'#888',fontWeight:600}}>Lucky Token Coin (Locked)</div>
+                        <div style={{fontSize:'17px',color:'#333',fontWeight:500,textAlign:'center',marginTop:'6px'}}>
+                          You are <span style={{color:'#FF6B35',fontWeight:700}}>{LUCKY_TOKEN_THRESHOLD - items}</span> item{LUCKY_TOKEN_THRESHOLD - items === 1 ? '' : 's'} away from a Lucky Token Coin!
+                        </div>
+                        <div style={{fontSize:'0.95rem',color:'#666',marginTop:'8px',textAlign:'center',fontStyle:'italic'}}>
+                          Receive {LUCKY_TOKEN_THRESHOLD} items to unlock your lucky coupon!
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          {loading ? (
-            <div style={{textAlign:'center',padding:'24px 0'}}>Loading...</div>
-          ) : (
-            <>
-              <div style={{fontSize:'1.5rem',fontWeight:700,color:'#388E3C',marginBottom:'10px',textAlign:'center'}}>Items Received: <span style={{color:'#FF6B35',fontSize:'2.2rem'}}>{items}</span></div>
-              <div style={{margin:'18px 0'}}>
-                {unlocked ? (
-                  <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'10px'}}>
-                    <div style={{position:'relative',width:'90px',height:'90px',marginBottom:'8px'}}>
-                      <div style={{position:'absolute',width:'90px',height:'90px',borderRadius:'50%',background:'conic-gradient(orange, yellow, pink, green, blue, orange)',filter:'blur(2px)',zIndex:0}}></div>
-                      <FaGift style={{fontSize:'70px',color:'#ffb300',position:'absolute',top:'10px',left:'10px',zIndex:1,filter:'drop-shadow(0 2px 8px #ffb30088)'}}/>
-                      <FaMedal style={{fontSize:'54px',color:'#FFD700',position:'absolute',top:'18px',left:'18px',zIndex:2,filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
-                    </div>
-                    <div style={{fontSize:'18px',fontWeight:'bold',color:'#388E3C',textAlign:'center'}}>Congratulations! You have received a <span style={{color:'#FF6B35'}}>Lucky Token Coin</span> for your loyalty! 🎉</div>
-                    <div style={{background:'#fff8e1',color:'#FF6B35',fontWeight:600,padding:'8px 18px',borderRadius:'16px',marginTop:'8px'}}>Enjoy your gift hamper!</div>
-                  </div>
-                ) : (
-                  <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'10px'}}>
-                    <div style={{position:'relative',width:'70px',height:'70px',marginBottom:'8px'}}>
-                      <FaLock style={{fontSize:'70px',color:'#e0e0e0',position:'absolute',top:0,left:0}}/>
-                      <FaMedal style={{fontSize:'54px',color:'#FFD700',position:'absolute',top:'8px',left:'8px',filter:'drop-shadow(0 2px 8px #FFD70088)'}}/>
-                    </div>
-                    <div style={{fontSize:'16px',color:'#888',fontWeight:600}}>Lucky Token Coin (Locked)</div>
-                    <div style={{fontSize:'17px',color:'#333',fontWeight:500,textAlign:'center',marginTop:'6px'}}>You are <span style={{color:'#FF6B35',fontWeight:700}}>{LUCKY_TOKEN_THRESHOLD - items}</span> item{LUCKY_TOKEN_THRESHOLD - items === 1 ? '' : 's'} away from a Lucky Token Coin!</div>
-                  </div>
-                )}
-              </div>
-              <button
-                style={{margin:'0 auto',display:'block',marginTop:'18px',background:'none',border:'2px solid #FF6B35',color:'#FF6B35',fontWeight:800,fontSize:'1.08rem',padding:'10px 22px',borderRadius:'16px',cursor:'pointer',transition:'background 0.2s',letterSpacing:'0.5px'}}
-                onClick={() => setShowPreview(!showPreview)}
-              >
-                <FaBoxOpen style={{marginRight:'8px',color:'#FFD700'}}/>
-                {showPreview ? 'Show My Progress' : 'What if I received 20 items?'}
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+        </div>,
+        document.body
+      )
     );
   };
 
@@ -347,7 +405,30 @@ const MoreOptionsSection = () => {
 
   const PurchaseTrendDialog = () => (
     ReactDOM.createPortal(
-      <MyPurchaseTrend onClose={() => setShowPurchaseTrend(false)} />, document.body
+      <MyPurchaseTrend 
+        onClose={() => {
+          setShowPurchaseTrend(false);
+          setShowPreview(false);
+        }} 
+      />, document.body
+    )
+  );
+
+  const SettingsDialogComponent = () => (
+    ReactDOM.createPortal(
+      <SettingsDialog onClose={() => setShowSettingsDialog(false)} />, document.body
+    )
+  );
+
+  const ProfileDialogComponent = () => (
+    ReactDOM.createPortal(
+      <ProfileDialog onClose={() => setShowProfileDialog(false)} />, document.body
+    )
+  );
+
+  const MithoBitesDialogComponent = () => (
+    ReactDOM.createPortal(
+      <MithoBitesDialog onClose={() => setShowMithoBitesDialog(false)} />, document.body
     )
   );
 
@@ -372,6 +453,9 @@ const MoreOptionsSection = () => {
       {showMithoDialog && <MithoPointsDialog />}
       {showKhanaDialog && <KhanaKhajanDialog />}
       {showPurchaseTrend && <PurchaseTrendDialog />}
+      {showSettingsDialog && <SettingsDialogComponent />}
+      {showProfileDialog && <ProfileDialogComponent />}
+      {showMithoBitesDialog && <MithoBitesDialogComponent />}
     </section>
   );
 };

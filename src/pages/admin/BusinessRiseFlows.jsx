@@ -41,7 +41,15 @@ const BusinessRiseFlows = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('/api/dashboard/business-trends');
+        // ✅ CORS FIX: Use full backend URL to ensure CORS headers are sent
+        const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050/api';
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_URL}/dashboard/business-trends`, {
+          headers: {
+            'Authorization': token ? `Bearer ${token}` : '',
+            'Content-Type': 'application/json'
+          }
+        });
         const data = await res.json();
         if (data.success) {
           setTrends(data.data);
@@ -49,6 +57,7 @@ const BusinessRiseFlows = () => {
           setError('Failed to fetch business trends');
         }
       } catch (err) {
+        console.error('Business trends fetch error:', err);
         setError('Failed to fetch business trends');
       }
       setLoading(false);

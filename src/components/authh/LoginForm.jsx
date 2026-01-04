@@ -150,7 +150,7 @@ import OTPVerification from './OTPVerification';
 // Login attempt tracking
 const LOGIN_ATTEMPTS_KEY = 'login_attempts';
 const LOCKOUT_TIME_KEY = 'lockout_until';
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 10; // Changed from 5 to 10 attempts
 const LOCKOUT_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function LoginForm({ closeModal }) {
@@ -232,12 +232,21 @@ export default function LoginForm({ closeModal }) {
       // Check if OTP is required
       if (data.requireOTP) {
         console.log('OTP required. Showing OTP modal...');
+        
+        // Show simple OTP message
+        toast.info("Please enter the verification code to continue.");
+        
+        // Get preview URL from response (prefer emailPreviewUrl, fallback to previewUrl)
+        const previewUrl = data.emailPreviewUrl || data.previewUrl || null;
+        
         setOtpData({
           userId: data.userId,
-          email: data.email
+          email: data.email,
+          otp: null, // ✅ Don't include OTP - user must enter manually
+          previewUrl: previewUrl, // Include preview URL if available
+          emailProvider: data.emailProvider || 'ethereal'
         });
         setShowOTPModal(true);
-        toast.info("OTP sent to your email. Please check your inbox.");
       } else {
         // Direct login (no OTP required)
         console.log('Login successful! Data received:', data);
@@ -300,22 +309,28 @@ export default function LoginForm({ closeModal }) {
     // Clear failed attempts
     handleSuccessfulLogin();
     
-    // Login the user
-    login(otpData.user, otpData.token);
+    // Login the user (if not already logged in by useVerifyOTP hook)
+    if (otpData?.user && otpData?.token) {
+      login(otpData.user, otpData.token);
+    }
     
     // Close OTP modal
     setShowOTPModal(false);
+    setOtpData(null);
     
     // Close login modal if provided
     if (closeModal) closeModal();
     
     // Navigate based on user type
-    if (otpData.user.username === 'admin_aadarsha') {
+    const userRole = otpData?.user?.role;
+    const username = otpData?.user?.username;
+    
+    if (userRole === 'admin' || username === 'admin_aadarsha') {
       console.log('Admin user detected! Navigating to admin page...');
-      navigate('/admin/adminpage');
+      setTimeout(() => navigate('/admin/adminpage'), 100);
     } else {
       console.log('Regular user detected! Navigating to dashboard...');
-      navigate('/dashboard');
+      setTimeout(() => navigate('/dashboard'), 100);
     }
   };
 
@@ -425,6 +440,9 @@ export default function LoginForm({ closeModal }) {
         <OTPVerification
           userId={otpData.userId}
           email={otpData.email}
+          otp={otpData.otp || null}
+          previewUrl={otpData.previewUrl || null}
+          emailProvider={otpData.emailProvider || 'gmail'}
           onClose={() => {
             setShowOTPModal(false);
             setOtpData(null);

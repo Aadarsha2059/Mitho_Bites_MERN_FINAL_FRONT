@@ -291,6 +291,14 @@ const AdminPage = () => {
             Manage Users
           </button>
           <button
+            className={window.location.pathname.includes('place-order') ? 'active' : ''}
+            onClick={() => {
+              navigate('/admin/place-order');
+            }}
+          >
+            📦 Place Order
+          </button>
+          <button
             className={activeTab === 'settings' ? 'active' : ''}
             onClick={handleSettingsNavigate}
           >
