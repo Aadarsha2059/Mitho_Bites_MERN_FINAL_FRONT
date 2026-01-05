@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import momo from '../../assets/images/momo.png';
+import axios from '../../api/api';
 import './ProductTable.css';
 
 const ProductTable = ({ onEdit, onDelete, onAdd }) => {
@@ -9,63 +10,166 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
 
   useEffect(() => {
     fetchProducts();
+    
+    // Listen for product deletion events to refresh the list
+    const handleProductDeleted = () => {
+      fetchProducts();
+    };
+    
+    window.addEventListener('productDeleted', handleProductDeleted);
+    
+    return () => {
+      window.removeEventListener('productDeleted', handleProductDeleted);
+    };
   }, []);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      setError(null);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5050/api/admin/product', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
       
-      if (data.success) {
-        console.log('Fetched products for admin table:', data.data);
-        setProducts(data.data);
-      } else {
-        setError(data.message || 'Failed to fetch products');
+      if (!token) {
+        setError('Authentication required. Please login again.');
+        setLoading(false);
+        return;
+      }
+      
+      console.log('🔍 Fetching products from API...');
+      console.log('📍 URL: /admin/product');
+      console.log('🎫 Token present:', !!token);
+      
+      // Try using axios first (has better error handling and timeout)
+      try {
+        const response = await axios.get('/admin/product', {
+          timeout: 15000, // 15 second timeout
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        console.log('✅ Response received. Status:', response.status);
+        console.log('✅ Response data:', response.data);
+        
+        const data = response.data;
+        console.log('✅ Products data received:', data);
+        console.log('✅ Data success:', data.success);
+        console.log('✅ Data data type:', Array.isArray(data.data) ? 'Array' : typeof data.data);
+        console.log('✅ Data data length:', Array.isArray(data.data) ? data.data.length : 'N/A');
+        
+        if (data.success) {
+          const productsList = Array.isArray(data.data) ? data.data : [];
+          console.log('✅ Setting products:', productsList.length, 'products');
+          
+          if (productsList.length > 0) {
+            console.log('✅ First product sample:', productsList[0]);
+          }
+          
+          setProducts(productsList);
+        } else {
+          console.error('❌ API returned error:', data.message);
+          setError(data.message || 'Failed to fetch products');
+          setProducts([]);
+        }
+      } catch (axiosError) {
+        console.error('❌ Axios error:', axiosError);
+        
+        // Fallback to fetch if axios fails
+        if (axiosError.code === 'ECONNABORTED') {
+          throw new Error('Request timeout. The server took too long to respond. Please check if the backend is running.');
+        }
+        
+        if (axiosError.response) {
+          // Server responded with error status
+          const errorData = axiosError.response.data;
+          throw new Error(errorData.message || `Server error: ${axiosError.response.status}`);
+        } else if (axiosError.request) {
+          // Request was made but no response received
+          throw new Error('No response from server. Please check if the backend server is running on http://localhost:5050');
+        } else {
+          throw new Error(axiosError.message || 'Network error');
+        }
       }
     } catch (error) {
-      console.error('Error fetching products:', error);
-      setError('Error fetching products');
+      console.error('❌ Error fetching products:', error);
+      console.error('❌ Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+      setError('Error fetching products: ' + (error.message || 'Network error. Please check if the backend server is running.'));
+      setProducts([]);
     } finally {
       setLoading(false);
+      console.log('✅ Loading set to false');
     }
   };
 
   if (loading) {
-    return <div className="loading">Loading products...</div>;
+    return (
+      <div className="loading" style={{ padding: '20px', textAlign: 'center' }}>
+        <div>Loading products...</div>
+        <div style={{ marginTop: '10px', fontSize: '0.9rem', color: '#666' }}>
+          Please wait while we fetch the product list.
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return (
+      <div className="error" style={{ padding: '20px', textAlign: 'center' }}>
+        <div style={{ color: '#d32f2f', marginBottom: '10px' }}>Error: {error}</div>
+        <button 
+          onClick={() => fetchProducts()}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
+
+  // Filter products and handle empty state
+  const filteredProducts = products.filter(product => 
+    product && product.categoryName !== 'Thakali Khana items'
+  );
 
   return (
     <div className="product-table-container">
       <h3 className="table-title">Product Table</h3>
 
-      <table className="product-table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Restaurant</th>
-            <th>Type</th>
-            <th>Available</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products
-            .filter(product => product.categoryName !== 'Thakali Khana items')
-            .map((product) => {
+      {filteredProducts.length === 0 && products.length === 0 ? (
+        <div className="no-data" style={{ padding: '40px', textAlign: 'center' }}>
+          <p style={{ fontSize: '1.1rem', color: '#666' }}>No products found</p>
+          <p style={{ fontSize: '0.9rem', color: '#999', marginTop: '10px' }}>
+            Add a new product to get started.
+          </p>
+        </div>
+      ) : (
+        <table className="product-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Restaurant</th>
+              <th>Type</th>
+              <th>Available</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProducts.map((product) => {
               return (
                 <tr key={product._id} className="product-row">
                   <td>
@@ -114,13 +218,8 @@ const ProductTable = ({ onEdit, onDelete, onAdd }) => {
                 </tr>
               );
             })}
-        </tbody>
-      </table>
-
-      {products.length === 0 && (
-        <div className="no-data">
-          <p>No products found</p>
-        </div>
+          </tbody>
+        </table>
       )}
     </div>
   );

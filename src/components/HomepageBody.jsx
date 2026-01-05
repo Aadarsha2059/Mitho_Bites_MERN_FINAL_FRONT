@@ -23,27 +23,39 @@ const featuredDishes = [
 // Fallback testimonials if API fails
 const fallbackTestimonials = [
   {
-    name: 'Aadarsha Babu',
-    image: testimonial1,
-    text: 'BhokBhoj brings authentic Nepali taste to my home. The service is fast and the food is always fresh!',
+    name: 'Chirayu Baij',
+    image: testimonial4,
+    text: 'Delicious food, beautiful presentation, and timely delivery. Will order again! The quality is amazing and the service is top-notch.',
     rating: 5,
   },
   {
     name: 'Suraj Tamang',
     image: testimonial2,
-    text: 'Absolutely love the momo and sel roti! Highly recommended for foodies.',
+    text: 'Absolutely love the momo and sel roti! Highly recommended for foodies. The authentic Nepali taste reminds me of home.',
     rating: 5,
   },
   {
-    name: 'Rahul Khatri',
-    image: testimonial3,
-    text: 'The best food delivery experience I have had in Kathmandu. Great variety and quality.',
-    rating: 4,
+    name: 'Bishnu Budhathoki',
+    image: testimonial1,
+    text: 'BhokBhoj brings authentic Nepali taste to my home. The service is fast and the food is always fresh! Best food delivery in Kathmandu.',
+    rating: 5,
   },
   {
     name: 'Chirayu Baij',
     image: testimonial4,
-    text: 'Delicious food, beautiful presentation, and timely delivery. Will order again!',
+    text: 'The Thakali set was incredible! Perfectly spiced and authentic. The delivery was quick and the packaging was excellent. Highly satisfied!',
+    rating: 5,
+  },
+  {
+    name: 'Suraj Tamang',
+    image: testimonial2,
+    text: 'Ordered chicken momo and it exceeded my expectations. Juicy, flavorful, and the achar was perfect. Will definitely order more!',
+    rating: 5,
+  },
+  {
+    name: 'Bishnu Budhathoki',
+    image: testimonial1,
+    text: 'Great variety of Nepali and Indian dishes. The prices are reasonable and the food quality is outstanding. My go-to food delivery app now!',
     rating: 5,
   },
 ];
@@ -51,8 +63,13 @@ const fallbackTestimonials = [
 export default function HomepageBody() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [search, setSearch] = useState('');
+  // ✅ Initialize with static testimonials immediately
   const [testimonials, setTestimonials] = useState(fallbackTestimonials);
-  const [loadingFeedbacks, setLoadingFeedbacks] = useState(true);
+  const [loadingFeedbacks, setLoadingFeedbacks] = useState(false); // Start as false since we have static data
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  
+  console.log('HomepageBody rendered with testimonials:', testimonials.length, testimonials);
 
   // ✅ Fetch real feedbacks from API
   useEffect(() => {
@@ -62,37 +79,96 @@ export default function HomepageBody() {
         const response = await fetch(`${apiUrl}/api/feedbacks`);
         const data = await response.json();
         
+        console.log('Feedbacks API response:', data);
+        
         if (data.success && data.data && data.data.length > 0) {
-          // Transform feedbacks to testimonials format
-          const transformedFeedbacks = data.data.slice(0, 8).map((feedback, index) => {
-            const userName = feedback.userId?.username || feedback.userId?.name || feedback.userId?.email?.split('@')[0] || 'Customer';
-            const userImage = feedback.userId?.image || [testimonial1, testimonial2, testimonial3, testimonial4][index % 4];
-            
-            return {
-              name: userName,
-              image: userImage,
-              text: feedback.comment || 'Great food and service!',
-              rating: feedback.rating || 5,
-              productName: feedback.productId?.name || '',
-            };
-          });
+          // Transform feedbacks to testimonials format with validation
+          const transformedFeedbacks = data.data.slice(0, 8)
+            .map((feedback, index) => {
+              // Get user name - prioritize fullname, then username, then name, then email prefix
+              const userName = feedback.userId?.fullname || 
+                             feedback.userId?.username || 
+                             feedback.userId?.name || 
+                             (feedback.userId?.email ? feedback.userId.email.split('@')[0] : null);
+              
+              // ✅ STRICT VALIDATION: Skip if name is missing, "Customer", or too short
+              if (!userName || userName === 'Customer' || userName.trim().length < 2) {
+                console.log('❌ Skipping feedback with invalid name:', userName);
+                return null;
+              }
+              
+              // ✅ STRICT VALIDATION: Skip if comment is missing, too short, or just "best"
+              const comment = feedback.comment?.trim() || '';
+              if (!comment || comment.length < 5 || comment.toLowerCase() === 'best' || comment.toLowerCase() === 'good' || comment.toLowerCase() === 'nice') {
+                console.log('❌ Skipping feedback with invalid/short comment:', comment);
+                return null;
+              }
+              
+              const userImage = feedback.userId?.image || 
+                              [testimonial4, testimonial2, testimonial1][index % 3];
+              
+              console.log('Valid feedback found:', {
+                name: userName,
+                comment: comment,
+                rating: feedback.rating
+              });
+              
+              return {
+                name: userName,
+                image: userImage,
+                text: comment,
+                rating: feedback.rating || 5,
+                productName: feedback.productId?.name || '',
+              };
+            })
+            .filter(feedback => feedback !== null); // Remove invalid entries
           
-          // Use real feedbacks if available, otherwise use fallback
-          if (transformedFeedbacks.length > 0) {
-            setTestimonials(transformedFeedbacks);
+          // ✅ Only replace static feedbacks if we have at least 3 valid real feedbacks with proper names and comments
+          const validFeedbacks = transformedFeedbacks.filter(fb => 
+            fb && 
+            fb.name && 
+            fb.name !== 'Customer' && 
+            fb.name.trim().length >= 2 &&
+            fb.text && 
+            fb.text.trim().length >= 10 &&
+            fb.text.toLowerCase() !== 'best'
+          );
+          
+          if (validFeedbacks.length >= 3) {
+            console.log('✅ Replacing static feedbacks with', validFeedbacks.length, 'valid real feedbacks');
+            setTestimonials(validFeedbacks);
+          } else {
+            console.log('⚠️ Not enough valid feedbacks found (' + validFeedbacks.length + '), keeping static testimonials');
+            console.log('📋 Static testimonials:', fallbackTestimonials.map(t => t.name));
+            setTestimonials(fallbackTestimonials);
           }
+        } else {
+          // Keep fallback testimonials if no real feedbacks
+          console.log('No real feedbacks found, using static testimonials');
+          setTestimonials(fallbackTestimonials);
         }
       } catch (error) {
         console.error('Error fetching feedbacks:', error);
         // Keep fallback testimonials on error
+        setTestimonials(fallbackTestimonials);
       } finally {
         setLoadingFeedbacks(false);
       }
     };
 
+    // Start with static testimonials immediately
+    setTestimonials(fallbackTestimonials);
+    
+    // Then try to fetch real feedbacks
+    // Start with static testimonials immediately (don't wait for API)
+    setTestimonials(fallbackTestimonials);
+    setLoadingFeedbacks(false);
+    
+    // Then try to fetch real feedbacks in background
     fetchFeedbacks();
   }, []);
 
+  // Auto-rotate testimonials
   useEffect(() => {
     if (testimonials.length > 0) {
       const interval = setInterval(() => {
@@ -101,6 +177,35 @@ export default function HomepageBody() {
       return () => clearInterval(interval);
     }
   }, [testimonials]);
+
+  // Swipe handlers for left to right swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && testimonials.length > 0) {
+      // Swipe left - go to next (right direction)
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }
+    if (isRightSwipe && testimonials.length > 0) {
+      // Swipe right - go to previous (left direction)
+      setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    }
+  };
 
   return (
     <div className="bhokbhoj-homepage">
@@ -265,38 +370,71 @@ export default function HomepageBody() {
           <p>Real reviews from real food lovers</p>
         </div>
 
-        <div className="testimonials-slider-modern">
-          <div className="testimonial-track-modern" style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}>
-            {testimonials.map((testimonial, idx) => (
-              <div className="testimonial-slide-modern" key={idx}>
-                <div className="testimonial-card-modern">
-                  <div className="testimonial-rating">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <FaStar key={i} className="star-icon" />
-                    ))}
-                  </div>
-                  <p className="testimonial-text-modern">"{testimonial.text}"</p>
-                  <div className="testimonial-author">
-                    <img src={testimonial.image} alt={testimonial.name} />
-                    <div>
-                      <div className="author-name">{testimonial.name}</div>
-                      <div className="author-label">Verified Customer</div>
+        {testimonials && testimonials.length > 0 ? (
+          <div 
+            className="testimonials-slider-modern"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <div 
+              className="testimonial-track-modern" 
+              style={{ 
+                transform: `translateX(-${currentTestimonial * 100}%)`,
+                transition: 'transform 0.5s ease-in-out'
+              }}
+            >
+              {testimonials.map((testimonial, idx) => {
+                console.log('Rendering testimonial slide:', idx, {
+                  name: testimonial.name,
+                  text: testimonial.text,
+                  rating: testimonial.rating,
+                  image: testimonial.image
+                });
+                return (
+                  <div className="testimonial-slide-modern" key={idx}>
+                    <div className="testimonial-card-modern">
+                      <div className="testimonial-rating">
+                        {[...Array(testimonial.rating || 5)].map((_, i) => (
+                          <FaStar key={i} className="star-icon" />
+                        ))}
+                      </div>
+                      <p className="testimonial-text-modern">"{testimonial.text || 'Great food and service!'}"</p>
+                      <div className="testimonial-author">
+                        <img 
+                          src={testimonial.image} 
+                          alt={testimonial.name || 'Customer'} 
+                          onError={(e) => {
+                            // Fallback to default testimonial images if image fails
+                            const fallbackImages = [testimonial4, testimonial2, testimonial1];
+                            e.target.src = fallbackImages[idx % 3];
+                          }}
+                        />
+                        <div>
+                          <div className="author-name">{testimonial.name || 'Customer'}</div>
+                          <div className="author-label">Verified Customer</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
+            <div className="testimonial-dots">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`dot ${idx === currentTestimonial ? 'active' : ''}`}
+                  onClick={() => setCurrentTestimonial(idx)}
+                />
+              ))}
+            </div>
           </div>
-          <div className="testimonial-dots">
-            {testimonials.map((_, idx) => (
-              <button
-                key={idx}
-                className={`dot ${idx === currentTestimonial ? 'active' : ''}`}
-                onClick={() => setCurrentTestimonial(idx)}
-              />
-            ))}
+        ) : (
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <p>Loading testimonials...</p>
           </div>
-        </div>
+        )}
       </section>
 
       {/* CTA Section */}

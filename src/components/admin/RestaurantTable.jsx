@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useAdminRestaurant, useDeleteOneRestaurant } from '../../hooks/admin/useAdminRestaurant'
 import { Link, useNavigate } from 'react-router-dom'
 import DeleteModal from '../DeleteModal'
+import { getBackendImageUrl } from '../../utils/backend-image'
 
 function Welcome(props) {
     return <h1 className="welcome-heading">{props.name}</h1>
@@ -124,14 +125,28 @@ export default function RestaurantTable() {
                             const hasImageError = imageErrors.has(restaurant._id);
                             const isImageLoaded = loadedImages.has(restaurant._id);
                             
+                            // Get image URL - try multiple possible fields
+                            const imageUrl = restaurant.image || 
+                                           getBackendImageUrl(restaurant.filepath) || 
+                                           getBackendImageUrl(restaurant.image) ||
+                                           null;
+                            
+                            console.log('Restaurant image data:', {
+                                id: restaurant._id,
+                                name: restaurant.name,
+                                image: restaurant.image,
+                                filepath: restaurant.filepath,
+                                imageUrl: imageUrl
+                            });
+                            
                             return (
                                 <tr key={restaurant._id} className="restaurant-row">
                                     <td>{restaurant.name}</td>
                                     <td>
-                                        {restaurant.image && !hasImageError ? (
+                                        {imageUrl && !hasImageError ? (
                                             <img
                                                 className="restaurant-image"
-                                                src={restaurant.image}
+                                                src={imageUrl}
                                                 alt={restaurant.name}
                                                 onLoad={() => handleImageLoad(restaurant._id)}
                                                 onError={() => handleImageError(restaurant._id)}

@@ -274,10 +274,16 @@ const Dashboard = () => {
     </div>
   );
   else if (view === 'party-places') SectionComponent = <PartyPlacesSection />;
-  else if (view === 'restaurants') SectionComponent = (
-    <RestaurantsSection onRestaurantClick={handleRestaurantClick} />
-  );
-  else if (view === 'orders') SectionComponent = <OrdersSection />;
+  else if (view === 'restaurants') {
+    console.log('Rendering RestaurantsSection');
+    SectionComponent = (
+      <RestaurantsSection onRestaurantClick={handleRestaurantClick} />
+    );
+  }
+  else if (view === 'orders') {
+    console.log('Rendering OrdersSection');
+    SectionComponent = <OrdersSection />;
+  }
   else if (view === 'more') SectionComponent = <MoreOptionsSection onBack={() => handleBack('dashboard')} />;
   else if (view === 'khana') SectionComponent = (
     <div>

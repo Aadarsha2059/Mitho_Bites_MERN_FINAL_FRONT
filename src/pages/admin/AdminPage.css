@@ -6,7 +6,7 @@
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 100%);
+  background: #ffffff;
   color: #1a1a1a;
 }
 
@@ -33,7 +33,7 @@
 .admin-body {
   flex: 1;
   display: flex;
-  background: #F5F7FA;
+  background: #ffffff;
   min-height: calc(100vh - 100px);
 }
 

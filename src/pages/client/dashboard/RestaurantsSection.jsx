@@ -160,18 +160,54 @@ const sampleRestaurants = [
 ];
 
 const RestaurantsSection = ({ onRestaurantClick }) => {
-  console.log('RestaurantsSection rendered');
+  console.log('=== RestaurantsSection RENDERED ===');
   
   // ✅ FIXED: Use public restaurants hook instead of admin hook
   const { data, isLoading, error } = useRestaurants();
   
   // Extract restaurants from API response
-  const restaurants = data?.data || [];
+  let restaurants = [];
+  if (data) {
+    if (data.success && data.data) {
+      restaurants = Array.isArray(data.data) ? data.data : [];
+    } else if (Array.isArray(data)) {
+      restaurants = data;
+    } else if (data.data && Array.isArray(data.data)) {
+      restaurants = data.data;
+    }
+  }
   
-  console.log('Restaurants hook data:', { restaurants, isLoading, error, data });
+  console.log('Restaurants hook data:', { 
+    restaurants, 
+    restaurantsCount: restaurants.length,
+    isLoading, 
+    error, 
+    data,
+    hasData: !!data,
+    dataSuccess: data?.success,
+    dataData: data?.data
+  });
+  
+  // Normalize restaurants to ensure they have all required fields
+  const normalizedRestaurants = Array.isArray(restaurants) && restaurants.length > 0 
+    ? restaurants.map(rest => ({
+        _id: rest._id,
+        name: rest.name || 'Unknown Restaurant',
+        location: rest.location || 'Location not specified',
+        contact: rest.contact || 'Contact not available',
+        description: rest.description || 'No description available',
+        rating: rest.rating || 4.5,
+        status: rest.status || 'Open',
+        image: rest.image || rest.filepath || null
+      }))
+    : [];
   
   // Use backend data if available, otherwise use sample data for demonstration
-  const displayRestaurants = restaurants && restaurants.length > 0 ? restaurants : sampleRestaurants;
+  // Always show sample data if API fails or returns empty
+  const displayRestaurants = (normalizedRestaurants && normalizedRestaurants.length > 0) ? normalizedRestaurants : sampleRestaurants;
+  
+  console.log('Normalized restaurants:', normalizedRestaurants.length);
+  console.log('Display restaurants:', displayRestaurants.length);
   
   const handleRestaurantClick = (restaurant) => {
     if (onRestaurantClick) {
@@ -191,24 +227,17 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
     );
   }
 
-  // Show error state
+  // Log error but continue to show sample data
   if (error) {
     console.error('Restaurants error:', error);
-    return (
-      <section className="section">
-        <h2 className="section-title glow-text">Popular Restaurants</h2>
-        <div className="error-container">
-          <p>Error loading restaurants. Please try again later.</p>
-          <p>Error: {error.message}</p>
-        </div>
-      </section>
-    );
+    console.log('Showing sample restaurants due to error');
   }
 
-  console.log('Display restaurants:', displayRestaurants);
-  console.log('Number of restaurants:', displayRestaurants.length);
-  console.log('Grid layout: 4 restaurants per row on large screens, responsive breakpoints applied');
+  console.log('About to render restaurants grid. Display count:', displayRestaurants.length);
+  console.log('First restaurant:', displayRestaurants[0]);
 
+  // Always show restaurants (sample data if API fails)
+  // Only show empty state if we have no restaurants at all (should never happen due to sample data)
   if (displayRestaurants.length === 0) {
     return (
       <section className="section">
@@ -222,10 +251,36 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
     );
   }
 
+  console.log('Rendering restaurants grid with', displayRestaurants.length, 'restaurants');
+  
   return (
     <section className="section">
       <h2 className="section-title glow-text">Popular Restaurants</h2>
       <p className="section-subtitle">Discover amazing restaurants near you</p>
+      {error && (
+        <div style={{ 
+          background: '#fff3cd', 
+          border: '1px solid #ffc107', 
+          padding: '10px', 
+          borderRadius: '5px', 
+          marginBottom: '20px',
+          color: '#856404'
+        }}>
+          <strong>Note:</strong> Showing sample restaurants. API Error: {error.message || 'Failed to load restaurants'}
+        </div>
+      )}
+      {!error && restaurants.length === 0 && !isLoading && (
+        <div style={{ 
+          background: '#d1ecf1', 
+          border: '1px solid #bee5eb', 
+          padding: '10px', 
+          borderRadius: '5px', 
+          marginBottom: '20px',
+          color: '#0c5460'
+        }}>
+          <strong>Note:</strong> No restaurants in database. Showing sample restaurants for demonstration.
+        </div>
+      )}
       <div className="restaurants-grid">
         {displayRestaurants.map((restaurant) => (
           <div

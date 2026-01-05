@@ -17,6 +17,9 @@ const muchLovedDishes = [
   { id: 1, name: "Spicy Momo", image: loved1, price: 130, type: "Nepali", restaurant: "Momo House" },
   { id: 2, name: "Paneer Chowmein", image: loved2, price: 140, type: "Indian", restaurant: "Chowmein Express" },
   { id: 3, name: "Sel Roti", image: loved3, price: 60, type: "Nepali", restaurant: "Nepali Snacks" },
+  { id: 4, name: "Thakali Set", image: thakali, price: 250, type: "Nepali", restaurant: "Thakali Kitchen" },
+  { id: 5, name: "Chicken Momo", image: momo, price: 150, type: "Nepali", restaurant: "Momo House" },
+  { id: 6, name: "Veg Chowmein", image: chowmein, price: 120, type: "Indian", restaurant: "Chowmein Express" },
 ];
 
 const popularRestaurants = [

@@ -20,6 +20,11 @@ export default function ProductManagement() {
   const confirmDelete = async () => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Authentication required. Please login again.');
+        return;
+      }
+      
       const response = await fetch(`http://localhost:5050/api/admin/product/${deleteId}`, {
         method: 'DELETE',
         headers: {
@@ -27,19 +32,31 @@ export default function ProductManagement() {
         }
       });
       
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Network error' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       
       if (data.success) {
-        toast.success('Product deleted!');
+        toast.success('Product deleted successfully!');
         setDeleteId(null);
-        // Refresh the page to update the product list
-        window.location.reload();
+        // Trigger a refresh of the product list instead of full page reload
+        // This is faster and preserves scroll position
+        window.dispatchEvent(new Event('productDeleted'));
+        // Small delay to ensure toast is visible, then refresh
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } else {
         toast.error(data.message || 'Failed to delete product');
+        setDeleteId(null);
       }
     } catch (error) {
       console.error('Error deleting product:', error);
-      toast.error('Error deleting product');
+      toast.error('Error deleting product: ' + (error.message || 'Network error'));
+      setDeleteId(null);
     }
   };
 

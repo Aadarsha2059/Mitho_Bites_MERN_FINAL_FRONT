@@ -50,13 +50,37 @@ function PaymentMethod({ onClose }) {
       // Map payment type to backend enum
       const paymentMethod = paymentType === 'online' ? 'online' : 'cash';
       
-      // Prepare order data for backend - backend will use user's profile address
+      // Prepare comprehensive order data for backend - includes all payment details for Burp Suite
       const orderData = {
         deliveryInstructions: "",
-        paymentMethod
+        paymentMethod: paymentMethod,
+        paymentService: paymentType === 'online' ? onlineService : null, // Include payment service (esewa/khalti)
+        // Include cart details for Burp Suite visibility
+        cartDetails: {
+          totalItems: totalItems,
+          totalQuantity: totalItems,
+          totalPrice: cartTotal,
+          items: cart.map(item => {
+            const product = item.productId || item;
+            return {
+              productId: product._id || item.productId,
+              productName: product.name || 'Unknown Product',
+              quantity: item.quantity || 1,
+              unitPrice: item.price || product.price || 0,
+              itemSubtotal: (item.quantity || 1) * (item.price || product.price || 0)
+            };
+          })
+        }
       };
 
-      console.log('Sending order data:', orderData);
+      console.log('=== PAYMENT REQUEST DATA (BURP SUITE) ===');
+      console.log('Payment Type:', paymentType);
+      console.log('Payment Method:', paymentMethod);
+      console.log('Payment Service:', paymentType === 'online' ? onlineService : 'N/A');
+      console.log('Cart Total:', cartTotal);
+      console.log('Total Items:', totalItems);
+      console.log('Order Data:', JSON.stringify(orderData, null, 2));
+      console.log('==========================================');
 
       // Call backend API to create order
       const response = await createOrderMutation.mutateAsync(orderData);

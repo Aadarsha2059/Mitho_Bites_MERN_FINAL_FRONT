@@ -131,12 +131,17 @@ export default function CategoryTable() {
                         categories
                           .filter(row => row.name !== 'Thakali Khana items')
                           .map((row) => {
-                            const imageUrl = getBackendImageUrl(row.filepath);
+                            // Get image URL - try multiple possible fields
+                            const imageUrl = row.image || 
+                                           getBackendImageUrl(row.filepath) || 
+                                           getBackendImageUrl(row.image) ||
+                                           null;
                             const hasImageError = imageErrors.has(row._id);
                             const isImageLoaded = loadedImages.has(row._id);
                             
                             console.log(`Rendering category ${row.name}:`, {
                                 filepath: row.filepath,
+                                image: row.image,
                                 imageUrl: imageUrl,
                                 hasError: hasImageError,
                                 isLoaded: isImageLoaded
@@ -146,15 +151,16 @@ export default function CategoryTable() {
                                 <tr key={row._id} className="category-row">
                                     <td>{row.name}</td>
                                     <td>
-                                        {hasImageError ? (
-                                            <ImagePlaceholder name={row.name} />
-                                        ) : (
-                                            <TestImage
+                                        {imageUrl && !hasImageError ? (
+                                            <img
+                                                className="category-image"
                                                 src={imageUrl}
                                                 alt={row.name}
-                                                onSuccess={() => handleImageLoad(row._id, row.name, imageUrl)}
+                                                onLoad={() => handleImageLoad(row._id, row.name, imageUrl)}
                                                 onError={() => handleImageError(row._id, row.name, imageUrl)}
                                             />
+                                        ) : (
+                                            <ImagePlaceholder name={row.name} />
                                         )}
                                     </td>
                                     <td className="actions-cell">

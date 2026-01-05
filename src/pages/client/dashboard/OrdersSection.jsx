@@ -29,17 +29,66 @@ const OrdersSection = ({ onGiveFeedback }) => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
+      console.log('=== FETCHING ORDERS ===');
       // ✅ FIXED: Use axios instance with proper error handling
       const response = await api.get('/orders');
-      if (response.data.success) {
-        setOrders(response.data.data);
+      console.log('Orders API response:', response);
+      console.log('Orders API response data:', response.data);
+      console.log('Orders API response status:', response.status);
+      
+      if (response.data && response.data.success) {
+        const ordersData = response.data.data || [];
+        console.log('Orders data received:', ordersData.length, 'orders');
+        console.log('Orders data sample:', ordersData[0]);
+        // Ensure orders have the correct structure
+        const formattedOrders = Array.isArray(ordersData) ? ordersData.map(order => {
+          // Ensure order has all required fields
+          const formattedOrder = {
+            ...order,
+            _id: order._id || `order-${Date.now()}-${Math.random()}`,
+            orderStatus: order.orderStatus || order.status || 'pending',
+            items: order.items || order.products || [],
+            totalAmount: order.totalAmount || order.total || 0,
+            createdAt: order.createdAt || order.orderDate || new Date(),
+            deliveryAddress: order.deliveryAddress || { street: 'Address not specified' }
+          };
+          
+          // Ensure items have required structure
+          if (formattedOrder.items && Array.isArray(formattedOrder.items)) {
+            formattedOrder.items = formattedOrder.items.map(item => ({
+              ...item,
+              productId: item.productId || {},
+              quantity: item.quantity || 1,
+              price: item.price || 0,
+              productName: item.productName || item.productId?.name || 'Unknown Product',
+              categoryName: item.categoryName || item.productId?.categoryId?.name || 'Unknown Category',
+              restaurantName: item.restaurantName || item.productId?.restaurantId?.name || 'Unknown Restaurant',
+              restaurantLocation: item.restaurantLocation || item.productId?.restaurantId?.location || 'Location not available'
+            }));
+          }
+          
+          return formattedOrder;
+        }) : [];
+        setOrders(formattedOrders);
+      } else if (response.data && Array.isArray(response.data)) {
+        // Handle case where API returns array directly
+        console.log('Orders data received as array:', response.data.length, 'orders');
+        setOrders(response.data);
+      } else {
+        console.warn('Orders response format unexpected:', response.data);
+        setOrders([]);
       }
     } catch (error) {
       console.error('Error fetching orders:', error);
+      console.error('Error response:', error.response?.data);
+      setOrders([]);
+      
       if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
         showToast('Cannot connect to server. Please ensure backend is running on port 5050.', 'error');
+      } else if (error.response?.status === 401) {
+        showToast('Please login to view your orders.', 'error');
       } else {
-        showToast('Error loading orders: ' + (error.response?.data?.message || error.message), 'error');
+        showToast('Error loading orders: ' + (error.response?.data?.message || error.message || 'Unknown error'), 'error');
       }
     } finally {
       setLoading(false);
@@ -189,6 +238,10 @@ const OrdersSection = ({ onGiveFeedback }) => {
     );
   }
 
+  console.log('=== RENDERING ORDERS SECTION ===');
+  console.log('Orders count:', orders.length);
+  console.log('Loading:', loading);
+  
   return (
     <div className="orders-section">
       <h2 className="section-title">Order History</h2>
@@ -196,9 +249,17 @@ const OrdersSection = ({ onGiveFeedback }) => {
       {showCongrats && (
         <BoomCongratulations onClose={handleCongratsClose} />
       )}
-      {orders.length === 0 ? (
-        <div className="no-orders">
-          <p>No orders found</p>
+      {!loading && orders.length === 0 ? (
+        <div className="no-orders" style={{ 
+          textAlign: 'center', 
+          padding: '60px 20px',
+          color: '#666'
+        }}>
+          <FaHistory style={{ fontSize: '4rem', marginBottom: '20px', opacity: 0.5 }} />
+          <p style={{ fontSize: '1.2rem', marginBottom: '10px' }}>No orders found</p>
+          <p style={{ fontSize: '0.9rem', color: '#999' }}>
+            Your order history will appear here once you place an order.
+          </p>
         </div>
       ) : (
         <div className="orders-grid">

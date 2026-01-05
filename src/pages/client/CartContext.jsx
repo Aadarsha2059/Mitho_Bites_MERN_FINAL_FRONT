@@ -98,10 +98,12 @@ export function CartProvider({ children }) {
   });
 
   const addToCart = (product) => {
+    // ✅ FIX: Don't send price - backend will get it from database to prevent manipulation
+    // Price validation should only trigger when user modifies price in Burp Suite, not during normal add to cart
     const cartItem = {
       productId: product._id,
-      quantity: 1,
-      price: product.price
+      quantity: 1
+      // Price is intentionally omitted - backend will fetch from product database
     };
 
     addToCartMutation.mutate(cartItem);

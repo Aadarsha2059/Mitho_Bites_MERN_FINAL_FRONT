@@ -18,11 +18,6 @@ import { useAdminCategory } from '../../hooks/admin/useAdminCategory';
 import { useCreateProduct } from '../../hooks/admin/useAdminProduct';
 import { useAdminRestaurant } from '../../hooks/admin/useAdminRestaurant';
 import { toast } from 'react-toastify';
-import adminFood from '../../assets/admin/adminfood.png';
-import momo from '../../assets/images/momo.png';
-import selRoti from '../../assets/images/sel_roti.png';
-import yomari from '../../assets/images/yomari.png';
-import featured1 from '../../assets/images/featured/featured1.png';
 import adminAvatar from '../../assets/admin/adminfood.png'; // Use as avatar for now
 import BusinessRiseFlows from './BusinessRiseFlows';
 
@@ -179,17 +174,6 @@ const AdminPage = () => {
     navigate('/admin/adminsettings');
   };
 
-  // Map each tab to a background image
-  const tabBackgrounds = {
-    addProduct: adminFood,
-    addRestaurant: momo,
-    categories: selRoti,
-    manageAccounts: yomari,
-    settings: featured1,
-    logout: adminFood,
-  };
-  const bgImage = tabBackgrounds[activeTab] || adminFood;
-
   // Make search box functional: call handleFetchProducts with searchTerm
   const handleSearch = (e) => {
     e.preventDefault();
@@ -197,8 +181,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="admin-container" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.55), rgba(255,245,240,0.55)), url(${bgImage})` }}>
-      <div className="admin-bg-overlay" />
+    <div className="admin-container">
       {showRestaurantDialog && (
         <div className="admin-dialog">
           <div className="admin-dialog-content">

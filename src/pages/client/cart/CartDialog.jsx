@@ -4,8 +4,10 @@ import { getBackendImageUrl } from '../../../utils/backend-image';
 import './Cart.css';
 
 const CartDialog = ({ onClose, onProceedPayment }) => {
-  const { cart, removeFromCart, clearCart, getCartTotal, updateQuantity } = useCart();
+  const { cart, removeFromCart, clearCart, getCartTotal, updateQuantity, cartLoading } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [updatingItems, setUpdatingItems] = useState(new Set());
+  const [isClearingCart, setIsClearingCart] = useState(false);
 
   const subtotal = getCartTotal();
   const deliveryFee = subtotal > 500 ? 0 : 49;
@@ -21,8 +23,27 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
   };
 
   const handleQuantity = (productId, qty) => {
-    if (qty < 1) removeFromCart(productId);
-    else if (updateQuantity) updateQuantity(productId, qty);
+    if (qty < 1) {
+      removeFromCart(productId);
+      return;
+    }
+    
+    // Add loading state for this specific item
+    setUpdatingItems(prev => new Set(prev).add(productId));
+    
+    // Update quantity - the mutation will handle success/error
+    if (updateQuantity) {
+      updateQuantity(productId, qty);
+    }
+    
+    // Remove loading state after a short delay for better UX
+    setTimeout(() => {
+      setUpdatingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(productId);
+        return newSet;
+      });
+    }, 500);
   };
 
   if (cart.length === 0) {
@@ -40,7 +61,49 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
     <div className="cart-wrapper expanded-cart-modal">
       <button className="modal-close-btn" onClick={onClose}>×</button>
       <div className="cart-items-container expanded-cart-items">
-        <h2>Your Order ({cart.length} items)</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h2 style={{ margin: 0 }}>Your Order ({cart.length} items)</h2>
+          <button
+            onClick={() => {
+              if (window.confirm('Are you sure you want to clear all items from your cart?')) {
+                setIsClearingCart(true);
+                clearCart();
+                // Reset clearing state after a delay
+                setTimeout(() => setIsClearingCart(false), 1000);
+              }
+            }}
+            disabled={isClearingCart || cartLoading}
+            className="clear-cart-btn"
+            style={{
+              background: (isClearingCart || cartLoading) ? '#ccc' : '#ff4444',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '8px',
+              cursor: (isClearingCart || cartLoading) ? 'not-allowed' : 'pointer',
+              fontWeight: 600,
+              fontSize: '0.95rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'background 0.3s ease',
+              opacity: (isClearingCart || cartLoading) ? 0.7 : 1
+            }}
+            onMouseEnter={(e) => {
+              if (!e.target.disabled) {
+                e.target.style.background = '#cc0000';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!e.target.disabled) {
+                e.target.style.background = '#ff4444';
+              }
+            }}
+            title="Remove all items from cart"
+          >
+            {isClearingCart ? '⏳ Clearing...' : '🗑️ Clear Cart'}
+          </button>
+        </div>
         {cart.map(item => {
           // Handle both backend cart structure and local cart structure
           // Backend returns: { _id, productId: { populated product }, quantity, price }
@@ -87,10 +150,90 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
                 </div>
               </div>
               <div className="item-controls">
-                <div className="quantity-controls">
-                  <button onClick={() => handleQuantity(productIdForOps, productQuantity - 1)}>-</button>
-                  <span>{productQuantity}</span>
-                  <button onClick={() => handleQuantity(productIdForOps, productQuantity + 1)}>+</button>
+                <div className="quantity-controls" style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  background: 'white'
+                }}>
+                  <button 
+                    onClick={() => handleQuantity(productIdForOps, productQuantity - 1)}
+                    disabled={isProcessing || updatingItems.has(productIdForOps) || cartLoading}
+                    style={{
+                      background: updatingItems.has(productIdForOps) ? '#ccc' : '#008B8B',
+                      border: 'none',
+                      color: 'white',
+                      width: '36px',
+                      height: '36px',
+                      fontWeight: 700,
+                      fontSize: '1.3rem',
+                      lineHeight: 1,
+                      cursor: (isProcessing || updatingItems.has(productIdForOps) || cartLoading) ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.2s ease',
+                      borderRadius: '6px 0 0 6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.target.disabled) {
+                        e.target.style.background = '#006666';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!e.target.disabled && !updatingItems.has(productIdForOps)) {
+                        e.target.style.background = '#008B8B';
+                      }
+                    }}
+                    title="Decrease quantity"
+                  >
+                    {updatingItems.has(productIdForOps) ? '⏳' : '−'}
+                  </button>
+                  <span style={{
+                    display: 'inline-block',
+                    minWidth: '45px',
+                    textAlign: 'center',
+                    fontWeight: 700,
+                    fontSize: '1.15rem',
+                    color: '#333',
+                    padding: '0 12px',
+                    background: '#f8f8f8'
+                  }}>{productQuantity}</span>
+                  <button 
+                    onClick={() => handleQuantity(productIdForOps, productQuantity + 1)}
+                    disabled={isProcessing || updatingItems.has(productIdForOps) || cartLoading}
+                    style={{
+                      background: updatingItems.has(productIdForOps) ? '#ccc' : '#008B8B',
+                      border: 'none',
+                      color: 'white',
+                      width: '36px',
+                      height: '36px',
+                      fontWeight: 700,
+                      fontSize: '1.3rem',
+                      lineHeight: 1,
+                      cursor: (isProcessing || updatingItems.has(productIdForOps) || cartLoading) ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.2s ease',
+                      borderRadius: '0 6px 6px 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!e.target.disabled) {
+                        e.target.style.background = '#006666';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!e.target.disabled && !updatingItems.has(productIdForOps)) {
+                        e.target.style.background = '#008B8B';
+                      }
+                    }}
+                    title="Increase quantity"
+                  >
+                    {updatingItems.has(productIdForOps) ? '⏳' : '+'}
+                  </button>
                 </div>
                 <div className="price-remove">
                   <span className="item-price">NRS {productPrice * productQuantity}</span>

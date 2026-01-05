@@ -27,36 +27,94 @@ const UpdateProduct = () => {
   });
 
   useEffect(() => {
-    fetchProduct();
-    fetchCategories();
-    fetchRestaurants();
+    // Fetch all data in parallel for better performance
+    const fetchAllData = async () => {
+      try {
+        // Use Promise.allSettled to ensure all promises complete even if some fail
+        await Promise.allSettled([
+          fetchProduct(),
+          fetchCategories(),
+          fetchRestaurants()
+        ]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Ensure loading is set to false even if there's an error
+        setLoading(false);
+      }
+    };
+    fetchAllData();
   }, [id]);
 
   const fetchProduct = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('Authentication required. Please login again.');
+      }
+      
+      if (!id) {
+        throw new Error('Product ID is missing');
+      }
+      
+      console.log('Fetching product with ID:', id);
+      
+      // Add timeout to prevent infinite loading
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await fetch(`http://localhost:5050/api/admin/product/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        signal: controller.signal
       });
-      const data = await response.json();
       
-      if (data.success) {
-        setProduct(data.data);
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: `HTTP error! status: ${response.status}` }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Product data received:', data);
+      
+      if (data.success && data.data) {
+        const productData = data.data;
+        setProduct(productData);
+        
+        // Handle categoryId - can be object or string
+        const categoryId = productData.categoryId?._id || productData.categoryId || '';
+        
+        // Handle restaurantId - can be object or string
+        const restaurantId = productData.restaurantId?._id || productData.restaurantId || '';
+        
         setFormData({
-          name: data.data.name,
-          price: data.data.price,
-          categoryId: data.data.categoryId._id,
-          type: data.data.type,
-          restaurantId: data.data.restaurantId._id,
+          name: productData.name || '',
+          price: productData.price || '',
+          categoryId: categoryId,
+          type: productData.type || '',
+          restaurantId: restaurantId,
+          description: productData.description || '',
+          isAvailable: productData.isAvailable !== false,
+          filepath: null
         });
       } else {
         toast.error(data.message || 'Failed to fetch product');
+        setProduct(null);
       }
     } catch (error) {
       console.error('Error fetching product:', error);
-      toast.error('Error fetching product');
+      if (error.name === 'AbortError') {
+        toast.error('Request timeout. Please try again.');
+      } else {
+        toast.error('Error fetching product: ' + (error.message || 'Network error'));
+      }
+      setProduct(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,6 +205,11 @@ const UpdateProduct = () => {
 
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Authentication required. Please login again.');
+        return;
+      }
+      
       const response = await fetch(`http://localhost:5050/api/admin/product/${id}`, {
         method: 'PUT',
         body: updateData,
@@ -154,6 +217,11 @@ const UpdateProduct = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Network error' }));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
       
       const data = await response.json();
       
@@ -163,22 +231,48 @@ const UpdateProduct = () => {
         setFormData((prev) => ({ ...prev, filepath: null }));
         setImagePreview(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
+        // Navigate immediately without waiting
         navigate('/admin/product');
       } else {
         toast.error(data.message || 'Failed to update product');
       }
     } catch (error) {
       console.error('Error updating product:', error);
-      toast.error('Error updating product');
+      toast.error('Error updating product: ' + (error.message || 'Network error'));
     }
   };
 
   if (loading) {
-    return <div className="update-product-loading">Loading product...</div>;
+    return (
+      <div className="update-product-loading">
+        <div>Loading product...</div>
+        <div style={{ marginTop: '10px', fontSize: '0.9rem', color: '#666' }}>
+          If this takes too long, please check your connection and try again.
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
-    return <div className="update-product-error">Product not found</div>;
+    return (
+      <div className="update-product-error">
+        <div>Product not found</div>
+        <button 
+          onClick={() => navigate('/admin/product')}
+          style={{ 
+            marginTop: '20px', 
+            padding: '10px 20px', 
+            backgroundColor: '#007bff', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Back to Products
+        </button>
+      </div>
+    );
   }
 
   return (
