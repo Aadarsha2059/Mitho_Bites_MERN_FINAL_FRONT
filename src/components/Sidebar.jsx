@@ -27,6 +27,8 @@ const Sidebar = ({ options = [], onNavigate, onLogout }) => {
       navigate('/admin/restaurant');
     } else if (id === 'transaction-history') {
       navigate('/admin/transaction-history');
+    } else if (id === 'activity-log') {
+      navigate('/admin/activity-log');
     } else if (id === 'business-rise-flows') {
       navigate('/admin/business-rise-flows');
     } else if (id === 'adminsettings') {

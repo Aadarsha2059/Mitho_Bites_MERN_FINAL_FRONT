@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:https": "vite --https",
+    "generate-ssl": "node -e \"require('child_process').execSync(process.platform === 'win32' ? 'generate-ssl-cert.bat' : 'bash generate-ssl-cert.sh', {stdio: 'inherit'})\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",

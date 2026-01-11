@@ -12,6 +12,23 @@ export const useVerifyOTP = () => {
     mutationKey: ['verifyOTP'],
     onSuccess: (data) => {
       console.log('OTP verification successful:', data);
+      
+      // ✅ PASSWORD EXPIRY: Check if password expired
+      if (data?.requirePasswordReset) {
+        toast.error(data.message || "Password expired. Please reset your password.");
+        // Store warning for redirect
+        if (data.message) {
+          localStorage.setItem('passwordExpiryWarning', data.message);
+        }
+        return;
+      }
+      
+      // ✅ PASSWORD EXPIRY: Store warning if password is expiring soon
+      if (data?.warning) {
+        localStorage.setItem('passwordExpiryWarning', data.warning);
+        toast.warning(data.warning);
+      }
+      
       // Login the user
       if (data?.user && data?.token) {
         login(data.user, data.token);

@@ -229,6 +229,22 @@ export default function LoginForm({ closeModal }) {
     if (data && !error) {
       console.log('Login response received:', data);
       
+      // ✅ PASSWORD EXPIRY: Check if password expired
+      if (data.requirePasswordReset) {
+        toast.error(data.message || "Password expired. Please reset your password.");
+        // Optionally redirect to password reset or change password page
+        setTimeout(() => {
+          navigate('/settings/change-password');
+        }, 2000);
+        return;
+      }
+      
+      // ✅ PASSWORD EXPIRY: Store warning if password is expiring soon
+      if (data.warning) {
+        localStorage.setItem('passwordExpiryWarning', data.warning);
+        toast.warning(data.warning);
+      }
+      
       // Check if OTP is required
       if (data.requireOTP) {
         console.log('OTP required. Showing OTP modal...');
@@ -244,7 +260,8 @@ export default function LoginForm({ closeModal }) {
           email: data.email,
           otp: null, // ✅ Don't include OTP - user must enter manually
           previewUrl: previewUrl, // Include preview URL if available
-          emailProvider: data.emailProvider || 'ethereal'
+          emailProvider: data.emailProvider || 'ethereal',
+          warning: data.warning || null // Pass warning to OTP modal
         });
         setShowOTPModal(true);
       } else {
@@ -260,8 +277,10 @@ export default function LoginForm({ closeModal }) {
         // Close modal if provided
         if (closeModal) closeModal();
         
-        // Check if user is admin based on hardcoded credentials
-        if (data.user.username === 'admin_aadarsha') {
+        // ✅ SECURED: Use server-provided role instead of hardcoded username
+        // Admin status is determined by role from database (set server-side)
+        // admin_aadarsha has role='admin' in database, backend returns role in response
+        if (data.user.role === 'admin') {
           console.log('Admin user detected! Navigating to admin page...');
           navigate('/admin/adminpage')
         } else {
@@ -321,11 +340,12 @@ export default function LoginForm({ closeModal }) {
     // Close login modal if provided
     if (closeModal) closeModal();
     
-    // Navigate based on user type
+    // ✅ SECURED: Navigate based on server-provided role
+    // Use role from server response (not hardcoded username)
+    // Admin status is determined by role='admin' from database
     const userRole = otpData?.user?.role;
-    const username = otpData?.user?.username;
     
-    if (userRole === 'admin' || username === 'admin_aadarsha') {
+    if (userRole === 'admin') {
       console.log('Admin user detected! Navigating to admin page...');
       setTimeout(() => navigate('/admin/adminpage'), 100);
     } else {

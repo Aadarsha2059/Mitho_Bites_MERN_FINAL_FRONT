@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft, FaSave, FaUpload } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import './UpdateProduct.css';
+import { validateFile, FOOD_PRODUCT_CONFIG } from '../../config/fileUploadConfig';
 
 const UpdateProduct = () => {
   const navigate = useNavigate();
@@ -147,11 +148,22 @@ const UpdateProduct = () => {
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (name === 'filepath' && files && files[0]) {
+      const file = files[0];
+      
+      // ✅ Validate file using configuration
+      const validation = validateFile(file, 'foodProduct');
+      
+      if (!validation.valid) {
+        toast.error(validation.error);
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
       setFormData({
         ...formData,
-        filepath: files[0]
+        filepath: file
       });
-      setImagePreview(URL.createObjectURL(files[0]));
+      setImagePreview(URL.createObjectURL(file));
     } else {
       setFormData({
         ...formData,
@@ -395,7 +407,7 @@ const UpdateProduct = () => {
                 id="filepath"
                 name="filepath"
                 onChange={handleInputChange}
-                accept="image/*"
+                accept={FOOD_PRODUCT_CONFIG.allowedMimeTypes.join(',')}
                 ref={fileInputRef}
                 className="file-input"
               />
@@ -403,6 +415,9 @@ const UpdateProduct = () => {
                 <FaUpload /> Choose Image
               </label>
             </div>
+            <small style={{ color: '#666', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
+              * Only {FOOD_PRODUCT_CONFIG.allowedExtensions.join(' & ').toUpperCase()} files allowed. Max size: {FOOD_PRODUCT_CONFIG.maxFileSize / (1024 * 1024)}MB
+            </small>
             {/* Show preview if new image selected, else show current image */}
             {imagePreview ? (
               <div className="current-image">

@@ -5,8 +5,16 @@ export const useFoodCategories = () => {
     const query = useQuery({
         queryKey: ["food_categories"],
         queryFn: () => getAllCategoryService(),
-        retry: 3,
-        refetchOnWindowFocus: false
+        retry: 2,
+        retryDelay: 1000,
+        refetchOnWindowFocus: false,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        onError: (error) => {
+            console.error('❌ Error fetching categories:', error);
+            if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+                console.error('💡 Cannot connect to backend server. Please ensure it is running on port 5050');
+            }
+        }
     });
     
     const categories = query.data?.data || [];
@@ -16,7 +24,8 @@ export const useFoodCategories = () => {
         isLoading: query.isLoading,
         error: query.error,
         data: query.data,
-        categories: categories
+        categories: categories,
+        categoriesCount: categories.length
     });
     
     return {

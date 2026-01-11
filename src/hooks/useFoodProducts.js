@@ -22,7 +22,15 @@ export const useFoodProducts = () => {
                 sortOrder: sortOrder
             });
         },
-        keepPreviousData: true
+        keepPreviousData: true,
+        retry: 2,
+        retryDelay: 1000,
+        onError: (error) => {
+            console.error('❌ Error fetching products:', error);
+            if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+                console.error('💡 Cannot connect to backend server. Please ensure it is running on port 5050');
+            }
+        }
     });
 
     const products = query.data?.data || [];

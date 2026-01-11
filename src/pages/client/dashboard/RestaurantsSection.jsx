@@ -236,6 +236,9 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
   console.log('About to render restaurants grid. Display count:', displayRestaurants.length);
   console.log('First restaurant:', displayRestaurants[0]);
 
+  // Show connection error prominently
+  const isConnectionError = error && (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED') || error.message?.includes('Cannot connect to server'));
+
   // Always show restaurants (sample data if API fails)
   // Only show empty state if we have no restaurants at all (should never happen due to sample data)
   if (displayRestaurants.length === 0) {
@@ -243,10 +246,29 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
       <section className="section">
         <h2 className="section-title glow-text">Popular Restaurants</h2>
         <p className="section-subtitle">Discover amazing restaurants near you</p>
-        <div className="empty-state">
-          <p>No restaurants available at the moment.</p>
-          <p>Please add some restaurants from the admin panel.</p>
-        </div>
+        {isConnectionError ? (
+          <div style={{ 
+            background: '#ffebee', 
+            border: '2px solid #f44336', 
+            padding: '20px', 
+            borderRadius: '8px', 
+            marginBottom: '20px',
+            color: '#c62828'
+          }}>
+            <h3 style={{ margin: '0 0 10px 0' }}>❌ Connection Error</h3>
+            <p style={{ margin: '0 0 10px 0' }}>
+              Cannot connect to server. Please ensure backend is running on port 5050.
+            </p>
+            <p style={{ margin: '0', fontSize: '0.9em', color: '#666' }}>
+              💡 Start the backend server: <code>cd Backend && npm start</code>
+            </p>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <p>No restaurants available at the moment.</p>
+            <p>Please add some restaurants from the admin panel.</p>
+          </div>
+        )}
       </section>
     );
   }
@@ -257,7 +279,25 @@ const RestaurantsSection = ({ onRestaurantClick }) => {
     <section className="section">
       <h2 className="section-title glow-text">Popular Restaurants</h2>
       <p className="section-subtitle">Discover amazing restaurants near you</p>
-      {error && (
+      {isConnectionError && (
+        <div style={{ 
+          background: '#ffebee', 
+          border: '2px solid #f44336', 
+          padding: '20px', 
+          borderRadius: '8px', 
+          marginBottom: '20px',
+          color: '#c62828'
+        }}>
+          <h3 style={{ margin: '0 0 10px 0' }}>❌ Connection Error</h3>
+          <p style={{ margin: '0 0 10px 0' }}>
+            Cannot connect to server. Please ensure backend is running on port 5050.
+          </p>
+          <p style={{ margin: '0', fontSize: '0.9em', color: '#666' }}>
+            💡 Showing sample data. Start the backend server: <code>cd Backend && npm start</code>
+          </p>
+        </div>
+      )}
+      {error && !isConnectionError && (
         <div style={{ 
           background: '#fff3cd', 
           border: '1px solid #ffc107', 

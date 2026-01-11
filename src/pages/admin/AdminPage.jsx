@@ -18,6 +18,7 @@ import { useAdminCategory } from '../../hooks/admin/useAdminCategory';
 import { useCreateProduct } from '../../hooks/admin/useAdminProduct';
 import { useAdminRestaurant } from '../../hooks/admin/useAdminRestaurant';
 import { toast } from 'react-toastify';
+import { validateFile, FOOD_PRODUCT_CONFIG } from '../../config/fileUploadConfig';
 import adminAvatar from '../../assets/admin/adminfood.png'; // Use as avatar for now
 import BusinessRiseFlows from './BusinessRiseFlows';
 
@@ -49,7 +50,22 @@ const AdminPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({ ...formData, [name]: files ? files[0] : value });
+    if (name === 'filepath' && files && files[0]) {
+      const file = files[0];
+      
+      // ✅ Validate file using configuration
+      const validation = validateFile(file, 'foodProduct');
+      
+      if (!validation.valid) {
+        toast.error(validation.error);
+        e.target.value = ''; // Clear the input
+        return;
+      }
+      
+      setFormData({ ...formData, [name]: file });
+    } else {
+      setFormData({ ...formData, [name]: files ? files[0] : value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -299,6 +315,22 @@ const AdminPage = () => {
             Transaction History
           </button>
           <button
+            className={window.location.pathname.includes('activity-log') ? 'active' : ''}
+            onClick={() => {
+              navigate('/admin/activity-log');
+            }}
+          >
+            📋 Activity Log
+          </button>
+          <button
+            className={window.location.pathname.includes('session-tracking') ? 'active' : ''}
+            onClick={() => {
+              navigate('/admin/session-tracking');
+            }}
+          >
+            🔐 Session Tracking
+          </button>
+          <button
             className={window.location.pathname.includes('business-rise-flows') ? 'active' : ''}
             onClick={() => {
               navigate('/admin/business-rise-flows');
@@ -424,10 +456,13 @@ const AdminPage = () => {
                     type="file"
                     name="filepath"
                     onChange={handleInputChange}
-                    accept="image/*"
+                    accept={FOOD_PRODUCT_CONFIG.allowedMimeTypes.join(',')}
                     ref={fileInputRef}
                     required
                   />
+                  <small style={{ color: '#666', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
+                    * Only {FOOD_PRODUCT_CONFIG.allowedExtensions.join(' & ').toUpperCase()} files allowed. Max size: {FOOD_PRODUCT_CONFIG.maxFileSize / (1024 * 1024)}MB
+                  </small>
                 </div>
 
                 <button type="submit" disabled={createProductMutation.isLoading} className="admin-submit-btn">

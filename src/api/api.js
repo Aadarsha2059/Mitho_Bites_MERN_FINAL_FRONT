@@ -1,8 +1,10 @@
 import axios from "axios"
-// ✅ BURP SUITE FIX: Always use direct backend URL to bypass Vite proxy
-// This ensures all requests go through Burp Suite when browser is configured with Burp proxy
+import { toast } from "react-toastify"
+// ✅ HTTPS CONFIGURATION: Use HTTPS for secure communication
+// Backend HTTPS server runs on port 5443 (configured in server-https.js)
+// For development with self-signed certificates, browser will show a warning - accept it to proceed
 const API_URL=import.meta.env.VITE_API_BASE_URL ||
-       "http://localhost:5050/api" //fallback - direct backend URL (bypasses Vite proxy)
+       "https://localhost:5443/api" //fallback - HTTPS backend URL for secure communication
 
 const instance =axios.create(
     {
@@ -36,10 +38,48 @@ instance.interceptors.request.use((config)=>{
 instance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
-            console.error('Authentication error:', error.response.data);
-            // Optionally redirect to login
-            // window.location.href = '/login';
+        // Handle network errors (connection refused, timeout, etc.)
+        if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED') || error.message?.includes('Network Error')) {
+            console.error('❌ Network Error: Cannot connect to server');
+            console.error('💡 Please ensure backend is running on port 5050');
+            console.error('💡 Check if backend server is started: npm start (in Backend directory)');
+            error.message = 'Cannot connect to server. Please ensure backend is running on port 5050.';
+        } else if (error.response?.status === 401) {
+            const errorData = error.response.data;
+            const errorCode = errorData?.code;
+            const errorMessage = errorData?.message || 'Session expired';
+            
+            // Check if it's a session expiration error
+            if (errorCode === 'SESSION_EXPIRED' || errorCode === 'SESSION_TIMEOUT' || errorMessage.includes('Session expired') || errorMessage.includes('inactivity')) {
+                console.warn('⚠️ Session expired. Automatically logging out...');
+                
+                // Clear authentication data
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                
+                // Show toast notification
+                toast.warning('Your session has expired due to inactivity. Please login again.', {
+                    autoClose: 3000,
+                    position: 'top-center'
+                });
+                
+                // Redirect to login page
+                // Check if we're already on login page to avoid redirect loop
+                if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/auth')) {
+                    // Use setTimeout to avoid navigation during render
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 500);
+                }
+            } else {
+                console.error('Authentication error:', errorData);
+            }
+        } else if (error.response?.status >= 500) {
+            console.error('Server error:', error.response.data);
+            error.message = error.response?.data?.message || 'Server error. Please try again later.';
+        } else if (error.response?.status >= 400) {
+            console.error('Client error:', error.response.data);
+            error.message = error.response?.data?.message || 'Request failed. Please check your input.';
         }
         return Promise.reject(error);
     }

@@ -27,11 +27,19 @@ export const getBackendImageUrl = (imagePath) => {
         return null;
     }
     
+    // Backend API URL - use HTTP port 5050 by default (development)
     const baseURL = import.meta.env.VITE_API_URL || "http://localhost:5050";
     console.log('Using base URL:', baseURL);
     
     // Normalize path separators (handle both Windows and Unix paths)
     let cleanPath = pathString.replace(/\\/g, '/');
+    
+    // Handle Windows absolute paths (e.g., C:/Users/.../uploads/filename.png)
+    // Extract just the filename from Windows paths
+    if (cleanPath.includes('uploads/')) {
+        const uploadsIndex = cleanPath.indexOf('uploads/');
+        cleanPath = cleanPath.substring(uploadsIndex + 'uploads/'.length);
+    }
     
     // If the path starts with 'uploads/', remove it since the static route is already /uploads/
     if (cleanPath.startsWith('uploads/')) {
@@ -41,7 +49,17 @@ export const getBackendImageUrl = (imagePath) => {
     // Remove any leading slashes
     cleanPath = cleanPath.replace(/^\/+/, '');
     
-    const finalUrl = `${baseURL}/uploads/${cleanPath}`;
+    // Extract just the filename if it's a full path (handles Windows absolute paths)
+    const pathParts = cleanPath.split('/');
+    let filename = pathParts[pathParts.length - 1];
+    
+    // If filename is empty or just whitespace, return null
+    if (!filename || filename.trim() === '') {
+        console.log('Image URL generation: Empty filename after processing');
+        return null;
+    }
+    
+    const finalUrl = `${baseURL}/uploads/${filename}`;
     console.log('Image URL generation:', {
         original: imagePath,
         extracted: pathString,

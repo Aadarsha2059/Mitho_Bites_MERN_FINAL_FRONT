@@ -130,10 +130,11 @@ const CartDialog = ({ onClose, onProceedPayment }) => {
           const restaurantLocation = restaurant?.location || 'Location not available';
           const productType = product?.type || 'Unknown Type';
           
+          const imageUrl = productImage ? getBackendImageUrl(productImage) : null;
           return (
             <div key={itemKey} className="cart-item">
               <img 
-                src={productImage ? getBackendImageUrl(productImage) : '/placeholder-food.jpg'} 
+                src={imageUrl || '/placeholder-food.jpg'} 
                 alt={productName} 
                 className="item-image"
                 onError={(e) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowRight, FaClock, FaMapMarkerAlt, FaStar, FaUsers, FaFire } from 'react-icons/fa';
 import { AuthContext } from '../../../auth/AuthProvider';
+import api from '../../../api/api';
 import loved1 from "../../../assets/item_1.png";
 import loved2 from "../../../assets/item_2.png";
 import loved3 from "../../../assets/item_3.png";
@@ -113,16 +114,16 @@ const HomeSection = ({
         return;
       }
       
-      const response = await fetch('http://localhost:5050/api/orders?limit=3', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      
-      console.log('Orders API response:', data);
-      
-      if (data.success && data.data && Array.isArray(data.data) && data.data.length > 0) {
+      // Use API instance for consistent URL handling
+      try {
+        const response = await api.get('/orders', {
+          params: { limit: 3 }
+        });
+        const data = response.data;
+        
+        console.log('Orders API response:', data);
+        
+        if (data.success && data.data && Array.isArray(data.data) && data.data.length > 0) {
         console.log('Fetched recent orders:', data.data);
         console.log('Order statuses:', data.data.map(order => order.status));
         // Ensure each order has the required properties
@@ -155,13 +156,22 @@ const HomeSection = ({
             products: Array.isArray(order.products) ? order.products : []
           };
         });
-        setOrders(validatedOrders);
-      } else {
-        console.log('No orders found, using static data');
+          setOrders(validatedOrders);
+        } else {
+          console.log('No orders found, using static data');
+          setOrders(staticRecentOrders);
+        }
+      } catch (apiError) {
+        // Handle API errors (network, 401, etc.)
+        console.error('Error fetching orders:', apiError);
+        if (apiError.code === 'ERR_NETWORK' || apiError.message?.includes('ECONNREFUSED')) {
+          console.error('Cannot connect to server. Please ensure backend is running on port 5050.');
+        }
+        console.log('Using static orders due to error');
         setOrders(staticRecentOrders);
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error('Error in fetchRecentOrders:', error);
       console.log('Using static orders due to error');
       setOrders(staticRecentOrders);
     } finally {
@@ -330,27 +340,74 @@ const HomeSection = ({
         {/* Popular Restaurants */}
         <div className="popular-restaurants-section">
           <h2 className="section-title">Popular Restaurants</h2>
-          <div className="restaurants-grid">
-            {popularRestaurants.map((restaurant) => (
-              <div key={restaurant.id} className="restaurant-card animated-card">
-                <img
-                  src={restaurant.image}
-                  alt={restaurant.name}
-                  className="restaurant-image"
-                />
-                <div className="restaurant-content">
-                  <h3 className="restaurant-name">{restaurant.name}</h3>
-                  <p className="restaurant-desc">{restaurant.desc}</p>
-                  <div className="restaurant-footer">
-                    <span className="restaurant-rating">{restaurant.rating}</span>
-                    <button className="view-menu-btn">
-                      View Menu
-                    </button>
+          {restaurants && restaurants.length > 0 ? (
+            <div className="restaurants-grid">
+              {restaurants.slice(0, 6).map((restaurant) => {
+                // Get image URL from backend or use fallback
+                const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050/api';
+                const baseUrl = apiBaseUrl.replace('/api', '');
+                const restaurantImage = restaurant.image || restaurant.filepath || res1;
+                const imageUrl = typeof restaurantImage === 'string' && restaurantImage.startsWith('http') 
+                  ? restaurantImage 
+                  : restaurantImage && restaurantImage.startsWith('/uploads')
+                    ? `${baseUrl}${restaurantImage}`
+                    : restaurantImage || res1;
+                
+                return (
+                  <div 
+                    key={restaurant._id || restaurant.id} 
+                    className="restaurant-card animated-card"
+                    onClick={() => onRestaurantClick && onRestaurantClick(restaurant)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img
+                      src={imageUrl}
+                      alt={restaurant.name || 'Restaurant'}
+                      className="restaurant-image"
+                      onError={(e) => {
+                        e.target.src = res1;
+                      }}
+                    />
+                    <div className="restaurant-content">
+                      <h3 className="restaurant-name">{restaurant.name || 'Restaurant'}</h3>
+                      <p className="restaurant-desc">{restaurant.description || restaurant.location || 'Great food'}</p>
+                      <div className="restaurant-footer">
+                        <span className="restaurant-rating">⭐ {restaurant.rating || '4.5'}</span>
+                        <button className="view-menu-btn" onClick={(e) => {
+                          e.stopPropagation();
+                          if (onRestaurantClick) onRestaurantClick(restaurant);
+                        }}>
+                          View Menu
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="restaurants-grid">
+              {popularRestaurants.map((restaurant) => (
+                <div key={restaurant.id} className="restaurant-card animated-card">
+                  <img
+                    src={restaurant.image}
+                    alt={restaurant.name}
+                    className="restaurant-image"
+                  />
+                  <div className="restaurant-content">
+                    <h3 className="restaurant-name">{restaurant.name}</h3>
+                    <p className="restaurant-desc">{restaurant.desc}</p>
+                    <div className="restaurant-footer">
+                      <span className="restaurant-rating">{restaurant.rating}</span>
+                      <button className="view-menu-btn">
+                        View Menu
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Quick Actions */}

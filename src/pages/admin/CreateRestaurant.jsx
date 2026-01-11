@@ -13,11 +13,17 @@ export default function CreateRestaurant() {
     name: Yup.string().required("Name is required"),
     location: Yup.string().required("Location is required"),
     contact: Yup.string().required("Contact is required"),
-    image: Yup.mixed().nullable().test(
-      "fileSize",
-      "File size must be less than 5MB",
-      (value) => !value || (value && value.size <= 5 * 1024 * 1024)
-    )
+    image: Yup.mixed().nullable()
+      .test(
+        "fileType",
+        "Only JPG & PNG files are allowed",
+        (value) => !value || (value && ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type))
+      )
+      .test(
+        "fileSize",
+        "File size must be less than 5MB",
+        (value) => !value || (value && value.size <= 5 * 1024 * 1024)
+      )
   })
 
   const formik = useFormik({
@@ -135,7 +141,7 @@ export default function CreateRestaurant() {
             <input
               type="file"
               name="image"
-              accept="image/*"
+              accept="image/jpeg,image/jpg,image/png"
               className="form-input-file"
               onChange={(e) => {
                 const file = e.currentTarget.files[0]
@@ -143,6 +149,9 @@ export default function CreateRestaurant() {
               }}
               onBlur={formik.handleBlur}
             />
+            <small style={{ color: '#666', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
+              * Only JPG & PNG files allowed. Max size: 5MB
+            </small>
             {formik.touched.image && formik.errors.image && (
               <div className="form-error">{formik.errors.image}</div>
             )}

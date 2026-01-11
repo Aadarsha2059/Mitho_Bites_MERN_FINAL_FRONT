@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import api from '../api/api';
 
 const fetchRestaurants = async () => {
   try {
-    // ✅ FIXED: Use public endpoint instead of admin endpoint
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5050';
-    const response = await axios.get(`${apiUrl}/api/restaurants`);
+    // ✅ FIXED: Use centralized API instance
+    const response = await api.get('/restaurants');
     console.log('Restaurants API response:', response.data);
     
     // Ensure response has the expected structure
@@ -16,6 +15,12 @@ const fetchRestaurants = async () => {
       return {
         success: true,
         data: response.data
+      };
+    } else if (response.data && response.data.data && Array.isArray(response.data.data)) {
+      // Handle case where data is nested
+      return {
+        success: true,
+        data: response.data.data
       };
     } else {
       console.warn('Unexpected restaurants response format:', response.data);
@@ -45,7 +50,10 @@ export const useRestaurants = () => {
     retry: 2, // Retry failed requests
     retryDelay: 1000, // Wait 1 second between retries
     onError: (error) => {
-      console.error('useRestaurants hook error:', error);
+      console.error('❌ useRestaurants hook error:', error);
+      if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
+        console.error('💡 Cannot connect to backend server. Please ensure it is running on port 5050');
+      }
     }
   });
 }; 

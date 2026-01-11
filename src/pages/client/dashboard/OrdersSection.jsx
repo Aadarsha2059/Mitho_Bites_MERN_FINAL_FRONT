@@ -15,6 +15,7 @@ const Toast = ({ message, type, onClose }) => (
 const OrdersSection = ({ onGiveFeedback }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [toast, setToast] = useState(null);
   const [feedbackProduct, setFeedbackProduct] = useState(null);
@@ -82,6 +83,7 @@ const OrdersSection = ({ onGiveFeedback }) => {
       console.error('Error fetching orders:', error);
       console.error('Error response:', error.response?.data);
       setOrders([]);
+      setError(error);
       
       if (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED')) {
         showToast('Cannot connect to server. Please ensure backend is running on port 5050.', 'error');
@@ -242,6 +244,8 @@ const OrdersSection = ({ onGiveFeedback }) => {
   console.log('Orders count:', orders.length);
   console.log('Loading:', loading);
   
+  const isConnectionError = error && (error.code === 'ERR_NETWORK' || error.message?.includes('ECONNREFUSED') || error.message?.includes('Cannot connect to server'));
+
   return (
     <div className="orders-section">
       <h2 className="section-title">Order History</h2>
@@ -249,7 +253,25 @@ const OrdersSection = ({ onGiveFeedback }) => {
       {showCongrats && (
         <BoomCongratulations onClose={handleCongratsClose} />
       )}
-      {!loading && orders.length === 0 ? (
+      {isConnectionError && (
+        <div style={{ 
+          background: '#ffebee', 
+          border: '2px solid #f44336', 
+          padding: '20px', 
+          borderRadius: '8px', 
+          marginBottom: '20px',
+          color: '#c62828'
+        }}>
+          <h3 style={{ margin: '0 0 10px 0' }}>❌ Connection Error</h3>
+          <p style={{ margin: '0 0 10px 0' }}>
+            Cannot connect to server. Please ensure backend is running on port 5050.
+          </p>
+          <p style={{ margin: '0', fontSize: '0.9em', color: '#666' }}>
+            💡 Start the backend server: <code>cd Backend && npm start</code>
+          </p>
+        </div>
+      )}
+      {!loading && orders.length === 0 && !isConnectionError ? (
         <div className="no-orders" style={{ 
           textAlign: 'center', 
           padding: '60px 20px',

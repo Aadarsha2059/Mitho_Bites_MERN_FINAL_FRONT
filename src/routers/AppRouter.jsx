@@ -38,11 +38,14 @@ import Profile from '../pages/client/Profile';
 import GKFood from '../pages/client/GKFood';
 import KhanaKhajan from '../pages/client/KhanaKhajan';
 import UpdateProfile from '../pages/client/UpdateProfile';
+import ChangePassword from '../pages/client/ChangePassword';
 import Orders from '../pages/client/orders';
 import TransactionHistory from '../pages/admin/TransactionHistory';
 import TransactionDetails from '../pages/admin/TransactionDetails';
 import BusinessRiseFlows from '../pages/admin/BusinessRiseFlows';
 import OrderManagement from '../pages/admin/OrderManagement';
+import SystemLogs from '../pages/admin/SystemLogs';
+import SessionTracking from '../pages/admin/SessionTracking';
 import AdminLayout from '../layouts/AdminLayout';
 
 export default function AppRouter() {
@@ -88,6 +91,8 @@ export default function AppRouter() {
         <Route path="/more/gkfood" element={<ProtectedRoute><GKFood /></ProtectedRoute>} />
         <Route path="/more/khanakhajan" element={<ProtectedRoute><KhanaKhajan /></ProtectedRoute>} />
         <Route path="/more/update-profile" element={<ProtectedRoute><UpdateProfile /></ProtectedRoute>} />
+        <Route path="/settings/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+        <Route path="/profile/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
         {/* Protected Admin Routes */}
         <Route path="/admin/adminpage" element={<AdminRoute><AdminPage /></AdminRoute>} />
@@ -109,6 +114,8 @@ export default function AppRouter() {
         <Route path="/admin/transaction-details/:id" element={<AdminRoute><TransactionDetails /></AdminRoute>} />
         <Route path="/admin/business-rise-flows" element={<AdminRoute><BusinessRiseFlows /></AdminRoute>} />
         <Route path="/admin/place-order" element={<AdminRoute><OrderManagement /></AdminRoute>} />
+        <Route path="/admin/activity-log" element={<AdminRoute><SystemLogs /></AdminRoute>} />
+        <Route path="/admin/session-tracking" element={<AdminRoute><SessionTracking /></AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );

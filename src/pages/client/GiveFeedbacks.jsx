@@ -19,7 +19,9 @@ const GiveFeedbacks = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:5050/api/products');
+      // ✅ HTTPS CONFIGURATION: Use HTTPS for secure communication
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://localhost:5443/api';
+      const response = await fetch(`${apiUrl}/products`);
       const data = await response.json();
       
       if (data.success) {
@@ -45,7 +47,9 @@ const GiveFeedbacks = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:5050/api/feedbacks', {
+      // ✅ HTTPS CONFIGURATION: Use HTTPS for secure communication
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://localhost:5443/api';
+      const response = await fetch(`${apiUrl}/feedbacks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

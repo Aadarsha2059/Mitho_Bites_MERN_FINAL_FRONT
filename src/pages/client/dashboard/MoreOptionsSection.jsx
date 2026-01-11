@@ -6,7 +6,8 @@ import ReactDOM from 'react-dom';
 import MyPurchaseTrend from '../moreoptions/MyPurchaseTrend';
 import SettingsDialog from '../moreoptions/SettingsDialog';
 import ProfileDialog from '../moreoptions/ProfileDialog';
-import MithoBitesDialog from '../moreoptions/MithoBitesDialog';
+import BhokBhojDialog from '../moreoptions/BhokBhojDialog';
+import api from '../../../api/api';
 
 const options = [
   { id: 'settings', label: 'Settings', icon: <FaCog />, action: 'settings' },
@@ -137,17 +138,13 @@ const MoreOptionsSection = () => {
   const [showPurchaseTrend, setShowPurchaseTrend] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [showProfileDialog, setShowProfileDialog] = useState(false);
-  const [showMithoBitesDialog, setShowMithoBitesDialog] = useState(false);
+  const [showBhokBhojDialog, setShowBhokBhojDialog] = useState(false);
 
   const fetchMithoPoints = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
-      const response = await fetch(`${apiUrl}/api/orders`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
+      const response = await api.get('/orders');
+      const data = response.data;
       if (data.success) {
         const receivedOrders = data.data.filter(order => order.orderStatus === 'received');
         let totalItems = 0;
@@ -181,7 +178,7 @@ const MoreOptionsSection = () => {
     } else if (opt.action === 'profile') {
       setShowProfileDialog(true);
     } else if (opt.action === 'mithoBites') {
-      setShowMithoBitesDialog(true);
+      setShowBhokBhojDialog(true);
     } else if (opt.route) {
       navigate(opt.route);
     }
@@ -426,9 +423,9 @@ const MoreOptionsSection = () => {
     )
   );
 
-  const MithoBitesDialogComponent = () => (
+  const BhokBhojDialogComponent = () => (
     ReactDOM.createPortal(
-      <MithoBitesDialog onClose={() => setShowMithoBitesDialog(false)} />, document.body
+      <BhokBhojDialog onClose={() => setShowBhokBhojDialog(false)} />, document.body
     )
   );
 
@@ -455,7 +452,7 @@ const MoreOptionsSection = () => {
       {showPurchaseTrend && <PurchaseTrendDialog />}
       {showSettingsDialog && <SettingsDialogComponent />}
       {showProfileDialog && <ProfileDialogComponent />}
-      {showMithoBitesDialog && <MithoBitesDialogComponent />}
+      {showBhokBhojDialog && <BhokBhojDialogComponent />}
     </section>
   );
 };

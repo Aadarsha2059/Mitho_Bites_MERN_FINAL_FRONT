@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaTimes, FaUtensils, FaHeart, FaStar, FaLeaf } from 'react-icons/fa';
 
-const MithoBitesDialog = ({ onClose }) => {
+const BhokBhojDialog = ({ onClose }) => {
   const features = [
     {
       icon: <FaUtensils />,
@@ -231,5 +231,4 @@ const MithoBitesDialog = ({ onClose }) => {
   );
 };
 
-export default MithoBitesDialog;
-
+export default BhokBhojDialog;

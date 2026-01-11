@@ -26,6 +26,7 @@ import KhanaKhajan from "./moreoptions/KhanaKhajan";
 import GKFood from "./moreoptions/GKFood";
 import { useFoodCategories } from "../../hooks/useFoodCategories";
 import { useFoodProducts } from "../../hooks/useFoodProducts";
+import { useRestaurants } from "../../hooks/useRestaurants";
 import { getBackendImageUrl } from "../../utils/backend-image";
 import "./Dashboard.css";
 import "./DashboardEnhanced.css";
@@ -62,8 +63,10 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchLatest() {
       try {
-        // Use window.location.hostname for dynamic base URL
-        let baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5051' : `http://${window.location.hostname}:5051`;
+        // Use API instance for consistent URL handling
+        // ✅ HTTPS CONFIGURATION: Use HTTPS for secure communication
+        const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://localhost:5443/api';
+        const baseUrl = apiUrl.replace('/api', ''); // Remove /api suffix for dashboard endpoint
         const res = await fetch(`${baseUrl}/api/dashboard/latest-additions`);
         const data = await res.json();
         if (data.success && data.data) {
@@ -71,6 +74,7 @@ const Dashboard = () => {
           setShowLatest(true);
         }
       } catch (e) {
+        console.error('Error fetching latest additions:', e);
         // ignore
       }
     }
@@ -78,8 +82,21 @@ const Dashboard = () => {
   }, []);
 
   // Fetch real data from backend
-  const { categories, isLoading: categoriesLoading } = useFoodCategories();
-  const { products, isLoading: productsLoading } = useFoodProducts();
+  const { categories, isLoading: categoriesLoading, error: categoriesError } = useFoodCategories();
+  const { products, isLoading: productsLoading, error: productsError } = useFoodProducts();
+  const { data: restaurantsData, isLoading: restaurantsLoading, error: restaurantsError } = useRestaurants();
+  
+  // Extract restaurants from API response
+  let restaurants = [];
+  if (restaurantsData) {
+    if (restaurantsData.success && restaurantsData.data) {
+      restaurants = Array.isArray(restaurantsData.data) ? restaurantsData.data : [];
+    } else if (Array.isArray(restaurantsData)) {
+      restaurants = restaurantsData;
+    } else if (restaurantsData.data && Array.isArray(restaurantsData.data)) {
+      restaurants = restaurantsData.data;
+    }
+  }
 
   // Sidebar navigation handler with animation direction
   const handleSidebarNav = (option) => {
@@ -165,15 +182,40 @@ const Dashboard = () => {
       onCategoryClick={() => handleSidebarNav('categories')}
       onRestaurantClick={() => handleSidebarNav('restaurants')}
       categories={categories}
-      restaurants={[]} // We'll add restaurants later if needed
+      restaurants={restaurants}
     />
   );
   else if (view === 'categories') SectionComponent = (
     <section className="section">
       <h2 className="section-title glow-text">Food Categories</h2>
-      {categoriesLoading ? (
+      {categoriesError ? (
+        <div style={{
+          padding: '20px',
+          background: '#ffebee',
+          border: '2px solid #f44336',
+          borderRadius: '8px',
+          color: '#c62828',
+          margin: '20px 0'
+        }}>
+          <h3 style={{ margin: '0 0 10px 0' }}>❌ Error Loading Categories</h3>
+          <p style={{ margin: '0 0 10px 0' }}>
+            {categoriesError.message || 'Failed to load categories. Please check your connection.'}
+          </p>
+          <p style={{ margin: '0', fontSize: '0.9em', color: '#666' }}>
+            💡 Make sure the backend server is running on port 5050
+          </p>
+        </div>
+      ) : categoriesLoading ? (
         <div className="loading-container">
           <div className="loader">Loading categories...</div>
+        </div>
+      ) : categories.length === 0 ? (
+        <div style={{
+          padding: '20px',
+          textAlign: 'center',
+          color: '#666'
+        }}>
+          <p>No categories found. Please add categories from the admin panel.</p>
         </div>
       ) : (
         <div className="categories-row">
@@ -277,7 +319,10 @@ const Dashboard = () => {
   else if (view === 'restaurants') {
     console.log('Rendering RestaurantsSection');
     SectionComponent = (
-      <RestaurantsSection onRestaurantClick={handleRestaurantClick} />
+      <RestaurantsSection 
+        onRestaurantClick={handleRestaurantClick}
+        error={restaurantsError}
+      />
     );
   }
   else if (view === 'orders') {

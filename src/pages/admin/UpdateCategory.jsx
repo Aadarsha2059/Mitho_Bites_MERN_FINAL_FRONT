@@ -14,7 +14,12 @@ export default function UpdateCategory() {
     name: Yup.string().required('Name required'),
     image: Yup.mixed()
       .nullable()
-      .test('fileSize', 'File too large', (value) => !value || value.size <= 5 * 1024 * 1024),
+      .test('fileType', 'Only JPG & PNG files are allowed', (value) => 
+        !value || (value && ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type))
+      )
+      .test('fileSize', 'File size must be less than 5MB', (value) => 
+        !value || value.size <= 5 * 1024 * 1024
+      ),
   });
 
   const categoryOne = useGetOneCategory(id);
@@ -63,13 +68,16 @@ export default function UpdateCategory() {
           id="image"
           name="image"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/jpg,image/png"
           onChange={(e) => {
             const file = e.currentTarget.files[0];
             if (file) formik.setFieldValue('image', file);
           }}
           className="form-input"
         />
+        <small style={{ color: '#666', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
+          * Only JPG & PNG files allowed. Max size: 5MB
+        </small>
         {formik.touched.image && formik.errors.image && (
           <div className="form-error">{formik.errors.image}</div>
         )}
